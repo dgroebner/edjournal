@@ -71,6 +71,16 @@ public class Bounty extends GenericModel<Bounty.Fields> {
         return LOGGER;
     }
 
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
+
     /**
      * Liefert ein Set der Einzelbelohnungen je Fraktion
      * 

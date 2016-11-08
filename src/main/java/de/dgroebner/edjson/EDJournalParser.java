@@ -74,20 +74,23 @@ public class EDJournalParser {
             return;
         }
         fileTable.writeNewFileToDb();
-
-        normalizeFileLines(FileUtils.readLines(file, "UTF-8")).forEach(this::parseLine);
+        normalizeFileLines(FileUtils.readLines(file, "UTF-8")).forEach(
+                line -> parseLine(line, fileTable.getDatabaseId()));
     }
 
     /**
      * Parst die Dateizeile
      * 
      * @param fileline {@link String}
+     * @param fileId int id des Dateieintrags in der Datenbank
      */
-    private void parseLine(final String fileline) {
+    private void parseLine(final String fileline, final int fileId) {
         final JSONObject obj = new JSONObject(fileline);
 
         final EDJournalEvents event = EDJournalEvents.forCode(obj.getString("event"));
         final JournalModel model = event.getModel(obj);
+        final int journalId = event.getAction().writeJournalToDatabase(dbi, fileId, model);
+        event.getAction().doActionOn(dbi, journalId, model);
 
         LOGGER.info("{} : {} : {}", file.getAbsolutePath(), obj.getString("timestamp"), obj.get("event"));
     }

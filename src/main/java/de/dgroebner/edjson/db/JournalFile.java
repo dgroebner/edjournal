@@ -1,7 +1,7 @@
 package de.dgroebner.edjson.db;
 
 import java.io.File;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.skife.jdbi.v2.DBI;
 
@@ -28,12 +28,16 @@ public class JournalFile extends AbstractDBTable {
     }
 
     /**
-     * Schreibt die Datei als neue Datei in die Datenbank
+     * Schreibt die Datei als neue Datei in die Datenbank. Die ID des geschriebenen Datensatz kann anschließend über die
+     * Methode {@link JournalFile#getDatabaseId()} abgefragt werden.
      */
     public void writeNewFileToDb() {
         final JournalFileDao journalFileDao = getDbi().open(JournalFileDao.class);
-        journalFileDao.insert(file.getName(), new Date());
-        journalFileDao.close();
+        try {
+            setId(journalFileDao.insert(file.getName(), LocalDateTime.now()));
+        } finally {
+            journalFileDao.close();
+        }
     }
 
     /**
@@ -43,9 +47,11 @@ public class JournalFile extends AbstractDBTable {
      */
     public boolean isFileAlreadyPared() {
         final JournalFileDao journalFileDao = getDbi().open(JournalFileDao.class);
-        final int fileCount = journalFileDao.countByName(file.getName());
-        journalFileDao.close();
-        return fileCount > 0;
+        try {
+            return journalFileDao.countByName(file.getName()) > 0;
+        } finally {
+            journalFileDao.close();
+        }
     }
 
 }

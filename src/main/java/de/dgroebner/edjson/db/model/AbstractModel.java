@@ -11,6 +11,13 @@ public class AbstractModel {
 
     /**
      * Constructor.
+     */
+    public AbstractModel() {
+        // Default Constructor
+    }
+
+    /**
+     * Constructor.
      *
      * @param id int
      */

@@ -76,4 +76,14 @@ public class EngineerCraft extends GenericModel<EngineerCraft.Fields> {
     public Ingredients getIngredients() {
         return new Ingredients(getValueAsJsonObject(Fields.INGREDIENTS));
     }
+
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
 }

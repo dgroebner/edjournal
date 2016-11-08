@@ -1,6 +1,7 @@
 package de.dgroebner.edjson.model.data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.json.JSONObject;
@@ -100,5 +101,15 @@ public class Ingredients extends GenericModel<Ingredients.Fields> {
      */
     public boolean areMaterialsPresent() {
         return Arrays.asList(Fields.values()).stream().anyMatch(field -> getValueAsInt(field) != 0);
+    }
+
+    @Override
+    public LocalDateTime getTimestamp() {
+        return null;
+    }
+
+    @Override
+    public String getEvent() {
+        return null;
     }
 }

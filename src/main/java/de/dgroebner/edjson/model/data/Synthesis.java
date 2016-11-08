@@ -75,4 +75,14 @@ public class Synthesis extends GenericModel<Synthesis.Fields> {
         return new Ingredients(getValueAsJsonObject(Fields.MATERIALS));
     }
 
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
+
 }

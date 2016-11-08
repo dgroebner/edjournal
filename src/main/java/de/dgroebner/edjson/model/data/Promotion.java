@@ -128,5 +128,15 @@ public class Promotion extends GenericModel<Promotion.Fields> {
                 .append("ExplorationRank", getExplorationRank().getName())
                 .append("CQC-Rank", getCQCRank().getName()).toString();
     }
+    
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
 
 }

@@ -77,4 +77,14 @@ public class RebootRepair extends GenericModel<RebootRepair.Fields> {
         return getValueAsJsonArray(Fields.MODULES).toList().stream().map(value -> (String) value)
                 .collect(Collectors.toSet());
     }
+
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
 }

@@ -5,9 +5,8 @@ package de.dgroebner.edjson.db.dao;
  * 
  * @author dgroebner
  */
+@FunctionalInterface
 public interface AbstractDao {
-
-    public static final String COLUMN_ID = "id";
 
     /**
      * Beendet die Verbindung

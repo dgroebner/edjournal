@@ -2,6 +2,8 @@ package de.dgroebner.edjson.model;
 
 import org.json.JSONObject;
 
+import de.dgroebner.edjson.model.action.JournalEventAction;
+
 /**
  * Interface für Elite Dangerous Journal Events
  * 
@@ -16,4 +18,11 @@ public interface EDJournalEventInterface {
      * @return {@link JournalModel}
      */
     JournalModel getModel(final JSONObject json);
+
+    /**
+     * Liefert die Action zurück, die ausgeführt werden soll
+     * 
+     * @return {@link JournalEventAction}
+     */
+    JournalEventAction getAction();
 }

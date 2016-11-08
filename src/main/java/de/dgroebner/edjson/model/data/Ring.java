@@ -1,6 +1,7 @@
 package de.dgroebner.edjson.model.data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.json.JSONObject;
@@ -65,5 +66,15 @@ public class Ring extends GenericModel<Ring.Fields> {
     @Override
     public Logger getLogger() {
         return LOGGER;
+    }
+
+    @Override
+    public LocalDateTime getTimestamp() {
+        return null;
+    }
+
+    @Override
+    public String getEvent() {
+        return null;
     }
 }

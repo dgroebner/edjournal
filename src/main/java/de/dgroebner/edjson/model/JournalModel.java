@@ -81,6 +81,29 @@ public interface JournalModel {
     LocalDateTime getValueAsLocalDateTime(final JournalModelField key);
 
     /**
+     * Gibt den Namen des Events zurück
+     * 
+     * @return String
+     */
+    String getEvent();
+
+    /**
+     * Gibt den Timestamp des Events zurück
+     * 
+     * @return {@link LocalDateTime}
+     */
+    LocalDateTime getTimestamp();
+
+    /**
+     * Gibt die Nachricht des Events zurück
+     * 
+     * @return {@link String}
+     */
+    default String getMessage() {
+        return toString();
+    }
+
+    /**
      * Gibt den Logger der Implementeriung zurück
      * 
      * @return {@link Logger}

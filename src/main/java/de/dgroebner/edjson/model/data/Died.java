@@ -81,4 +81,14 @@ public class Died extends GenericModel<Died.Fields> {
         getValueAsJsonArray(Fields.KILLERS).forEach(killer -> killers.add(new Killer((JSONObject) killer)));
         return killers;
     }
+
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
 }

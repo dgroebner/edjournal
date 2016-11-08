@@ -66,4 +66,14 @@ public class EngineerProgress extends GenericModel<EngineerProgress.Fields> {
         return LOGGER;
     }
 
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
+
 }

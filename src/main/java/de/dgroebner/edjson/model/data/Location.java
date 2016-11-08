@@ -78,4 +78,14 @@ public class Location extends GenericModel<Location.Fields> {
     public Logger getLogger() {
         return LOGGER;
     }
+
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
 }

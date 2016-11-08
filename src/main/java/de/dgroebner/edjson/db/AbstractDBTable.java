@@ -11,6 +11,8 @@ public class AbstractDBTable {
 
     private final DBI dbi;
 
+    private int id;
+
     /**
      * Constructor.
      *
@@ -27,6 +29,19 @@ public class AbstractDBTable {
      */
     protected final DBI getDbi() {
         return dbi;
+    }
+
+    protected final void setId(final int id) {
+        this.id = id;
+    }
+
+    /**
+     * Gibt die id des geschriebenen Datensatzes zurück
+     * 
+     * @return int
+     */
+    public final int getDatabaseId() {
+        return id;
     }
 
 }

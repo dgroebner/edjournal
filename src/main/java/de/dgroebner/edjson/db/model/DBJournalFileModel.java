@@ -1,26 +1,26 @@
 package de.dgroebner.edjson.db.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Modellklasse für die Datenbanktabelle 'journalfile'
  * 
  * @author dgroebner
  */
-public class JournalFileModel extends AbstractModel {
+public class DBJournalFileModel extends AbstractModel {
 
     private String filename;
 
-    private Date readDate;
+    private LocalDateTime readDate;
 
     /**
      * Constructor.
      *
      * @param id int
      * @param filename {@link String}
-     * @param readDate {@link Date}
+     * @param readDate {@link LocalDateTime}
      */
-    public JournalFileModel(final int id, final String filename, final Date readDate) {
+    public DBJournalFileModel(final int id, final String filename, final LocalDateTime readDate) {
         super(id);
         this.filename = filename;
         this.readDate = readDate;
@@ -30,15 +30,15 @@ public class JournalFileModel extends AbstractModel {
         return filename;
     }
 
-    public final void setFilename(String filename) {
+    public final void setFilename(final String filename) {
         this.filename = filename;
     }
 
-    public final Date getReadDate() {
+    public final LocalDateTime getReadDate() {
         return readDate;
     }
 
-    public final void setReadDate(Date readDate) {
+    public final void setReadDate(final LocalDateTime readDate) {
         this.readDate = readDate;
     }
 

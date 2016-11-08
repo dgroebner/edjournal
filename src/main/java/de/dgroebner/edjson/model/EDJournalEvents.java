@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Throwables;
 
+import de.dgroebner.edjson.model.action.JournalEventAction;
+import de.dgroebner.edjson.model.action.LoggingAction;
 import de.dgroebner.edjson.model.data.ApproachSettlement;
 import de.dgroebner.edjson.model.data.Bounty;
 import de.dgroebner.edjson.model.data.BuyAmmo;
@@ -279,5 +281,10 @@ public enum EDJournalEvents implements EDJournalEventInterface {
             LOGGER.error(e.toString(), e);
             throw Throwables.propagate(e);
         }
+    }
+
+    @Override
+    public JournalEventAction getAction() {
+        return new LoggingAction();
     }
 }

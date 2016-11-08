@@ -135,4 +135,14 @@ public class Rank extends GenericModel<Rank.Fields> {
                 .append("CQC-Rank", getCQCRank().getName()).toString();
     }
 
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
+
 }

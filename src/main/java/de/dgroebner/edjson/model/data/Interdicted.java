@@ -79,4 +79,14 @@ public class Interdicted extends GenericModel<Interdicted.Fields> {
         return getDataObject().has(Fields.COMBAT_RANK.getCode()) ? RankCombat
                 .forCode(getValueAsInt(Fields.COMBAT_RANK)) : null;
     }
+
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
 }

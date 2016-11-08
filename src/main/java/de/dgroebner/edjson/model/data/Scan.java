@@ -140,4 +140,14 @@ public class Scan extends GenericModel<Scan.Fields> {
         getValueAsJsonArray(Fields.RINGS).forEach(ring -> rings.add(new Ring((JSONObject) ring)));
         return rings;
     }
+
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
 }

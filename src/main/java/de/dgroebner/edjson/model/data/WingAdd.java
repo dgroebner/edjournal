@@ -64,4 +64,14 @@ public class WingAdd extends GenericModel<WingAdd.Fields> {
     public Logger getLogger() {
         return LOGGER;
     }
+
+    @Override
+    public LocalDateTime getTimestamp() {
+        return getValueAsLocalDateTime(Fields.TIMESTAMP);
+    }
+
+    @Override
+    public String getEvent() {
+        return getValueAsString(Fields.EVENT);
+    }
 }
