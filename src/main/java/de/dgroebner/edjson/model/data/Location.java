@@ -88,4 +88,11 @@ public class Location extends GenericModel<Location.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        final Coordinates coord = getValueAsCoordinates(Fields.STAR_POS);
+        return String.format("Aktueller Standort: System %s (%s:%s:%s)", getValueAsString(Fields.STAR_SYSTEM),
+                coord.getxAxis(), coord.getyAxis(), coord.getzAxis());
+    }
 }

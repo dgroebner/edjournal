@@ -131,7 +131,8 @@ public class Rank extends GenericModel<Rank.Fields> {
         return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("CombatRank", getCombatRank().getName())
                 .append("TradeRank", getTradeRank().getName())
                 .append("ExplorationRank", getExplorationRank().getName())
-                .append("FederaionRank", getFederationRank().getName()).append("EmpireRank", getEmpireRank().getName())
+                .append("FederationRank", getFederationRank().getName())
+                .append("EmpireRank", getEmpireRank().getName())
                 .append("CQC-Rank", getCQCRank().getName()).toString();
     }
 
@@ -143,6 +144,15 @@ public class Rank extends GenericModel<Rank.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        return new StringBuilder().append("Aktuelle Ränge: ").append("Kampf ").append(getCombatRank().getName())
+                .append(", Handel ").append(getTradeRank().getName()).append(", Explorer ")
+                .append(getExplorationRank().getName()).append(", Föderation ").append(getFederationRank().getName())
+                .append(", Imperium ").append(getEmpireRank().getName()).append(", CQC ")
+                .append(getCQCRank().getName()).toString();
     }
 
 }

@@ -80,4 +80,13 @@ public class Progress extends GenericModel<Progress.Fields> {
         return getValueAsString(Fields.EVENT);
     }
 
+    @Override
+    public String getMessage() {
+        return new StringBuilder().append("Aktueller Fortschritt: ").append("Kampf ")
+                .append(getValueAsInt(Fields.COMBAT)).append("%, Handel ").append(getValueAsInt(Fields.TRADE))
+                .append("%, Explorer ").append(getValueAsInt(Fields.EXPLORE)).append("%, Föderation ")
+                .append(getValueAsInt(Fields.FEDERATION)).append("%, Imperium ").append(getValueAsInt(Fields.EMPIRE))
+                .append("%, CQC ").append(getValueAsInt(Fields.CQC)).append("%").toString();
+    }
+
 }
