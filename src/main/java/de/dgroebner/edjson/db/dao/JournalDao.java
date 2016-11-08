@@ -6,7 +6,6 @@ import static de.dgroebner.edjson.db.mapper.JournalMapper.COLUMN_MESSAGE;
 import static de.dgroebner.edjson.db.mapper.JournalMapper.COLUMN_TIMESTAMP;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
@@ -28,7 +27,7 @@ public interface JournalDao extends AbstractDao {
      * Fügt einen neuen Journaleintrag hinzu und gibt die erzeugte ID zurück
      * 
      * @param journalfileId {@link String}
-     * @param timestamp {@link Date}
+     * @param timestamp {@link LocalDateTime}
      * @param event {@link String}
      * @param message {@link String}
      * @return int

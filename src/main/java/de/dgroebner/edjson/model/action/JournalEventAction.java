@@ -8,8 +8,9 @@ import de.dgroebner.edjson.model.JournalModel;
  * Interface für Actions auf Journal Einträgen
  * 
  * @author dgroebner
+ * @param <M> Modellimplementierung
  */
-public interface JournalEventAction {
+public interface JournalEventAction<M extends JournalModel> {
 
     /**
      * Schreibt einen Journaleintrg für das übergebene Modell und gibt den zugehörigen Datenbankeintrag zurück
@@ -19,7 +20,7 @@ public interface JournalEventAction {
      * @param model {@link JournalModel}
      * @return int id des Journaleintrags
      */
-    int writeJournalToDatabase(DBI dbi, int journalFileId, JournalModel model);
+    int writeJournalToDatabase(DBI dbi, int journalFileId, M model);
 
     /**
      * Führt die Aktion auf dem übergebenen Modell aus
@@ -28,6 +29,6 @@ public interface JournalEventAction {
      * @param journalId int ID des Journaleintrags
      * @param model {@link JournalModel}
      */
-    void doActionOn(DBI dbi, int journalId, JournalModel model);
+    void doActionOn(DBI dbi, int journalId, M model);
 
 }

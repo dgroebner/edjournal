@@ -12,6 +12,8 @@ public abstract class AbstractMapper<T> implements ResultSetMapper<T> {
 
     public static final String COLUMN_ID = "id";
 
+    public static final String COLUMN_INARA_URL = "inara_url";
+
     protected AbstractMapper() {
     }
 

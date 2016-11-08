@@ -78,4 +78,12 @@ public class Fileheader extends GenericModel<Fileheader.Fields> {
         return getValueAsString(Fields.EVENT);
     }
 
+    @Override
+    public String getMessage() {
+        return String
+                .format("Journaldatei geöffnet EliteDangerous-Version %s (Build %s) Sprache %s",
+                        getValueAsString(Fields.GAMEVERSION), getValueAsString(Fields.BUILD),
+                        getValueAsString(Fields.LANGUAGE));
+    }
+
 }

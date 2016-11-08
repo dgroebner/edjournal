@@ -4,7 +4,6 @@ import static de.dgroebner.edjson.db.mapper.JournalFileMapper.COLUMN_FILENAME;
 import static de.dgroebner.edjson.db.mapper.JournalFileMapper.COLUMN_READDATE;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
@@ -39,14 +38,14 @@ public interface JournalFileDao extends AbstractDao {
      * @param filename {@link String}
      * @return {@link DBJournalFileModel}
      */
-    @SqlQuery("SELECT id, filename, readdate from journalfile WHERE filename = :filename")
-    DBJournalFileModel findById(@Bind(COLUMN_FILENAME) String filename);
+    @SqlQuery("SELECT id, filename, readdate FROM journalfile WHERE filename = :filename")
+    DBJournalFileModel findByFilename(@Bind(COLUMN_FILENAME) String filename);
 
     /**
      * Fügt eine neue Datei hinzu und gibt die erzeugte ID zurück
      * 
      * @param filename {@link String}
-     * @param readDate {@link Date}
+     * @param readDate {@link LocalDateTime}
      * @return int
      */
     @GetGeneratedKeys

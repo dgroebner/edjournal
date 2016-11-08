@@ -68,6 +68,11 @@ public class EDJournalParser {
         return cleanedLines;
     }
 
+    /**
+     * Verarbeitet die Dateien
+     * 
+     * @throws IOException IOException
+     */
     private void doAction() throws IOException {
         final JournalFile fileTable = new JournalFile(dbi, file);
         if (fileTable.isFileAlreadyPared()) {

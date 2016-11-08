@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Throwables;
 
 import de.dgroebner.edjson.model.action.JournalEventAction;
+import de.dgroebner.edjson.model.action.LoadGameAction;
 import de.dgroebner.edjson.model.action.LoggingAction;
 import de.dgroebner.edjson.model.data.ApproachSettlement;
 import de.dgroebner.edjson.model.data.Bounty;
@@ -117,7 +118,7 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     /* @formatter:off */
     /* Startup */
     HEADER("Fileheader", Fileheader.class),
-    LOADGAME("LoadGame", LoadGame.class),
+    LOADGAME("LoadGame", LoadGame.class, LoadGameAction.class),
     PROGRESS("Progress", Progress.class),
     RANK("Rank", Rank.class),
     
@@ -234,17 +235,27 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     private String code;
 
     private Class<? extends JournalModel> model;
+    
+    private Class<? extends JournalEventAction> action;
+
+    EDJournalEvents(final String code, final Class<? extends JournalModel> model,
+            Class<? extends JournalEventAction> action) {
+        this.code = code;
+        this.model = model;
+        this.action = action;
+    }
 
     EDJournalEvents(final String code, final Class<? extends JournalModel> model) {
         this.code = code;
         this.model = model;
+        this.action = LoggingAction.class;
     }
 
     EDJournalEvents(final String code) {
         this.code = code;
         this.model = null;
+        this.action = null;
     }
-
 
     /**
      * Gibt den Code des Events im Journal zurück
@@ -285,6 +296,17 @@ public enum EDJournalEvents implements EDJournalEventInterface {
 
     @Override
     public JournalEventAction getAction() {
-        return new LoggingAction();
+        if (action == null) {
+            return null;
+        }
+
+        try {
+            final Constructor<? extends JournalEventAction> ct = action.getConstructor();
+            return ct.newInstance();
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
+            LOGGER.error(e.toString(), e);
+            throw Throwables.propagate(e);
+        }
     }
 }
