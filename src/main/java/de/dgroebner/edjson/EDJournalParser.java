@@ -11,15 +11,15 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
+import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Throwables;
 
+import de.dgroebner.edjson.db.JournalFile;
 import de.dgroebner.edjson.model.EDJournalEvents;
 import de.dgroebner.edjson.model.JournalModel;
-import de.dgroebner.edjson.model.data.Bounty;
-import de.dgroebner.edjson.model.data.Scan;
 
 /**
  * Parser für das Elite Dangerous Journal
@@ -32,6 +32,8 @@ public class EDJournalParser {
 
     private File file;
 
+    private final DBI dbi = new DBI("jdbc:jtds:sqlserver://localhost:1433", "edjournal", "edjournal");
+
     /**
      * Constructor.
      *
@@ -39,10 +41,6 @@ public class EDJournalParser {
      */
     public EDJournalParser(final File file) {
         this.file = file;
-    }
-
-    private void doAction() throws IOException {
-        normalizeFileLines(FileUtils.readLines(file, "UTF-8")).forEach(this::parseLine);
     }
 
     /**
@@ -70,6 +68,16 @@ public class EDJournalParser {
         return cleanedLines;
     }
 
+    private void doAction() throws IOException {
+        final JournalFile fileTable = new JournalFile(dbi, file);
+        if (fileTable.isFileAlreadyPared()) {
+            return;
+        }
+        fileTable.writeNewFileToDb();
+
+        normalizeFileLines(FileUtils.readLines(file, "UTF-8")).forEach(this::parseLine);
+    }
+
     /**
      * Parst die Dateizeile
      * 
@@ -82,19 +90,6 @@ public class EDJournalParser {
         final JournalModel model = event.getModel(obj);
 
         LOGGER.info("{} : {} : {}", file.getAbsolutePath(), obj.getString("timestamp"), obj.get("event"));
-        LOGGER.info(model.toString());
-
-        if (model instanceof Scan) {
-            final Scan scan = (Scan) model;
-            LOGGER.info("Materialen vorhanden: {} Werte: {}",
-                    Boolean.valueOf(scan.getMaterials().areMaterialsPresent()),
-                    scan.getMaterials());
-            LOGGER.info("Ringe: {}", scan.getRings());
-        } else if (model instanceof Bounty) {
-            final Bounty bounty = (Bounty) model;
-            LOGGER.info("Rewards per Faction: {}", bounty.getRewardPerFaction());
-        }
-
     }
 
     /**

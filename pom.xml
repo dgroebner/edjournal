@@ -10,6 +10,8 @@
     <description>Tool zur Auswertung des Elite Dangerous Journals</description>
 
     <properties>
+        <jdbi.version>2.77</jdbi.version>
+        <jtds.version>1.2.8</jtds.version>
         <junit.version>4.12</junit.version>
         <logback.version>1.1.6</logback.version>
         <google.guava.version>18.0</google.guava.version>
@@ -87,6 +89,19 @@
           <groupId>com.google.guava</groupId>
           <artifactId>guava</artifactId>
           <version>${google.guava.version}</version>
+        </dependency>
+        
+        <!-- sql -->
+        <dependency>
+            <groupId>net.sourceforge.jtds</groupId>
+            <artifactId>jtds</artifactId>
+            <version>${jtds.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+          <groupId>org.jdbi</groupId>
+          <artifactId>jdbi</artifactId>
+          <version>${jdbi.version}</version>
         </dependency>
 
         <!-- testing -->
