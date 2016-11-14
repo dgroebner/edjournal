@@ -9,6 +9,7 @@ import static de.dgroebner.edjson.model.data.LoadGame.Fields.TIMESTAMP;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
+import de.dgroebner.edjson.db.Faction;
 import de.dgroebner.edjson.db.Finanzdata;
 import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
 import de.dgroebner.edjson.db.Properties;
@@ -27,9 +28,9 @@ public class LoadGameAction extends AbstractAction<LoadGame> {
     @Override
     protected String buildJournalMessage(final DBI dbi, final LoadGame model) {
         final Ship ship = new Ship(dbi);
-        final DBShip dbShip = ship.writeOrGetShip(model.getValueAsInt(SHIP_ID), model.getValueAsString(SHIP));
-        final Properties property = new Properties(dbi);
-        property.save(ENTRIES.CURRENT_SHIP, dbShip.getId());
+        final DBShip dbShip = ship.saveAndGetShip(model.getValueAsInt(SHIP_ID), model.getValueAsString(SHIP));
+        new Properties(dbi).save(ENTRIES.CURRENT_SHIP, dbShip.getId());
+        new Properties(dbi).save(ENTRIES.CURRENT_COMMANDER, model.getValueAsString(COMMANDER));
         final String callsign = StringUtils.defaultString(dbShip.getCallsign(), "unbenannt");
         return String.format("Spiel geladen für Commander %s auf Schiff %s vom Typ %s",
                 model.getValueAsString(COMMANDER), callsign, model.getValueAsString(SHIP));
@@ -42,7 +43,7 @@ public class LoadGameAction extends AbstractAction<LoadGame> {
         final int credits = model.getValueAsInt(CREDITS);
         if (currentAmount != model.getValueAsInt(CREDITS)) {
             finanzdata.save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), credits - currentAmount,
-                    CATEGORY.MISSING_SALES, "Angleichung Umsätze an E.D-Daten");
+                    CATEGORY.MISSING_SALES, "Angleichung Umsätze an E.D-Daten", Faction.UNDEFINED, null);
         }
     }
 

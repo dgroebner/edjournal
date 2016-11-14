@@ -82,4 +82,9 @@ public class MissionCompleted extends GenericModel<MissionCompleted.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Mission bei %s abgeschlossen", getValueAsString(Fields.FACTION));
+    }
 }

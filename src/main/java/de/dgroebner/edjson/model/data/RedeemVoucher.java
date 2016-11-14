@@ -77,4 +77,9 @@ public class RedeemVoucher extends GenericModel<RedeemVoucher.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return "Kopfgelder abgeholt";
+    }
 }

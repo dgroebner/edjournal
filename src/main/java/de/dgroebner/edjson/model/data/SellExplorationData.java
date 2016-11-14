@@ -78,4 +78,11 @@ public class SellExplorationData extends GenericModel<SellExplorationData.Fields
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Erkundungsdaten für %s Systeme verkauft, davon %s neu entdeckte Systeme.",
+                Integer.valueOf(getValueAsJsonArray(Fields.SYSTEMS).length()),
+                Integer.valueOf(getValueAsJsonArray(Fields.DISCOVERED).length()));
+    }
 }

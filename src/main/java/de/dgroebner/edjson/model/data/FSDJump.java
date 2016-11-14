@@ -36,7 +36,8 @@ public class FSDJump extends GenericModel<FSDJump.Fields> {
         ECONOMY_LOCALISED("Economy_Localised", String.class),
         GOVERNMENT("Government", String.class),
         GOVERNMENT_LOCALISED("Government_Localised", String.class),
-        SECURITY_LOCALISED("Security", String.class),
+        SECURITY("Security", String.class),
+        SECURITY_LOCALISED("Security_Localised", String.class),
         JUMP_DIST("JumpDist", BigDecimal.class),
         FUEL_USED("FuelUsed", BigDecimal.class),
         FUEL_LEVEL("FuelLevel", BigDecimal.class),
@@ -87,5 +88,11 @@ public class FSDJump extends GenericModel<FSDJump.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        return String.format("FSD-Sprung nach %s (%s) Distanz: %sly", getValueAsString(Fields.STAR_SYSTEM),
+                getValueAsCoordinates(Fields.STAR_POS).getCoordString(), getValueAsBigDecimal(Fields.JUMP_DIST));
     }
 }

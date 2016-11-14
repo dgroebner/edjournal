@@ -74,4 +74,9 @@ public class ApproachSettlement extends GenericModel<ApproachSettlement.Fields> 
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Anflug auf Bodenstation %s", getValueAsString(Fields.NAME));
+    }
 }

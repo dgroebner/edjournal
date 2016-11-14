@@ -30,6 +30,8 @@ public class ShipyardBuy extends GenericModel<ShipyardBuy.Fields> {
         EVENT("event", String.class),
         SHIP_TYPE("ShipType", String.class),
         SHIP_PRICE("ShipPrice", Integer.class),
+        STORE_OLD_SHIP("StoreOldShip", String.class),
+        STORE_SHIP_ID("StoreShipID", Integer.class),
         SELL_OLD_SHIP("SellOldShip", String.class),
         SELL_SHIP_ID("SellShipID", Integer.class),
         SELL_PRICE("SellPrice", Integer.class);

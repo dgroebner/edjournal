@@ -78,9 +78,8 @@ public class EDJournalParser {
         if (fileTable.isFileAlreadyPared()) {
             return;
         }
-        fileTable.writeNewFileToDb();
-        normalizeFileLines(FileUtils.readLines(file, "UTF-8")).forEach(
-                line -> parseLine(line, fileTable.getDatabaseId()));
+        final int id = fileTable.save();
+        normalizeFileLines(FileUtils.readLines(file, "UTF-8")).forEach(line -> parseLine(line, id));
     }
 
     /**

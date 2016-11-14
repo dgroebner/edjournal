@@ -62,4 +62,13 @@ public class Coordinates {
         return new ReflectionToStringBuilder(this, ToStringStyle.JSON_STYLE).toString();
     }
 
+    /**
+     * Liefert die Koordinaten als String zurück
+     * 
+     * @return {@link String}
+     */
+    public String getCoordString() {
+        return String.format("%s:%s:%s", xAxis, yAxis, zAxis);
+    }
+
 }

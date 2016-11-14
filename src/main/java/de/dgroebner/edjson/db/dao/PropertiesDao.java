@@ -25,7 +25,7 @@ public interface PropertiesDao extends AbstractDao {
      * @param entry {@link String}
      * @return {@link String}
      */
-    @SqlQuery("SELECT entry FROM properties WHERE entry = :entry")
+    @SqlQuery("SELECT value FROM properties WHERE entry = :entry")
     String findValueByEntry(@Bind(COLUMN_ENTRY) String entry);
 
     /**
@@ -46,5 +46,13 @@ public interface PropertiesDao extends AbstractDao {
      * @param entry {@link String}
      */
     @SqlUpdate("UPDATE properties SET value = :value WHERE entry = :entry")
-    void updateEntry(@Bind(COLUMN_VALUE) String value, @Bind(COLUMN_ENTRY) String entry);    
+    void updateEntry(@Bind(COLUMN_VALUE) String value, @Bind(COLUMN_ENTRY) String entry);
+
+    /**
+     * Löscht die Einstellung für den übergebenen Entry
+     * 
+     * @param entry {@link String}
+     */
+    @SqlUpdate("DELETE FROM properties WHERE entry = :entry")
+    void deleteEntry(@Bind(COLUMN_ENTRY) String entry);
 }

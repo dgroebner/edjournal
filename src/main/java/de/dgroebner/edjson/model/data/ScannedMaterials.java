@@ -3,6 +3,8 @@ package de.dgroebner.edjson.model.data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -16,12 +18,12 @@ import de.dgroebner.edjson.model.JournalModelField;
  * 
  * @author dgroebner
  */
-public class Materials extends GenericModel<Materials.Fields> {
+public class ScannedMaterials extends GenericModel<ScannedMaterials.Fields> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Materials.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScannedMaterials.class);
 
     /**
-     * Felder des Elite Dangerous Journaleintrag 'Materials'
+     * Felder des Elite Dangerous Journaleintrag 'Materials' im Object 'Scan'
      * 
      * @author dgroebner
      */
@@ -79,7 +81,7 @@ public class Materials extends GenericModel<Materials.Fields> {
      * 
      * @param json {@link JSONObject}
      */
-    public Materials(final JSONObject json) {
+    public ScannedMaterials(final JSONObject json) {
         super(json, Arrays.asList(Fields.values()));
     }
 
@@ -96,6 +98,17 @@ public class Materials extends GenericModel<Materials.Fields> {
     public boolean areMaterialsPresent() {
         return Arrays.asList(Fields.values()).stream()
                 .anyMatch(field -> BigDecimal.ZERO.compareTo(getValueAsBigDecimal(field)) != 0);
+    }
+
+    /**
+     * Gibt eine Liste der vorhandenen Materialen zurück
+     * 
+     * @return boolean
+     */
+    public List<Fields> getPresentMaterials() {
+        return Arrays.asList(Fields.values()).stream()
+                .filter(field -> BigDecimal.ZERO.compareTo(getValueAsBigDecimal(field)) != 0)
+                .collect(Collectors.toList());
     }
 
     @Override

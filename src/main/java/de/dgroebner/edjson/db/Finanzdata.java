@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.dao.FinancedataDao;
+import de.dgroebner.edjson.db.model.DBFaction;
 
 /**
  * Methoden für die Datenbanktabelle 'financdata' zur Speicherung der Finanzdaten
@@ -13,8 +14,13 @@ import de.dgroebner.edjson.db.dao.FinancedataDao;
  */
 public class Finanzdata extends AbstractDBTable {
 
+    /**
+     * Umsatzkategorien
+     * 
+     * @author dgroebner
+     */
     public enum CATEGORY {
-        MISSING_SALES;
+        MISSING_SALES, MODUL_STORAGE, MODUL_COSTS, SHIP_COSTS, OPERATING_COSTS, EXPLORATION_DATA, MISSIONS, MARKET, BLACKMARKET, FINES, BOUNTIES, INSURANCE;
     }
 
     /**
@@ -27,20 +33,41 @@ public class Finanzdata extends AbstractDBTable {
     }
 
     /**
-     * Schreibt einen neuen Journaleintrag in die Datenbank. Die ID des geschriebenen Datensatz kann anschließend über
-     * die Methode {@link Finanzdata#getDatabaseId()} abgefragt werden.
+     * Schreibt einen neuen Journaleintrag in die Datenbank und gibt die id zurück
      * 
      * @param journalId int
      * @param valutadatum {@link LocalDateTime}
      * @param amount int
      * @param category {@link String}
      * @param remark {@link String}
+     * @return int
      */
-    public void save(final int journalId, final LocalDateTime valutadatum, final int amount, final CATEGORY category,
+    public int save(final int journalId, final LocalDateTime valutadatum, final int amount, final CATEGORY category,
             final String remark) {
+        final DBFaction currentLocalFaction = new Faction(getDbi()).getCurrentLocalFaction();
+        final String factionName = currentLocalFaction.getName();
+        final String factionState = currentLocalFaction.getState();
+        return save(journalId, valutadatum, amount, category, remark, factionName, factionState);
+    }
+
+    /**
+     * Schreibt einen neuen Journaleintrag in die Datenbank und gibt die id zurück.
+     * 
+     * @param journalId int
+     * @param valutadatum {@link LocalDateTime}
+     * @param amount int
+     * @param category {@link String}
+     * @param remark {@link String}
+     * @param fractionName {@link String}
+     * @param fractionState {@link String}
+     * @return int
+     */
+    public int save(final int journalId, final LocalDateTime valutadatum, final int amount, final CATEGORY category,
+            final String remark, final String fractionName, final String fractionState) {
+        final DBFaction dbFraction = new Faction(getDbi()).writeOrGetFraction(journalId, fractionName, fractionState);
         final FinancedataDao dao = getDbi().open(FinancedataDao.class);
         try {
-            setId(dao.insert(journalId, valutadatum, amount, category.name(), remark));
+            return dao.insert(journalId, valutadatum, amount, category.name(), remark, dbFraction.getId());
         } finally {
             dao.close();
         }

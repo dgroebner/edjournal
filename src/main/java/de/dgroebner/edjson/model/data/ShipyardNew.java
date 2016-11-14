@@ -75,4 +75,9 @@ public class ShipyardNew extends GenericModel<ShipyardNew.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Neues Schiff vom Typ %s registriert", getValueAsString(Fields.SHIP_TYPE));
+    }
 }

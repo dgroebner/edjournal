@@ -42,7 +42,7 @@ public class Location extends GenericModel<Location.Fields> {
         ECONOMY_LOCALISED("Economy_Localised", String.class),
         GOVERNMENT("Government", String.class),
         GOVERNMENT_LOCALISED("Government_Localised", String.class),
-        SECURITY_LOCALISED("Security", String.class);
+        SECURITY_LOCALISED("Security_Localised", String.class);
         /* @formatter:on */
 
         private String code;
@@ -92,7 +92,7 @@ public class Location extends GenericModel<Location.Fields> {
     @Override
     public String getMessage() {
         final Coordinates coord = getValueAsCoordinates(Fields.STAR_POS);
-        return String.format("Aktueller Standort: System %s (%s:%s:%s)", getValueAsString(Fields.STAR_SYSTEM),
-                coord.getxAxis(), coord.getyAxis(), coord.getzAxis());
+        return String.format("Aktueller Standort: System %s (%s)", getValueAsString(Fields.STAR_SYSTEM),
+                coord.getCoordString());
     }
 }

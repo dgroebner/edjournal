@@ -81,4 +81,29 @@ public class MarketSell extends GenericModel<MarketSell.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        final StringBuilder message = new StringBuilder();
+        message.append(String.format("Verkauf von %st %s", Integer.valueOf(getValueAsInt(Fields.COUNT)),
+                getValueAsString(Fields.TYPE)));
+
+        if (getValueAsBoolean(Fields.ILLEGAL_GOODS)) {
+            message.append(" illegale");
+        }
+
+        if (getValueAsBoolean(Fields.STOLE_GOODS)) {
+            message.append(" gestohlene");
+        }
+
+        if (getValueAsBoolean(Fields.ILLEGAL_GOODS) || getValueAsBoolean(Fields.STOLE_GOODS)) {
+            message.append(" Güter");
+        }
+
+        if (getValueAsBoolean(Fields.BLACK_MARKED)) {
+            message.append(" auf dem Schwarzmarkt");
+        }
+
+        return message.toString();
+    }
 }

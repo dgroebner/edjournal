@@ -19,6 +19,8 @@ public class DBFinancedata extends AbstractModel {
 
     private String remark;
 
+    private int factionId;
+
     /**
      * Constructor.
      */
@@ -31,19 +33,21 @@ public class DBFinancedata extends AbstractModel {
      *
      * @param id int
      * @param journalId int
-     * @param valutadatum LocalDateTime
+     * @param valutadatum {@link LocalDateTime}
      * @param amount int
-     * @param category String
-     * @param remark String
+     * @param category {@link String}
+     * @param remark {@link String}
+     * @param fractionId {@link String}
      */
     public DBFinancedata(final int id, final int journalId, final LocalDateTime valutadatum, final int amount,
-            final String category, final String remark) {
+            final String category, final String remark, final int fractionId) {
         super(id);
         this.journalId = journalId;
         this.valutadatum = valutadatum;
         this.amount = amount;
         this.category = category;
         this.remark = remark;
+        this.factionId = fractionId;
     }
 
     public final int getJournalId() {
@@ -84,6 +88,14 @@ public class DBFinancedata extends AbstractModel {
 
     public final void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public int getFactionId() {
+        return factionId;
+    }
+
+    public void setFactionId(int factionId) {
+        this.factionId = factionId;
     }
 
 }

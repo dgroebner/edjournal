@@ -87,8 +87,16 @@ public class Bounty extends GenericModel<Bounty.Fields> {
      * @return {@link Set} of {@link RewardPerFaction}
      */
     public Set<RewardPerFaction> getRewardPerFaction() {
-        final Set<RewardPerFaction> rewards = new HashSet<RewardPerFaction>();
+        final Set<RewardPerFaction> rewards = new HashSet<>();
         getValueAsJsonArray(Fields.REWARDS).forEach(reward -> rewards.add(new RewardPerFaction((JSONObject) reward)));
         return rewards;
+    }
+
+    @Override
+    public String getMessage() {
+        return String.format(
+                "Kopfgeld %scr von %s Fraktion(en) für zerstörtes Schiff von Fraktion %s kann eingefordert werden.",
+                        Integer.valueOf(getValueAsInt(Fields.TOTAL_REWARD)),
+                        Integer.valueOf(getRewardPerFaction().size()), getValueAsString(Fields.VICTIM_FACTION));
     }
 }

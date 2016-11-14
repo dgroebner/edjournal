@@ -1,5 +1,6 @@
 package de.dgroebner.edjson.model.data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -33,7 +34,9 @@ public class ModuleStore extends GenericModel<ModuleStore.Fields> {
         STORED_ITEM_LOCALISED("StoredItem_Localised", String.class),
         SHIP("Ship", String.class),
         SHIP_ID("ShipID", Integer.class),
-        ENGINEER_MODIFICATIONS("EngineerModifications", String.class);
+        ENGINEER_MODIFICATIONS("EngineerModifications", String.class),
+        REPLACEMENT_ITEM("ReplacementItem", String.class),
+        COST("Cost", BigDecimal.class);
         /* @formatter:on */
 
         private String code;

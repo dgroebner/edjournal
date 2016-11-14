@@ -22,10 +22,7 @@ public abstract class AbstractAction<M extends JournalModel> implements JournalE
         dbJournal.setTimestamp(model.getTimestamp());
         dbJournal.setEvent(model.getEvent());
         dbJournal.setMessage(buildJournalMessage(dbi, model));
-
-        final Journal journal = new Journal(dbi);
-        journal.writeJournal(dbJournal);
-        return journal.getDatabaseId();
+        return new Journal(dbi).writeJournal(dbJournal);
     }
 
     /**

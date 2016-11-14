@@ -75,4 +75,10 @@ public class DockingDenied extends GenericModel<DockingDenied.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Landeerlaubnis auf %s auf Grund %s abgelehnt", getValueAsString(Fields.STATION_NAME),
+                getValueAsString(Fields.REASON));
+    }
 }

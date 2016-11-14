@@ -75,4 +75,10 @@ public class DockingGranted extends GenericModel<DockingGranted.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Landeerlaubnis auf %s Landeplatz %s erhalten", getValueAsString(Fields.STATION_NAME),
+                Integer.valueOf(getValueAsInt(Fields.LANDING_PAD)));
+    }
 }

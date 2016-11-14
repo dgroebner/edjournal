@@ -10,6 +10,7 @@
     <description>Tool zur Auswertung des Elite Dangerous Journals</description>
 
     <properties>
+        <jasper.version>6.3.1</jasper.version>
         <jdbi.version>2.77</jdbi.version>
         <jtds.version>1.2.8</jtds.version>
         <junit.version>4.12</junit.version>
@@ -102,6 +103,13 @@
           <groupId>org.jdbi</groupId>
           <artifactId>jdbi</artifactId>
           <version>${jdbi.version}</version>
+        </dependency>
+        
+        <!-- reporting -->
+        <dependency>
+          <groupId>net.sf.jasperreports</groupId>
+          <artifactId>jasperreports</artifactId>
+          <version>${jasper.version}</version>
         </dependency>
 
         <!-- testing -->

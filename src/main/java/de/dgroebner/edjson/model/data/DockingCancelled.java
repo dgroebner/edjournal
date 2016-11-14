@@ -74,4 +74,9 @@ public class DockingCancelled extends GenericModel<DockingCancelled.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Landeanfrage auf %s abgebrochen", getValueAsString(Fields.STATION_NAME));
+    }
 }

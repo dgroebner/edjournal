@@ -28,13 +28,14 @@ public class JournalFile extends AbstractDBTable {
     }
 
     /**
-     * Schreibt die Datei als neue Datei in die Datenbank. Die ID des geschriebenen Datensatz kann anschließend über die
-     * Methode {@link JournalFile#getDatabaseId()} abgefragt werden.
+     * Schreibt die Datei als neue Datei in die Datenbank und gibt die id zurück
+     * 
+     * @return int
      */
-    public void writeNewFileToDb() {
+    public int save() {
         final JournalFileDao journalFileDao = getDbi().open(JournalFileDao.class);
         try {
-            setId(journalFileDao.insert(file.getName(), LocalDateTime.now()));
+            return journalFileDao.insert(file.getName(), LocalDateTime.now());
         } finally {
             journalFileDao.close();
         }

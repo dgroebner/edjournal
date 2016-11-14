@@ -3,6 +3,7 @@ package de.dgroebner.edjson.model.data;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,5 +89,12 @@ public class Interdicted extends GenericModel<Interdicted.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        return String.format("Supercruise Unterbrechung von %s (%s) %s", getValueAsString(Fields.INTERDICTOR),
+                getValueAsString(Fields.FACTION), getValueAsBoolean(Fields.SUBMITTED) ? "akzeptiert"
+                        : StringUtils.EMPTY);
     }
 }

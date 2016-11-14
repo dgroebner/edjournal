@@ -1,5 +1,6 @@
 package de.dgroebner.edjson.db.dao;
 
+import static de.dgroebner.edjson.db.mapper.AbstractMapper.COLUMN_ID;
 import static de.dgroebner.edjson.db.mapper.AbstractMapper.COLUMN_INARA_URL;
 import static de.dgroebner.edjson.db.mapper.ShipMapper.COLUMN_CALLSIGN;
 import static de.dgroebner.edjson.db.mapper.ShipMapper.COLUMN_ED_ID;
@@ -44,5 +45,22 @@ public interface ShipDao extends AbstractDao {
      */
     @SqlQuery("SELECT id, edId, type, callsign, inara_url FROM ship WHERE edId = :edId")
     DBShip findByEdId(@Bind(COLUMN_ED_ID) int edId);
+
+    /**
+     * Gibt das Schiff für die übergebenen ID zurück
+     * 
+     * @param id {@link String}
+     * @return {@link DBShip}
+     */
+    @SqlQuery("SELECT id, edId, type, callsign, inara_url FROM ship WHERE id = :id")
+    DBShip findById(@Bind(COLUMN_ID) int id);
+
+    /**
+     * Löscht das Schiff mit der übergebenen id
+     * 
+     * @param id int
+     */
+    @SqlUpdate("DELETE FROM ship WHERE id = :id")
+    void deleteById(@Bind(COLUMN_ID) int id);
 
 }

@@ -18,16 +18,17 @@ public class FinancedataMapper extends AbstractMapper<DBFinancedata> {
 
     public static final String COLUMN_CATEGORY = "category";
 
-    public static final String COLUMN_JOURNAL_ID = "journal_id";
-
     public static final String COLUMN_REMARK = "remark";
 
     public static final String COLUMN_VALUTADATUM = "valutadatum";
 
+    public static final String COLUMN_FACTION_ID = "faction_id";
+
     @Override
     public DBFinancedata map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
         return new DBFinancedata(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getTimestamp(COLUMN_VALUTADATUM)
-                .toLocalDateTime(), r.getInt(COLUMN_AMOUNT), r.getString(COLUMN_CATEGORY), r.getString(COLUMN_REMARK));
+                .toLocalDateTime(), r.getInt(COLUMN_AMOUNT), r.getString(COLUMN_CATEGORY), r.getString(COLUMN_REMARK),
+                r.getInt(COLUMN_FACTION_ID));
     }
 
 }

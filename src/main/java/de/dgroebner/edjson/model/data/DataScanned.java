@@ -74,4 +74,9 @@ public class DataScanned extends GenericModel<DataScanned.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Datenscan von %s durchgeführt", getValueAsString(Fields.TYPE));
+    }
 }

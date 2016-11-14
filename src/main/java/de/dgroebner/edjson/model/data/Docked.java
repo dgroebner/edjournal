@@ -3,6 +3,7 @@ package de.dgroebner.edjson.model.data;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class Docked extends GenericModel<Docked.Fields> {
         ECONOMY_LOCALISED("Economy_Localised", String.class),
         GOVERNMENT("Government", String.class),
         GOVERNMENT_LOCALISED("Government_Localised", String.class),
-        SECURITY_LOCALISED("Security", String.class),
+        SECURITY_LOCALISED("Security_Localised", String.class),
         ALLEGIANCE("Allegiance", String.class);
         /* @formatter:on */
 
@@ -84,5 +85,12 @@ public class Docked extends GenericModel<Docked.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        return String.format("Gedockt an %s-Typ Raumhafen %s im System %s",
+                StringUtils.defaultIfBlank(getValueAsString(Fields.STATION_TYPE), "PlanetaryPort"),
+                getValueAsString(Fields.STATION_NAME), getValueAsString(Fields.STAR_SYSTEM));
     }
 }

@@ -79,4 +79,10 @@ public class Screenshot extends GenericModel<Screenshot.Fields> {
         return getValueAsString(Fields.EVENT);
     }
 
+    @Override
+    public String getMessage() {
+        return String.format("Foto im System %s in der Nähe von %s erstellt", getValueAsString(Fields.SYSTEM),
+                getValueAsString(Fields.BODY));
+    }
+
 }

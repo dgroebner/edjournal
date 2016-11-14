@@ -22,16 +22,16 @@ public class Journal extends AbstractDBTable {
     }
 
     /**
-     * Schreibt einen neuen Journaleintrag in die Datenbank. Die ID des geschriebenen Datensatz kann anschließend über
-     * die Methode {@link Journal#getDatabaseId()} abgefragt werden.
+     * Schreibt einen neuen Journaleintrag in die Datenbank und gibt die id zurück
      * 
      * @param journal {@link DBJournalModel}
+     * @return int
      */
-    public void writeJournal(final DBJournalModel journal) {
+    public int writeJournal(final DBJournalModel journal) {
         final JournalDao journalDao = getDbi().open(JournalDao.class);
         try {
-            setId(journalDao.insert(journal.getJournalfileId(), journal.getTimestamp(), journal.getEvent(),
-                    journal.getMessage()));
+            return journalDao.insert(journal.getJournalfileId(), journal.getTimestamp(), journal.getEvent(),
+                    journal.getMessage());
         } finally {
             journalDao.close();
         }

@@ -76,4 +76,9 @@ public class PayFines extends GenericModel<PayFines.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return "Strafen beglichen";
+    }
 }

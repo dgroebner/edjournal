@@ -73,4 +73,9 @@ public class HeatWarning extends GenericModel<HeatWarning.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return "Warnung vor Überhitzung";
+    }
 }

@@ -76,4 +76,10 @@ public class EngineerProgress extends GenericModel<EngineerProgress.Fields> {
         return getValueAsString(Fields.EVENT);
     }
 
+    @Override
+    public String getMessage() {
+        return String.format("Ingenieur %s ist nun im Status %s", getValueAsString(Fields.ENGINEER),
+                getValueAsString(Fields.PROGRESS));
+    }
+
 }

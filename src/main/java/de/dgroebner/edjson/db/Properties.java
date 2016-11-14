@@ -20,7 +20,7 @@ public class Properties extends AbstractDBTable {
      * @author dgroebner
      */
     public enum ENTRIES {
-        CURRENT_SHIP;
+        CURRENT_SHIP, CURRENT_COMMANDER, CURRENT_LOCAL_FACTION, CURRENT_STAR_SYSTEM;
     }
 
     /**
@@ -85,8 +85,21 @@ public class Properties extends AbstractDBTable {
      */
     public int getIntValueForEntry(final ENTRIES entry) {
         final Integer value = Ints.tryParse(getValueForEntry(entry));
-
         return value != null ? value.intValue() : Integer.MIN_VALUE;
+    }
+
+    /**
+     * Löscht den Wert für das übergebene Entry
+     * 
+     * @param entry {@link String}
+     */
+    public void deleteEntry(final ENTRIES entry) {
+        final PropertiesDao dao = getDbi().open(PropertiesDao.class);
+        try {
+            dao.deleteEntry(entry.name());
+        } finally {
+            dao.close();
+        }
     }
 
 }

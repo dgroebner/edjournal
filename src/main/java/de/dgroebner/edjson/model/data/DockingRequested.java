@@ -74,4 +74,9 @@ public class DockingRequested extends GenericModel<DockingRequested.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Landeerlaubnis angefordert bei %s", getValueAsString(Fields.STATION_NAME));
+    }
 }

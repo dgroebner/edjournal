@@ -10,9 +10,46 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Throwables;
 
+import de.dgroebner.edjson.model.action.BountyAction;
+import de.dgroebner.edjson.model.action.BuyAmmoAction;
+import de.dgroebner.edjson.model.action.DiedAction;
+import de.dgroebner.edjson.model.action.DockedAction;
+import de.dgroebner.edjson.model.action.FSDJumpAction;
+import de.dgroebner.edjson.model.action.FetchRemoteModuleAction;
+import de.dgroebner.edjson.model.action.HullDamageAction;
+import de.dgroebner.edjson.model.action.InterdictedAction;
 import de.dgroebner.edjson.model.action.JournalEventAction;
 import de.dgroebner.edjson.model.action.LoadGameAction;
+import de.dgroebner.edjson.model.action.LocationAction;
 import de.dgroebner.edjson.model.action.LoggingAction;
+import de.dgroebner.edjson.model.action.MarketBuyAction;
+import de.dgroebner.edjson.model.action.MarketSellAction;
+import de.dgroebner.edjson.model.action.MaterialCollectedAction;
+import de.dgroebner.edjson.model.action.MaterialDiscoveredAction;
+import de.dgroebner.edjson.model.action.MissionAcceptedAction;
+import de.dgroebner.edjson.model.action.MissionCompletedAction;
+import de.dgroebner.edjson.model.action.MissionFailedAction;
+import de.dgroebner.edjson.model.action.ModuleBuyAction;
+import de.dgroebner.edjson.model.action.ModuleRetrieveAction;
+import de.dgroebner.edjson.model.action.ModuleSellAction;
+import de.dgroebner.edjson.model.action.ModuleSellRemoteAction;
+import de.dgroebner.edjson.model.action.ModuleStoreAction;
+import de.dgroebner.edjson.model.action.ModuleSwapAction;
+import de.dgroebner.edjson.model.action.PayFinesAction;
+import de.dgroebner.edjson.model.action.PayLegacyFinesAction;
+import de.dgroebner.edjson.model.action.ReceiveTextAction;
+import de.dgroebner.edjson.model.action.RedeemVoucherAction;
+import de.dgroebner.edjson.model.action.RefuellAllAction;
+import de.dgroebner.edjson.model.action.RepairAction;
+import de.dgroebner.edjson.model.action.RepairAllAction;
+import de.dgroebner.edjson.model.action.ResurrectAction;
+import de.dgroebner.edjson.model.action.ScanAction;
+import de.dgroebner.edjson.model.action.SellExplorationDataAction;
+import de.dgroebner.edjson.model.action.SendTextAction;
+import de.dgroebner.edjson.model.action.ShipyardBuyAction;
+import de.dgroebner.edjson.model.action.ShipyardNewAction;
+import de.dgroebner.edjson.model.action.ShipyardSwapAction;
+import de.dgroebner.edjson.model.action.UndockedAction;
 import de.dgroebner.edjson.model.data.ApproachSettlement;
 import de.dgroebner.edjson.model.data.Bounty;
 import de.dgroebner.edjson.model.data.BuyAmmo;
@@ -124,82 +161,82 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     
     /* Travel */
     APPROACH_SETTLEMENT("ApproachSettlement", ApproachSettlement.class),
-    DOCKED("Docked", Docked.class),
+    DOCKED("Docked", Docked.class, DockedAction.class),
     DOCKING_CANCELLED("DockingCancelled", DockingCancelled.class),
     DOCKING_DENIED("DockingDenied", DockingDenied.class),
     DOCKING_GRANTED("DockingGranted", DockingGranted.class),
     DOCKING_REQUESTED("DockingRequested", DockingRequested.class),
     DOCKING_TIMEOUT("DockingTimeout", DockingTimeout.class),
-    FSDJUMP("FSDJump", FSDJump.class),
+    FSDJUMP("FSDJump", FSDJump.class, FSDJumpAction.class),
     LIFTOFF("Liftoff", Liftoff.class),
-    LOCATION("Location", Location.class),
+    LOCATION("Location", Location.class, LocationAction.class),
     SUPERCRUISE_ENTRY("SupercruiseEntry", SupercruiseEntry.class),
     SUPERCRUISE_EXIT("SupercruiseExit", SupercruiseExit.class),
     TOUCHDOWN("Touchdown", Touchdown.class),
-    UNDOCKED("Undocked", Undocked.class),
+    UNDOCKED("Undocked", Undocked.class, UndockedAction.class),
     
     /* Combat */
-    BOUNTY("Bounty", Bounty.class),
+    BOUNTY("Bounty", Bounty.class, BountyAction.class),
     CAP_SHIP_BOND("CapShipBond", CapShipBond.class),
-    DIED("Died", Died.class),
+    DIED("Died", Died.class, DiedAction.class),
     ESCAPE_INTERDICTION("EscapeInterdiction", EscapeInterdiction.class),
     FACTION_KILL_BOND("FactionKillBond", FactionKillBond.class),
     HEAT_DAMAGE("HeatDamage", HeatDamage.class),
     HEAT_WARNING("HeatWarning", HeatWarning.class),
-    HULL_DAMAGE("HullDamage", HullDamage.class),
-    INTERDICTED("Interdicted", Interdicted.class),
+    HULL_DAMAGE("HullDamage", HullDamage.class, HullDamageAction.class),
+    INTERDICTED("Interdicted", Interdicted.class, InterdictedAction.class),
     INTERDICTION("Interdiction", Interdiction.class),
     SHIELD_STATE("ShieldState", ShieldState.class),
 
     /* Exploration */
-    SCAN("Scan", Scan.class),
-    MATERIAL_COLLECTED("MaterialCollected", MaterialCollected.class),
+    SCAN("Scan", Scan.class, ScanAction.class),
+    MATERIAL_COLLECTED("MaterialCollected", MaterialCollected.class, MaterialCollectedAction.class),
     MATERIAL_DISCARDED("MaterialDiscarded", MaterialDiscarded.class),
-    MATERIAL_DISCOVERED("MaterialDiscovered", MaterialDiscovered.class),
+    MATERIAL_DISCOVERED("MaterialDiscovered", MaterialDiscovered.class, MaterialDiscoveredAction.class),
     BUY_EXPLORATION_DATA("BuyExplorationData", BuyExplorationData.class),
-    SELL_EXPLORATION_DATA("SellExplorationData", SellExplorationData.class),
+    SELL_EXPLORATION_DATA("SellExplorationData", SellExplorationData.class, SellExplorationDataAction.class),
     SCREENSHOT("Screenshot", Screenshot.class),
 
     /* Trade */
     BUY_TRADE_DATA("BuyTradeData", BuyTradeData.class),
     COLLECT_CARGO("CollectCargo", CollectCargo.class),
     EJECT_CARGO("EjectCargo", EjectCargo.class),
-    MARKET_BUY("MarketBuy", MarketBuy.class),
-    MARKED_SELL("MarketSell", MarketSell.class),
+    MARKET_BUY("MarketBuy", MarketBuy.class, MarketBuyAction.class),
+    MARKED_SELL("MarketSell", MarketSell.class, MarketSellAction.class),
     MINING_REFINED("MiningRefined", MiningRefined.class),
     
     /*Station Services */
-    BUY_AMMO("BuyAmmo", BuyAmmo.class),
+    BUY_AMMO("BuyAmmo", BuyAmmo.class, BuyAmmoAction.class),
     BUY_DRONES("BuyDrones", BuyDrones.class),
     COMMUNITY_GOAL_JOIN("CommunityGoalJoin", CommunityGoalJoin.class),
     COMMUNITY_GOAL_REWARED("CommunityGoalReward", CommunityGoalReward.class),
     ENGINEER_APPLY("EngineerApply", EngineerApply.class),
     ENGINEER_CRAFT("EngineerCraft", EngineerCraft.class),
     ENGINEER_PROGRESS("EngineerProgress", EngineerProgress.class),
-    FETCH_REMOTE_MODULE("FetchRemoteModule", FetchRemoteModule.class),
+    FETCH_REMOTE_MODULE("FetchRemoteModule", FetchRemoteModule.class, FetchRemoteModuleAction.class),
     MISSION_ABANDONED("MissionAbandoned", MissionAbandoned.class),
-    MISSION_ACCEPTED("MissionAccepted", MissionAccepted.class),
-    MISSION_COMPLETED("MissionCompleted", MissionCompleted.class),
-    MISSION_FAILED("MissionFailed", MissionFailed.class),
-    MODULE_BUY("ModuleBuy", ModuleBuy.class),
-    MODULE_RETRIEVE("ModuleRetrieve", ModuleRetrieve.class),
-    MODULE_SELL("ModuleSell", ModuleSell.class),
-    MODULE_SELL_REMOTE("ModuleSellRemote", ModuleSellRemote.class),
-    MODULE_STORE("ModuleStore", ModuleStore.class),
-    MODULE_SWAP("ModuleSwap", ModuleSwap.class),
-    PAY_FINES("PayFines", PayFines.class),
-    PAY_LEGACY_FINES("PayLegacyFines", PayLegacyFines.class),
-    REDEEM_VOUCHER("RedeemVoucher", RedeemVoucher.class),
-    REFUEL_ALL("RefuelAll", RefuelAll.class),
+    MISSION_ACCEPTED("MissionAccepted", MissionAccepted.class, MissionAcceptedAction.class),
+    MISSION_COMPLETED("MissionCompleted", MissionCompleted.class, MissionCompletedAction.class),
+    MISSION_FAILED("MissionFailed", MissionFailed.class, MissionFailedAction.class),
+    MODULE_BUY("ModuleBuy", ModuleBuy.class, ModuleBuyAction.class),
+    MODULE_RETRIEVE("ModuleRetrieve", ModuleRetrieve.class, ModuleRetrieveAction.class),
+    MODULE_SELL("ModuleSell", ModuleSell.class, ModuleSellAction.class),
+    MODULE_SELL_REMOTE("ModuleSellRemote", ModuleSellRemote.class, ModuleSellRemoteAction.class),
+    MODULE_STORE("ModuleStore", ModuleStore.class, ModuleStoreAction.class),
+    MODULE_SWAP("ModuleSwap", ModuleSwap.class, ModuleSwapAction.class),
+    PAY_FINES("PayFines", PayFines.class, PayFinesAction.class),
+    PAY_LEGACY_FINES("PayLegacyFines", PayLegacyFines.class, PayLegacyFinesAction.class),
+    REDEEM_VOUCHER("RedeemVoucher", RedeemVoucher.class, RedeemVoucherAction.class),
+    REFUEL_ALL("RefuelAll", RefuelAll.class, RefuellAllAction.class),
     REFUEL_PARTIAL("RefuelPartial", RefuelPartial.class),
-    REPAIR("Repair", Repair.class),
-    REPAIR_ALL("RepairAll", RepairAll.class),
+    REPAIR("Repair", Repair.class, RepairAction.class),
+    REPAIR_ALL("RepairAll", RepairAll.class, RepairAllAction.class),
     RESTOCK_VEHICLE("RestockVehicle", RestockVehicle.class),
     SELL_DRONES("SellDrones", SellDrones.class),
-    SHIPYARD_BUY("ShipyardBuy", ShipyardBuy.class),
-    SHIPYARD_NEW("ShipyardNew", ShipyardNew.class),
+    SHIPYARD_BUY("ShipyardBuy", ShipyardBuy.class, ShipyardBuyAction.class),
+    SHIPYARD_NEW("ShipyardNew", ShipyardNew.class, ShipyardNewAction.class),
     SHIPYARD_SELL("ShipyardSell", ShipyardSell.class),
-    SHIPYARD_SWAP("ShipyardSwap", ShipyardSwap.class),
+    SHIPYARD_SWAP("ShipyardSwap", ShipyardSwap.class, ShipyardSwapAction.class),
     SHIPYARD_TRANSFER("ShipyardTransfer", ShipyardTransfer.class),
     
     /* Power Play */
@@ -217,10 +254,10 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     LAUNCH_SRV("LaunchSRV", LaunchSRV.class),
     PROMOTION("Promotion", Promotion.class),
     REBOOT_REPAIR("RebootRepair", RebootRepair.class),
-    RECIEVE_TEXT("ReceiveText", ReceiveText.class),
-    RESURRECT("Resurrect", Resurrect.class),
+    RECIEVE_TEXT("ReceiveText", ReceiveText.class, ReceiveTextAction.class),
+    RESURRECT("Resurrect", Resurrect.class, ResurrectAction.class),
     SELF_DESTRUCT("SelfDestruct", SelfDestruct.class),
-    SEND_TEXT("SendText", SendText.class),
+    SEND_TEXT("SendText", SendText.class, SendTextAction.class),
     SYNTHESIS("Synthesis", Synthesis.class),
     VEHICLE_SWITCH("VehicleSwitch", VehicleSwitch.class),
     WING_ADD("WingAdd", WingAdd.class),

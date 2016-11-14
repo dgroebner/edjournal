@@ -1,8 +1,12 @@
 package de.dgroebner.edjson.model.data;
 
+import static de.dgroebner.edjson.model.data.ReceiveText.Fields.FROM;
+import static de.dgroebner.edjson.model.data.ReceiveText.Fields.FROM_LOCALISED;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +33,7 @@ public class ReceiveText extends GenericModel<ReceiveText.Fields> {
         TIMESTAMP("timestamp", LocalDateTime.class),
         EVENT("event", String.class),
         FROM("From", String.class),
+        FROM_LOCALISED("From_Localised", String.class),
         MESSAGE("Message", String.class),
         MESSAGE_LOCALISED("Message_Localised", String.class),
         CHANNEL("Channel", String.class);
@@ -76,5 +81,12 @@ public class ReceiveText extends GenericModel<ReceiveText.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        String sender = StringUtils.defaultIfBlank(getValueAsString(FROM_LOCALISED), getValueAsString(FROM));
+        sender = StringUtils.removeStart(sender, "&");
+        return String.format("Nachricht von %s empfangen", sender);
     }
 }

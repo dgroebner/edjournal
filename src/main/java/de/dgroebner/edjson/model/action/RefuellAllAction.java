@@ -1,0 +1,41 @@
+package de.dgroebner.edjson.model.action;
+
+import static de.dgroebner.edjson.model.data.RefuelAll.Fields.AMOUNT;
+import static de.dgroebner.edjson.model.data.RefuelAll.Fields.COST;
+import static de.dgroebner.edjson.model.data.RefuelAll.Fields.TIMESTAMP;
+
+import org.apache.commons.lang3.StringUtils;
+import org.skife.jdbi.v2.DBI;
+
+import de.dgroebner.edjson.db.Finanzdata;
+import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Properties;
+import de.dgroebner.edjson.db.Properties.ENTRIES;
+import de.dgroebner.edjson.db.Ship;
+import de.dgroebner.edjson.db.model.DBShip;
+import de.dgroebner.edjson.model.data.RefuelAll;
+
+/**
+ * Action für das JournalModell {@link RefuelAll}
+ * 
+ * @author dgroebner
+ */
+public class RefuellAllAction extends AbstractAction<RefuelAll> {
+
+    @Override
+    protected String buildJournalMessage(final DBI dbi, final RefuelAll model) {
+        final int id = new Properties(dbi).getIntValueForEntry(ENTRIES.CURRENT_SHIP);
+        final DBShip ship = new Ship(dbi).getById(id);
+        final String callsign = StringUtils.defaultString(ship.getCallsign(), "unbenannt");
+
+        return String.format("Schiff %s (%s) vollständig aufgetankt", callsign, ship.getType());
+    }
+
+    @Override
+    public void doActionOn(final DBI dbi, final int journalId, final RefuelAll model) {
+        new Finanzdata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), model.getValueAsInt(COST) * -1,
+                CATEGORY.OPERATING_COSTS,
+                String.format("Treibstoff gekauft. Menge: %st", model.getValueAsBigDecimal(AMOUNT)));
+    }
+
+}

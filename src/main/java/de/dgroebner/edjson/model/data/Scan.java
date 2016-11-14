@@ -124,10 +124,10 @@ public class Scan extends GenericModel<Scan.Fields> {
     /**
      * Liefert gefundene Materialien zurück
      * 
-     * @return {@link Materials}
+     * @return {@link ScannedMaterials}
      */
-    public Materials getMaterials() {
-        return new Materials(getValueAsJsonObject(Fields.MATERIALS));
+    public ScannedMaterials getMaterials() {
+        return new ScannedMaterials(getValueAsJsonObject(Fields.MATERIALS));
     }
 
     /**
@@ -149,5 +149,20 @@ public class Scan extends GenericModel<Scan.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        final StringBuilder message = new StringBuilder();
+        message.append("Detailscan von");
+        message.append(StringUtils.isBlank(getValueAsString(Fields.STAR_TYPE)) ? " Planet " : " Stern ");
+        message.append(getValueAsString(Fields.BODY_NAME));
+        message.append(" durchgeführt");
+
+        if (getMaterials().areMaterialsPresent()) {
+            message.append(String.format(" %s Materialvorkommen gefunden",
+                    Integer.valueOf(getMaterials().getPresentMaterials().size())));
+        }
+        return message.toString();
     }
 }

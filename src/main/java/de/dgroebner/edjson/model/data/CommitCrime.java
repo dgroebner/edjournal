@@ -3,6 +3,7 @@ package de.dgroebner.edjson.model.data;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,5 +78,30 @@ public class CommitCrime extends GenericModel<CommitCrime.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        final StringBuilder message = new StringBuilder();
+        message.append(String.format("Rechtsverstoß %s", getValueAsString(Fields.CRIME_TYPE)));
+
+        final String victim = getValueAsString(Fields.VICTIM);
+        if (StringUtils.isNotBlank(victim)) {
+            message.append(String.format("gegen %s", victim));
+        }
+        
+        message.append(String.format(" festgestellt von %s", getValueAsString(Fields.FACTION)));
+        
+        final int fine = getValueAsInt(Fields.FINE);
+        if (fine > 0) {
+            message.append(String.format(" Strafe in Höhe von %scr festgelegt", Integer.valueOf(fine)));
+        }
+         
+        final int bounty = getValueAsInt(Fields.BOUNTY);
+        if (bounty > 0) {
+            message.append(String.format(" Kopfgeld in Höhe von %scr ausgesetzt", Integer.valueOf(bounty)));
+        }
+        
+        return message.toString();
     }
 }

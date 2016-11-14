@@ -14,6 +14,8 @@ public abstract class AbstractMapper<T> implements ResultSetMapper<T> {
 
     public static final String COLUMN_INARA_URL = "inara_url";
 
+    public static final String COLUMN_JOURNAL_ID = "journal_id";
+
     protected AbstractMapper() {
     }
 

@@ -75,4 +75,9 @@ public class Undocked extends GenericModel<Undocked.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Gestartet von %s", getValueAsString(Fields.STATION_NAME));
+    }
 }

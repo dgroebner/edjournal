@@ -77,4 +77,10 @@ public class MarketBuy extends GenericModel<MarketBuy.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Verkauf von %st %s", Integer.valueOf(getValueAsInt(Fields.COUNT)),
+                getValueAsString(Fields.TYPE));
+    }
 }

@@ -76,4 +76,10 @@ public class SupercruiseExit extends GenericModel<SupercruiseExit.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Supercruise verlassen im System %s an %s %s", getValueAsString(Fields.STAR_SYSTEM),
+                getValueAsString(Fields.BODY_TYPE), getValueAsString(Fields.BODY));
+    }
 }
