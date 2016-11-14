@@ -53,13 +53,14 @@ public class Starsystem extends AbstractDBTable {
     /**
      * Speichert einen neuen Starsystem Besuch
      * 
+     * @param journalId int
      * @param saved {@link DBStarport}
      */
-    public void saveVisit(final DBStarsystem saved) {
+    public void saveVisit(final int journalId, final DBStarsystem saved) {
         final DBShip ship = new Ship(getDbi()).getCurrentShip();
         final StarsystemVisitsDao dao = getDbi().open(StarsystemVisitsDao.class);
         try {
-            dao.insert(saved.getJournalId(), saved.getId(), ship.getId());
+            dao.insert(journalId, saved.getId(), ship.getId());
         } finally {
             dao.close();
         }

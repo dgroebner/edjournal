@@ -16,7 +16,7 @@ public class StarsystemVisitsMapper extends AbstractMapper<DBStarsystemVisits> {
 
     public static final String COLUMN_SHIP_ID = "ship_id";
 
-    public static final String COLUMN_STARSYSTEMID = "starpsystem_id";
+    public static final String COLUMN_STARSYSTEMID = "starsystem_id";
 
     @Override
     public DBStarsystemVisits map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {

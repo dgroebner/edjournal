@@ -42,8 +42,9 @@ public class Starport extends AbstractDBTable {
                         forSave.getFactionId(), forSave.getSecurity(), forSave.getAllegiance(),
                         forSave.getGovernment(), forSave.getEconomy());
             }
-            saveVisit(saved);
-            return dao.findByName(forSave.getName());
+            final DBStarport newPort = dao.findByName(forSave.getName());
+            saveVisit(journalId, newPort);
+            return newPort;
         } finally {
             dao.close();
         }
@@ -52,13 +53,14 @@ public class Starport extends AbstractDBTable {
     /**
      * Speichert einen neuen Starport Besuch
      * 
+     * @param journalId int
      * @param saved {@link DBStarport}
      */
-    private void saveVisit(final DBStarport saved) {
+    private void saveVisit(final int journalId, final DBStarport saved) {
         final DBShip ship = new Ship(getDbi()).getCurrentShip();
         final StarportVisitsDao dao = getDbi().open(StarportVisitsDao.class);
         try {
-            dao.insert(saved.getJournalId(), saved.getId(), ship.getId());
+            dao.insert(journalId, saved.getId(), ship.getId());
         } finally {
             dao.close();
         }

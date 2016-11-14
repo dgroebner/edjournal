@@ -23,12 +23,12 @@ public interface StarsystemVisitsDao extends AbstractDao {
      * Fügt ein neuen Sternenhafen ein
      * 
      * @param journalId int
-     * @param starportId int
+     * @param starsystemId int
      * @param shipId int
      * @return int
      */
     @GetGeneratedKeys
     @SqlUpdate("INSERT INTO starsystem_visits (journal_id, starsystem_id, ship_id) VALUES (:journal_id, :starsystem_id, :ship_id)")
-    int insert(@Bind(COLUMN_JOURNAL_ID) int journalId, @Bind(COLUMN_STARSYSTEMID) int starportId,
+    int insert(@Bind(COLUMN_JOURNAL_ID) int journalId, @Bind(COLUMN_STARSYSTEMID) int starsystemId,
             @Bind(COLUMN_SHIP_ID) int shipId);
 }
