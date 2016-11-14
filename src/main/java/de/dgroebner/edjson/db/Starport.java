@@ -3,6 +3,8 @@ package de.dgroebner.edjson.db;
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.dao.StarportDao;
+import de.dgroebner.edjson.db.dao.StarportVisitsDao;
+import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.db.model.DBStarport;
 
 /**
@@ -40,7 +42,23 @@ public class Starport extends AbstractDBTable {
                         forSave.getFactionId(), forSave.getSecurity(), forSave.getAllegiance(),
                         forSave.getGovernment(), forSave.getEconomy());
             }
+            saveVisit(saved);
             return dao.findByName(forSave.getName());
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Speichert einen neuen Starport Besuch
+     * 
+     * @param saved {@link DBStarport}
+     */
+    private void saveVisit(final DBStarport saved) {
+        final DBShip ship = new Ship(getDbi()).getCurrentShip();
+        final StarportVisitsDao dao = getDbi().open(StarportVisitsDao.class);
+        try {
+            dao.insert(saved.getJournalId(), saved.getId(), ship.getId());
         } finally {
             dao.close();
         }

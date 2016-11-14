@@ -2,6 +2,7 @@ package de.dgroebner.edjson.db;
 
 import org.skife.jdbi.v2.DBI;
 
+import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.dao.ShipDao;
 import de.dgroebner.edjson.db.model.DBShip;
 
@@ -71,6 +72,16 @@ public class Ship extends AbstractDBTable {
         } finally {
             dao.close();
         }
+    }
+
+    /**
+     * Gibt das aktuelle Schiff zurück
+     * 
+     * @return {@link DBShip}
+     */
+    public DBShip getCurrentShip() {
+        final int shipId = new Properties(getDbi()).getIntValueForEntry(ENTRIES.CURRENT_SHIP);
+        return getById(shipId);
     }
 
 }

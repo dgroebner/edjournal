@@ -43,7 +43,9 @@ public class FSDJumpAction extends AbstractAction<FSDJump> {
         starSystemForSave.setSecurity(model.getValueAsString(SECURITY_LOCALISED));
         starSystemForSave.setAllegiance(model.getValueAsString(ALLEGIANCE));
         starSystemForSave.setStarpos(model.getValueAsCoordinates(STAR_POS).getCoordString());
-        final DBStarsystem savedStarSystem = new Starsystem(dbi).writeOrGetStarsystem(journalId, starSystemForSave);
+        final Starsystem starsystemDao = new Starsystem(dbi);
+        final DBStarsystem savedStarSystem = starsystemDao.writeOrGetStarsystem(journalId, starSystemForSave);
+        starsystemDao.saveVisit(savedStarSystem);
         new Properties(dbi).save(ENTRIES.CURRENT_STAR_SYSTEM, savedStarSystem.getId());
 
         new Navlog(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), savedStarSystem.getId(),

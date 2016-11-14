@@ -4,6 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.dao.StarsystemDao;
+import de.dgroebner.edjson.db.dao.StarsystemVisitsDao;
+import de.dgroebner.edjson.db.model.DBShip;
+import de.dgroebner.edjson.db.model.DBStarport;
 import de.dgroebner.edjson.db.model.DBStarsystem;
 
 /**
@@ -42,6 +45,21 @@ public class Starsystem extends AbstractDBTable {
                         forSave.getAllegiance(), forSave.getGovernment(), forSave.getEconomy(), forSave.getStarpos());
             }
             return dao.findByName(forSave.getName());
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Speichert einen neuen Starsystem Besuch
+     * 
+     * @param saved {@link DBStarport}
+     */
+    public void saveVisit(final DBStarsystem saved) {
+        final DBShip ship = new Ship(getDbi()).getCurrentShip();
+        final StarsystemVisitsDao dao = getDbi().open(StarsystemVisitsDao.class);
+        try {
+            dao.insert(saved.getJournalId(), saved.getId(), ship.getId());
         } finally {
             dao.close();
         }

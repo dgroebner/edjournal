@@ -205,6 +205,32 @@ CREATE TABLE starport(
 )
 CREATE INDEX i_starport_name on starport (name);
 
+--drop table starport_visits
+CREATE TABLE starport_visits(
+    id INT IDENTITY(1,1) NOT NULL,
+	journal_id INT NOT NULL,
+	starport_id INT NOT NULL,
+	ship_id INT NULL,
+	CONSTRAINT pk_starportvisits PRIMARY KEY clustered (id),
+	CONSTRAINT fk_starportvisits_journal FOREIGN KEY (journal_id) REFERENCES journal (id) ON DELETE CASCADE,
+	CONSTRAINT fk_starportvisits_starport FOREIGN KEY (starport_id) REFERENCES starport (id) ON DELETE CASCADE,
+	CONSTRAINT fk_starportvisits_ship FOREIGN KEY (ship_id) REFERENCES ship (id) ON DELETE SET NULL
+);
+CREATE INDEX i_starportvisits_journalport on starport_visits (journal_id, starport_id);
+
+--drop table starsystem_visits
+CREATE TABLE starsystem_visits(
+    id INT IDENTITY(1,1) NOT NULL,
+	journal_id INT NOT NULL,
+	starsystem_id INT NOT NULL,
+	ship_id INT NULL,
+	CONSTRAINT pk_starsystemvisits PRIMARY KEY clustered (id),
+	CONSTRAINT fk_starsystemvisits_journal FOREIGN KEY (journal_id) REFERENCES journal (id) ON DELETE CASCADE,
+	CONSTRAINT fk_starsystemvisits_starsystem FOREIGN KEY (starsystem_id) REFERENCES starsystem (id) ON DELETE CASCADE,
+	CONSTRAINT fk_starsystemvisits_ship FOREIGN KEY (ship_id) REFERENCES ship (id) ON DELETE SET NULL
+);
+CREATE INDEX i_starsystemvisits_journalport on starsystem_visits (journal_id, starsystem_id);
+
 --drop table financedata
 CREATE TABLE financedata (
   id INT IDENTITY(1,1) NOT NULL,

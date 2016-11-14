@@ -8,8 +8,6 @@ import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Finanzdata;
 import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
-import de.dgroebner.edjson.db.Properties;
-import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.model.data.BuyAmmo;
@@ -23,8 +21,7 @@ public class BuyAmmoAction extends AbstractAction<BuyAmmo> {
 
     @Override
     protected String buildJournalMessage(final DBI dbi, final BuyAmmo model) {
-        final int id = new Properties(dbi).getIntValueForEntry(ENTRIES.CURRENT_SHIP);
-        final DBShip ship = new Ship(dbi).getById(id);
+        final DBShip ship = new Ship(dbi).getCurrentShip();
         final String callsign = StringUtils.defaultString(ship.getCallsign(), "unbenannt");
 
         return String.format("Munition für Schiff %s (%s) gekauft", callsign, ship.getType());

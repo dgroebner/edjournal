@@ -35,10 +35,10 @@ public class Navlog extends AbstractDBTable {
      */
     public void save(final int journalId, final LocalDateTime timestamp, final int toSystemId,
             final BigDecimal distance, final BigDecimal fuelUsed) {
-        final String currentShip = new Properties(getDbi()).getValueForEntry(ENTRIES.CURRENT_SHIP);
+        final int currentShip = new Properties(getDbi()).getIntValueForEntry(ENTRIES.CURRENT_SHIP);
         final NavlogDao dao = getDbi().open(NavlogDao.class);
         try {
-            dao.insert(journalId, Integer.parseInt(currentShip), timestamp, toSystemId, distance, fuelUsed);
+            dao.insert(journalId, currentShip, timestamp, toSystemId, distance, fuelUsed);
         } finally {
             dao.close();
         }

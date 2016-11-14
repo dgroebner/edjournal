@@ -7,8 +7,6 @@ import java.math.BigDecimal;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Properties;
-import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.model.data.HullDamage;
@@ -22,8 +20,7 @@ public class HullDamageAction extends AbstractAction<HullDamage> {
 
     @Override
     protected String buildJournalMessage(final DBI dbi, final HullDamage model) {
-        final int shipId = new Properties(dbi).getIntValueForEntry(ENTRIES.CURRENT_SHIP);
-        final DBShip ship = new Ship(dbi).getById(shipId);
+        final DBShip ship = new Ship(dbi).getCurrentShip();
         final String callsign = StringUtils.defaultString(ship.getCallsign(), "unbenannt");
 
         return String.format("Hüllenschaden an Schiff %s (%s). Verbleibende Hülle %s%%", callsign, ship.getType(),

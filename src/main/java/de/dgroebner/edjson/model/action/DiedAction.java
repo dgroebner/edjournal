@@ -7,8 +7,6 @@ import static de.dgroebner.edjson.model.data.Died.Fields.KILLER_SHIP;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Properties;
-import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.model.data.Died;
@@ -24,8 +22,7 @@ public class DiedAction extends AbstractAction<Died> {
 
     @Override
     protected String buildJournalMessage(final DBI dbi, final Died model) {
-        final int shipId = new Properties(dbi).getIntValueForEntry(ENTRIES.CURRENT_SHIP);
-        final DBShip ship = new Ship(dbi).getById(shipId);
+        final DBShip ship = new Ship(dbi).getCurrentShip();
         final String callsign = StringUtils.defaultString(ship.getCallsign(), "unbenannt");
         
         final StringBuilder message = new StringBuilder();
