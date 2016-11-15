@@ -1,5 +1,9 @@
 package de.dgroebner.edjson.model.data;
 
+import static de.dgroebner.edjson.model.data.MaterialDiscovered.Fields.CATEGORY;
+import static de.dgroebner.edjson.model.data.MaterialDiscovered.Fields.DISCOVERY_NUMBER;
+import static de.dgroebner.edjson.model.data.MaterialDiscovered.Fields.NAME;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -75,5 +79,11 @@ public class MaterialDiscovered extends GenericModel<MaterialDiscovered.Fields> 
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        return String.format("Neues Material %s der Kategorie %s gefunden. Anzahl: %d", getValueAsString(NAME),
+                getValueAsString(CATEGORY), Integer.valueOf(getValueAsInt(DISCOVERY_NUMBER)));
     }
 }

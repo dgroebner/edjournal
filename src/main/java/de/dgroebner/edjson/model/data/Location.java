@@ -35,14 +35,15 @@ public class Location extends GenericModel<Location.Fields> {
         STAR_POS("StarPos", Coordinates.class),
         BODY("Body", String.class),
         BODY_TYPE("BodyType", String.class),
-        FACTION("Faction", String.class),
+        SYSTEM_FACTION("SystemFaction", String.class),
         FACTION_STATE("FactionState", String.class),
-        ALLEGIANCE("Allegiance", String.class),
-        ECONOMY("Economy", String.class),
-        ECONOMY_LOCALISED("Economy_Localised", String.class),
-        GOVERNMENT("Government", String.class),
-        GOVERNMENT_LOCALISED("Government_Localised", String.class),
-        SECURITY_LOCALISED("Security_Localised", String.class);
+        SYSTEM_ALLEGIANCE("SystemAllegiance", String.class),
+        SYSTEM_ECONOMY("SystemEconomy", String.class),
+        SYSTEM_ECONOMY_LOCALISED("SystemEconomy_Localised", String.class),
+        SYSTEM_GOVERNMENT("SystemGovernment", String.class),
+        SYSTEM_GOVERNMENT_LOCALISED("SystemGovernment_Localised", String.class),
+        SYSTEM_SECURITY("SystemSecurity", String.class),
+        SYSTEM_SECURITY_LOCALISED("SystemSecurity_Localised", String.class);
         /* @formatter:on */
 
         private String code;

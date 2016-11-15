@@ -1,10 +1,10 @@
 package de.dgroebner.edjson.model.action;
 
-import static de.dgroebner.edjson.model.data.Docked.Fields.ALLEGIANCE;
-import static de.dgroebner.edjson.model.data.Docked.Fields.ECONOMY_LOCALISED;
-import static de.dgroebner.edjson.model.data.Docked.Fields.FACTION;
+import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_ALLEGIANCE;
+import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_ECONOMY_LOCALISED;
+import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_FACTION;
 import static de.dgroebner.edjson.model.data.Docked.Fields.FACTION_STATE;
-import static de.dgroebner.edjson.model.data.Docked.Fields.GOVERNMENT_LOCALISED;
+import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_GOVERNMENT_LOCALISED;
 import static de.dgroebner.edjson.model.data.Docked.Fields.SECURITY_LOCALISED;
 import static de.dgroebner.edjson.model.data.Docked.Fields.STAR_SYSTEM;
 import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_NAME;
@@ -31,7 +31,7 @@ public class DockedAction extends AbstractAction<Docked> {
 
     @Override
     public void doActionOn(final DBI dbi, final int journalId, final Docked model) {
-        final DBFaction faction = new Faction(dbi).writeOrGetFraction(journalId, model.getValueAsString(FACTION),
+        final DBFaction faction = new Faction(dbi).writeOrGetFraction(journalId, model.getValueAsString(STATION_FACTION),
                 model.getValueAsString(FACTION_STATE));
         new Properties(dbi).save(ENTRIES.CURRENT_LOCAL_FACTION, faction.getId());
 
@@ -42,10 +42,10 @@ public class DockedAction extends AbstractAction<Docked> {
         starPort.setStarsystemId(savedStarSystem.getId());
         starPort.setName(model.getValueAsString(STATION_NAME));
         starPort.setType(model.getValueAsString(STATION_TYPE));
-        starPort.setEconomy(model.getValueAsString(ECONOMY_LOCALISED));
-        starPort.setGovernment(model.getValueAsString(GOVERNMENT_LOCALISED));
+        starPort.setEconomy(model.getValueAsString(STATION_ECONOMY_LOCALISED));
+        starPort.setGovernment(model.getValueAsString(STATION_GOVERNMENT_LOCALISED));
         starPort.setSecurity(model.getValueAsString(SECURITY_LOCALISED));
-        starPort.setAllegiance(model.getValueAsString(ALLEGIANCE));
+        starPort.setAllegiance(model.getValueAsString(STATION_ALLEGIANCE));
         new Starport(dbi).writeOrGetStarport(journalId, starPort);
     }
 

@@ -25,7 +25,6 @@ import de.dgroebner.edjson.model.action.LoggingAction;
 import de.dgroebner.edjson.model.action.MarketBuyAction;
 import de.dgroebner.edjson.model.action.MarketSellAction;
 import de.dgroebner.edjson.model.action.MaterialCollectedAction;
-import de.dgroebner.edjson.model.action.MaterialDiscoveredAction;
 import de.dgroebner.edjson.model.action.MissionAcceptedAction;
 import de.dgroebner.edjson.model.action.MissionCompletedAction;
 import de.dgroebner.edjson.model.action.MissionFailedAction;
@@ -192,7 +191,7 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     SCAN("Scan", Scan.class, ScanAction.class),
     MATERIAL_COLLECTED("MaterialCollected", MaterialCollected.class, MaterialCollectedAction.class),
     MATERIAL_DISCARDED("MaterialDiscarded", MaterialDiscarded.class),
-    MATERIAL_DISCOVERED("MaterialDiscovered", MaterialDiscovered.class, MaterialDiscoveredAction.class),
+    MATERIAL_DISCOVERED("MaterialDiscovered", MaterialDiscovered.class),
     BUY_EXPLORATION_DATA("BuyExplorationData", BuyExplorationData.class),
     SELL_EXPLORATION_DATA("SellExplorationData", SellExplorationData.class, SellExplorationDataAction.class),
     SCREENSHOT("Screenshot", Screenshot.class),

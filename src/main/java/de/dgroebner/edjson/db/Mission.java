@@ -3,6 +3,7 @@ package de.dgroebner.edjson.db;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
+import de.dgroebner.edjson.db.Mission.STATUS;
 import de.dgroebner.edjson.db.dao.MissionDao;
 import de.dgroebner.edjson.db.model.DBMission;
 
@@ -13,6 +14,11 @@ import de.dgroebner.edjson.db.model.DBMission;
  */
 public class Mission extends AbstractDBTable {
 
+    /**
+     * Enum der Missionsstatus
+     * 
+     * @author dgroebner
+     */
     public enum STATUS {
         ACCEPTED, COMPLETED, DECLINED, FAILED;
     }

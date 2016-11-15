@@ -87,7 +87,7 @@ public class CommitCrime extends GenericModel<CommitCrime.Fields> {
 
         final String victim = getValueAsString(Fields.VICTIM);
         if (StringUtils.isNotBlank(victim)) {
-            message.append(String.format("gegen %s", victim));
+            message.append(String.format(" gegen %s", victim));
         }
         
         message.append(String.format(" festgestellt von %s", getValueAsString(Fields.FACTION)));

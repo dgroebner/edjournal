@@ -33,14 +33,14 @@ public class Docked extends GenericModel<Docked.Fields> {
         STATION_TYPE("StationType", String.class),
         STAR_SYSTEM("StarSystem", String.class),
         COCKPIT_BREACH("CockpitBreach", Boolean.class),
-        FACTION("Faction", String.class),
+        STATION_FACTION("StationFaction", String.class),
         FACTION_STATE("FactionState", String.class),
-        ECONOMY("Economy", String.class),
-        ECONOMY_LOCALISED("Economy_Localised", String.class),
-        GOVERNMENT("Government", String.class),
-        GOVERNMENT_LOCALISED("Government_Localised", String.class),
+        STATION_ECONOMY("StationEconomy", String.class),
+        STATION_ECONOMY_LOCALISED("StationEconomy_Localised", String.class),
+        STATION_GOVERNMENT("StationGovernment", String.class),
+        STATION_GOVERNMENT_LOCALISED("StationGovernment_Localised", String.class),
         SECURITY_LOCALISED("Security_Localised", String.class),
-        ALLEGIANCE("Allegiance", String.class);
+        STATION_ALLEGIANCE("StationAllegiance", String.class);
         /* @formatter:on */
 
         private String code;
