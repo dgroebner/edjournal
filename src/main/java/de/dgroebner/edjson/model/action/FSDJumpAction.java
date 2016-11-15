@@ -1,15 +1,15 @@
 package de.dgroebner.edjson.model.action;
 
-import static de.dgroebner.edjson.model.data.FSDJump.Fields.ALLEGIANCE;
-import static de.dgroebner.edjson.model.data.FSDJump.Fields.ECONOMY_LOCALISED;
-import static de.dgroebner.edjson.model.data.FSDJump.Fields.FACTION;
 import static de.dgroebner.edjson.model.data.FSDJump.Fields.FACTION_STATE;
 import static de.dgroebner.edjson.model.data.FSDJump.Fields.FUEL_USED;
-import static de.dgroebner.edjson.model.data.FSDJump.Fields.GOVERNMENT_LOCALISED;
 import static de.dgroebner.edjson.model.data.FSDJump.Fields.JUMP_DIST;
-import static de.dgroebner.edjson.model.data.FSDJump.Fields.SECURITY_LOCALISED;
 import static de.dgroebner.edjson.model.data.FSDJump.Fields.STAR_POS;
 import static de.dgroebner.edjson.model.data.FSDJump.Fields.STAR_SYSTEM;
+import static de.dgroebner.edjson.model.data.FSDJump.Fields.SYSTEM_ALLEGIANCE;
+import static de.dgroebner.edjson.model.data.FSDJump.Fields.SYSTEM_ECONOMY_LOCALISED;
+import static de.dgroebner.edjson.model.data.FSDJump.Fields.SYSTEM_FACTION;
+import static de.dgroebner.edjson.model.data.FSDJump.Fields.SYSTEM_GOVERNMENT_LOCALISED;
+import static de.dgroebner.edjson.model.data.FSDJump.Fields.SYSTEM_SECURITY_LOCALISED;
 import static de.dgroebner.edjson.model.data.FSDJump.Fields.TIMESTAMP;
 
 import org.skife.jdbi.v2.DBI;
@@ -32,16 +32,16 @@ public class FSDJumpAction extends AbstractAction<FSDJump> {
 
     @Override
     public void doActionOn(final DBI dbi, final int journalId, final FSDJump model) {
-        final DBFaction faction = new Faction(dbi).writeOrGetFraction(journalId, model.getValueAsString(FACTION),
+        final DBFaction faction = new Faction(dbi).writeOrGetFraction(journalId, model.getValueAsString(SYSTEM_FACTION),
                 model.getValueAsString(FACTION_STATE));
 
         final DBStarsystem starSystemForSave = new DBStarsystem();
         starSystemForSave.setFactionId(faction.getId());
         starSystemForSave.setName(model.getValueAsString(STAR_SYSTEM));
-        starSystemForSave.setEconomy(model.getValueAsString(ECONOMY_LOCALISED));
-        starSystemForSave.setGovernment(model.getValueAsString(GOVERNMENT_LOCALISED));
-        starSystemForSave.setSecurity(model.getValueAsString(SECURITY_LOCALISED));
-        starSystemForSave.setAllegiance(model.getValueAsString(ALLEGIANCE));
+        starSystemForSave.setEconomy(model.getValueAsString(SYSTEM_ECONOMY_LOCALISED));
+        starSystemForSave.setGovernment(model.getValueAsString(SYSTEM_GOVERNMENT_LOCALISED));
+        starSystemForSave.setSecurity(model.getValueAsString(SYSTEM_SECURITY_LOCALISED));
+        starSystemForSave.setAllegiance(model.getValueAsString(SYSTEM_ALLEGIANCE));
         starSystemForSave.setStarpos(model.getValueAsCoordinates(STAR_POS).getCoordString());
         final Starsystem starsystemDao = new Starsystem(dbi);
         final DBStarsystem savedStarSystem = starsystemDao.writeOrGetStarsystem(journalId, starSystemForSave);
