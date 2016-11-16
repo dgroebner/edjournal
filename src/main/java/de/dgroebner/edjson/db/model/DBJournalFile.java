@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  * 
  * @author dgroebner
  */
-public class DBJournalFileModel extends AbstractModel {
+public class DBJournalFile extends AbstractModel {
 
     private String filename;
 
@@ -20,7 +20,7 @@ public class DBJournalFileModel extends AbstractModel {
      * @param filename {@link String}
      * @param readDate {@link LocalDateTime}
      */
-    public DBJournalFileModel(final int id, final String filename, final LocalDateTime readDate) {
+    public DBJournalFile(final int id, final String filename, final LocalDateTime readDate) {
         super(id);
         this.filename = filename;
         this.readDate = readDate;

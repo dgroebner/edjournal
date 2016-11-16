@@ -2,11 +2,14 @@ package de.dgroebner.edjson.db;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.dao.NavlogDao;
+import de.dgroebner.edjson.db.dao.VNavlogDao;
+import de.dgroebner.edjson.db.model.VNavlog;
 
 /**
  * Methoden für die Datenbanktabelle 'navlog' zur Speicherung des Navigationsprotokolls
@@ -39,6 +42,20 @@ public class Navlog extends AbstractDBTable {
         final NavlogDao dao = getDbi().open(NavlogDao.class);
         try {
             dao.insert(journalId, currentShip, timestamp, toSystemId, distance, fuelUsed);
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Gibt das Navigationslog zurück
+     * 
+     * @return {@link List} of {@link VNavlog}
+     */
+    public List<VNavlog> getNavlog() {
+        final VNavlogDao dao = getDbi().open(VNavlogDao.class);
+        try {
+            return dao.list();
         } finally {
             dao.close();
         }

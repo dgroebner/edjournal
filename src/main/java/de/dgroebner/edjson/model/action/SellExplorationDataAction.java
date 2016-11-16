@@ -7,8 +7,8 @@ import static de.dgroebner.edjson.model.data.SellExplorationData.Fields.TIMESTAM
 
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Finanzdata;
-import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Financedata.CATEGORY;
 import de.dgroebner.edjson.model.data.SellExplorationData;
 
 /**
@@ -20,7 +20,7 @@ public class SellExplorationDataAction extends AbstractAction<SellExplorationDat
 
     @Override
     public void doActionOn(final DBI dbi, final int journalId, final SellExplorationData model) {
-        new Finanzdata(dbi).save(
+        new Financedata(dbi).save(
                 journalId,
                 model.getValueAsLocalDateTime(TIMESTAMP),
                 model.getValueAsInt(BASE_VALUE),
@@ -30,7 +30,7 @@ public class SellExplorationDataAction extends AbstractAction<SellExplorationDat
 
         final int bonus = model.getValueAsInt(BONUS);
         if (bonus > 0) {
-            new Finanzdata(dbi).save(
+            new Financedata(dbi).save(
                     journalId,
                     model.getValueAsLocalDateTime(TIMESTAMP),
                     model.getValueAsInt(BASE_VALUE),

@@ -9,8 +9,8 @@ import static de.dgroebner.edjson.model.data.ModuleStore.Fields.TIMESTAMP;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Finanzdata;
-import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Financedata.CATEGORY;
 import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.model.data.ModuleStore;
@@ -35,7 +35,7 @@ public class ModuleStoreAction extends AbstractAction<ModuleStore> {
     public void doActionOn(final DBI dbi, final int journalId, final ModuleStore model) {
         final int cost = model.getValueAsInt(COST);
         if (cost != 0) {
-            new Finanzdata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), cost, CATEGORY.MODUL_STORAGE,
+            new Financedata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), cost, CATEGORY.MODUL_STORAGE,
                     String.format("Modul %s eingelagert", model.getValueAsString(STORED_ITEM_LOCALISED)));
         }
     }

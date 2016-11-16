@@ -12,8 +12,8 @@ import static de.dgroebner.edjson.model.data.ShipyardBuy.Fields.TIMESTAMP;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Finanzdata;
-import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Financedata.CATEGORY;
 import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.model.data.ShipyardBuy;
@@ -46,13 +46,13 @@ public class ShipyardBuyAction extends AbstractAction<ShipyardBuy> {
             final DBShip oldShip = new Ship(dbi).saveAndGetShip(model.getValueAsInt(SELL_SHIP_ID),
                     model.getValueAsString(SELL_OLD_SHIP));
             final String callsign = StringUtils.defaultString(oldShip.getCallsign(), "unbenannt");
-            new Finanzdata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), sellprice,
+            new Financedata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), sellprice,
                     CATEGORY.SHIP_COSTS, String.format("Schiff %s (%s) verkauft", callsign, oldShip.getType()));
 
             new Ship(dbi).delete(oldShip.getEdId());
         }
 
-        new Finanzdata(dbi)
+        new Financedata(dbi)
                 .save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), model.getValueAsInt(SHIP_PRICE) * -1,
                         CATEGORY.SHIP_COSTS,
                         String.format("Schiff vom Typ %s gekauft", model.getValueAsString(SHIP_TYPE)));

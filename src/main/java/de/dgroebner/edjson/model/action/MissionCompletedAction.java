@@ -8,8 +8,8 @@ import static de.dgroebner.edjson.model.data.MissionCompleted.Fields.REWARD;
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Faction;
-import de.dgroebner.edjson.db.Finanzdata;
-import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Financedata.CATEGORY;
 import de.dgroebner.edjson.db.Mission;
 import de.dgroebner.edjson.db.Mission.STATUS;
 import de.dgroebner.edjson.db.model.DBFaction;
@@ -32,7 +32,7 @@ public class MissionCompletedAction extends AbstractAction<MissionCompleted> {
         final int reward = model.getValueAsInt(REWARD);
         if (reward > 0) {
             final DBFaction faction = new Faction(dbi).writeOrGetFraction(journalId, model.getValueAsString(FACTION));
-            final int financeId = new Finanzdata(dbi).save(journalId, model.getTimestamp(), reward, CATEGORY.MISSIONS,
+            final int financeId = new Financedata(dbi).save(journalId, model.getTimestamp(), reward, CATEGORY.MISSIONS,
                     "Missionsbelonung", faction.getName(), faction.getState());
             mission.updateFinanceId(model.getValueAsInt(MISSION_ID), financeId, reward);
         }
@@ -40,7 +40,7 @@ public class MissionCompletedAction extends AbstractAction<MissionCompleted> {
         final int donation = model.getValueAsInt(DONATION);
         if (donation > 0) {
             final DBFaction faction = new Faction(dbi).writeOrGetFraction(journalId, model.getValueAsString(FACTION));
-            final int financeId = new Finanzdata(dbi).save(journalId, model.getTimestamp(), donation * -1,
+            final int financeId = new Financedata(dbi).save(journalId, model.getTimestamp(), donation * -1,
                     CATEGORY.MISSIONS, "Spende geleistet", faction.getName(), faction.getState());
             mission.updateFinanceId(model.getValueAsInt(MISSION_ID), financeId, reward);
         }

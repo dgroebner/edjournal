@@ -10,8 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Faction;
-import de.dgroebner.edjson.db.Finanzdata;
-import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Financedata.CATEGORY;
 import de.dgroebner.edjson.db.Properties;
 import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.Ship;
@@ -38,7 +38,7 @@ public class LoadGameAction extends AbstractAction<LoadGame> {
 
     @Override
     public void doActionOn(final DBI dbi, final int journalId, final LoadGame model) {
-        final Finanzdata finanzdata = new Finanzdata(dbi);
+        final Financedata finanzdata = new Financedata(dbi);
         final int currentAmount = finanzdata.getSaldo();
         final int credits = model.getValueAsInt(CREDITS);
         if (currentAmount != model.getValueAsInt(CREDITS)) {

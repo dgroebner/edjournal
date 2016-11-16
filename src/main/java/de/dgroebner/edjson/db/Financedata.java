@@ -12,7 +12,7 @@ import de.dgroebner.edjson.db.model.DBFaction;
  * 
  * @author dgroebner
  */
-public class Finanzdata extends AbstractDBTable {
+public class Financedata extends AbstractDBTable {
 
     /**
      * Umsatzkategorien
@@ -28,7 +28,7 @@ public class Finanzdata extends AbstractDBTable {
      *
      * @param dbi {@link DBI}
      */
-    public Finanzdata(final DBI dbi) {
+    public Financedata(final DBI dbi) {
         super(dbi);
     }
 

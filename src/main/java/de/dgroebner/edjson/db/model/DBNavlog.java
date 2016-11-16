@@ -46,7 +46,6 @@ public class DBNavlog extends AbstractModel {
             final int tosystemId, final BigDecimal distance, final BigDecimal fuelused) {
         super(id);
         this.journalId = journalId;
-        this.timestamp = timestamp;
         this.shipId = shipId;
         this.timestamp = timestamp;
         this.tosystemId = tosystemId;

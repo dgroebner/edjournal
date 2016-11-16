@@ -3,7 +3,7 @@ package de.dgroebner.edjson.model.action;
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Journal;
-import de.dgroebner.edjson.db.model.DBJournalModel;
+import de.dgroebner.edjson.db.model.DBJournal;
 import de.dgroebner.edjson.model.JournalModel;
 
 /**
@@ -17,7 +17,7 @@ public abstract class AbstractAction<M extends JournalModel> implements JournalE
 
     @Override
     public int writeJournalToDatabase(final DBI dbi, final int journalFileId, final M model) {
-        final DBJournalModel dbJournal = new DBJournalModel();
+        final DBJournal dbJournal = new DBJournal();
         dbJournal.setJournalfileId(journalFileId);
         dbJournal.setTimestamp(model.getTimestamp());
         dbJournal.setEvent(model.getEvent());

@@ -1,10 +1,15 @@
 package de.dgroebner.edjson.db;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.dao.ShipDao;
+import de.dgroebner.edjson.db.dao.VShipSummaryDao;
 import de.dgroebner.edjson.db.model.DBShip;
+import de.dgroebner.edjson.db.model.VShipSummary;
 
 /**
  * Methoden für die Datenbanktabelle 'ship' zur Speicherung der Schiffe
@@ -82,6 +87,22 @@ public class Ship extends AbstractDBTable {
     public DBShip getCurrentShip() {
         final int shipId = new Properties(getDbi()).getIntValueForEntry(ENTRIES.CURRENT_SHIP);
         return getById(shipId);
+    }
+
+    /**
+     * Gibt das Schiff für die aktuelle ID zurück
+     * 
+     * @return {@link List} of {@link VShipSummary}
+     */
+    public List<VShipSummary> listShipSummary() {
+        final VShipSummaryDao dao = getDbi().open(VShipSummaryDao.class);
+        try {
+            return dao.list().stream()
+                    .sorted((VShipSummary o1, VShipSummary o2) -> o1.getCallsign().compareTo(o2.getCallsign()))
+                    .collect(Collectors.toList());
+        } finally {
+            dao.close();
+        }
     }
 
 }

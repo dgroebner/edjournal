@@ -6,8 +6,8 @@ import static de.dgroebner.edjson.model.data.Resurrect.Fields.OPTION;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Finanzdata;
-import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Financedata.CATEGORY;
 import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.model.data.Resurrect;
@@ -40,7 +40,7 @@ public class ResurrectAction extends AbstractAction<Resurrect> {
     public void doActionOn(final DBI dbi, final int journalId, final Resurrect model) {
         final int cost = model.getValueAsInt(COST);
         if (cost > 0) {
-            new Finanzdata(dbi).save(journalId, model.getTimestamp(), cost * -1, CATEGORY.INSURANCE,
+            new Financedata(dbi).save(journalId, model.getTimestamp(), cost * -1, CATEGORY.INSURANCE,
                     "Versicherungskosten für Schiffswiederherstellung");
         }
     }

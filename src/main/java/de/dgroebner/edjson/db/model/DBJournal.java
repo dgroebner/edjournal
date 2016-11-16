@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  * 
  * @author dgroebner
  */
-public class DBJournalModel extends AbstractModel {
+public class DBJournal extends AbstractModel {
 
     private int journalfileId;
 
@@ -20,7 +20,7 @@ public class DBJournalModel extends AbstractModel {
     /**
      * Constructor.
      */
-    public DBJournalModel() {
+    public DBJournal() {
         // Default Constructor
     }
 
@@ -33,7 +33,7 @@ public class DBJournalModel extends AbstractModel {
      * @param event {@link String}
      * @param message {@link String}
      */
-    public DBJournalModel(final int id, final int journalfileId, final LocalDateTime timestamp, final String event,
+    public DBJournal(final int id, final int journalfileId, final LocalDateTime timestamp, final String event,
             final String message) {
         super(id);
         this.journalfileId = journalfileId;

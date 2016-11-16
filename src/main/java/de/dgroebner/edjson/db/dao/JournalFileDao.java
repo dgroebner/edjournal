@@ -13,7 +13,7 @@ import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 import de.dgroebner.edjson.db.binder.LocalDateTimeBinder;
 import de.dgroebner.edjson.db.mapper.JournalFileMapper;
-import de.dgroebner.edjson.db.model.DBJournalFileModel;
+import de.dgroebner.edjson.db.model.DBJournalFile;
 
 /**
  * DAO-Interface für die Tabelle 'journalfile'
@@ -36,10 +36,10 @@ public interface JournalFileDao extends AbstractDao {
      * Gibt das Journalfile für den übergebenen Dateinamen zurück
      * 
      * @param filename {@link String}
-     * @return {@link DBJournalFileModel}
+     * @return {@link DBJournalFile}
      */
     @SqlQuery("SELECT id, filename, readdate FROM journalfile WHERE filename = :filename")
-    DBJournalFileModel findByFilename(@Bind(COLUMN_FILENAME) String filename);
+    DBJournalFile findByFilename(@Bind(COLUMN_FILENAME) String filename);
 
     /**
      * Fügt eine neue Datei hinzu und gibt die erzeugte ID zurück

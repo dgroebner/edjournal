@@ -304,3 +304,42 @@ CREATE TABLE mission (
 	CONSTRAINT fk_mission_finance FOREIGN KEY (finance_id) REFERENCES financedata (id),
 )
 CREATE INDEX i_mission_missionid on mission (missionId);
+
+go
+if exists (select 1 from sysobjects where name = 'vshipsummary')
+   drop view vshipsummary
+go
+create view vshipsummary (type, callsign, inara_url, distance)
+ as 
+select type, callsign, inara_url, 
+       (select ISNULL(SUM(distance), 0) 
+	      from navlog where ship_id = ship.id)
+ from ship
+
+if exists (select 1 from sysobjects where name = 'vsystemsvisitedsummary')
+   drop view vsystemsvisitedsummary
+go
+create view vsystemsvisitedsummary (visits, systemname, system_inaraurl, 
+       faction_name, faction_inaraurl, security, allegiance,
+	   government, economy, starpos)
+ as 
+select count(*), starsystem.name, starsystem.inara_url, 
+       faction.name, faction.inara_url, security, starsystem.allegiance,
+	   government, economy, starpos
+  from starsystem_visits
+  join starsystem on starsystem.id = starsystem_id
+  left join faction on faction.id = faction_id
+  group by starsystem.name, starsystem.inara_url, 
+       faction.name, faction.inara_url, security, starsystem.allegiance,
+	   government, economy, starpos
+
+go
+if exists (select 1 from sysobjects where name = 'vnavlog')
+   drop view vnavlog
+go
+create view vnavlog (shipname, shiptype, ship_url, timestamp, systemname, system_url, distance, fuelused)
+ as  
+select ship.callsign, ship.type, ship.inara_url, navlog.timestamp, starsystem.name, starsystem.inara_url, distance, fuelused 
+  from navlog
+  left join ship on ship.id = ship_id
+  join starsystem on starsystem.id = tosystem_id

@@ -9,8 +9,8 @@ import static de.dgroebner.edjson.model.data.ModuleSell.Fields.TIMESTAMP;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Finanzdata;
-import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Financedata.CATEGORY;
 import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.model.data.ModuleSell;
@@ -33,7 +33,7 @@ public class ModuleSellAction extends AbstractAction<ModuleSell> {
 
     @Override
     public void doActionOn(final DBI dbi, final int journalId, final ModuleSell model) {
-        new Finanzdata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), model.getValueAsInt(SELL_PRICE),
+        new Financedata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), model.getValueAsInt(SELL_PRICE),
                 CATEGORY.MODUL_COSTS, String.format("Modul %s verkauft", model.getValueAsString(SELL_ITEM_LOCALISED)));
     }
 

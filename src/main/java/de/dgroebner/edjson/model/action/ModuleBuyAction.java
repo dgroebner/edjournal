@@ -12,8 +12,8 @@ import static de.dgroebner.edjson.model.data.ModuleBuy.Fields.TIMESTAMP;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Finanzdata;
-import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Financedata.CATEGORY;
 import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.model.data.ModuleBuy;
@@ -46,13 +46,13 @@ public class ModuleBuyAction extends AbstractAction<ModuleBuy> {
     public void doActionOn(final DBI dbi, final int journalId, final ModuleBuy model) {
         final int cost = model.getValueAsInt(BUY_PRICE) * -1;
         if (cost != 0) {
-            new Finanzdata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), cost, CATEGORY.MODUL_COSTS,
+            new Financedata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), cost, CATEGORY.MODUL_COSTS,
                     String.format("Modul %s gekauft", model.getValueAsString(BUY_ITEM_LOCALISED)));
         }
 
         final int sellPrice = model.getValueAsInt(SELL_PRICE);
         if (sellPrice != 0) {
-            new Finanzdata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), sellPrice,
+            new Financedata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), sellPrice,
                     CATEGORY.MODUL_COSTS,
                     String.format("Modul %s verkauft", model.getValueAsString(SELL_ITEM_LOCALISED)));
         }

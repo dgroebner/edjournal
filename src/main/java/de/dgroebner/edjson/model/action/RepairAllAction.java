@@ -6,8 +6,8 @@ import static de.dgroebner.edjson.model.data.RepairAll.Fields.TIMESTAMP;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Finanzdata;
-import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Financedata.CATEGORY;
 import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.model.data.RepairAll;
@@ -29,7 +29,7 @@ public class RepairAllAction extends AbstractAction<RepairAll> {
 
     @Override
     public void doActionOn(final DBI dbi, final int journalId, final RepairAll model) {
-        new Finanzdata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), model.getValueAsInt(COST) * -1,
+        new Financedata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), model.getValueAsInt(COST) * -1,
                 CATEGORY.OPERATING_COSTS, "Schiff repariert.");
     }
 

@@ -3,6 +3,7 @@ package de.dgroebner.edjson.db;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
+import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.dao.StarsystemDao;
 import de.dgroebner.edjson.db.dao.StarsystemVisitsDao;
 import de.dgroebner.edjson.db.model.DBShip;
@@ -76,6 +77,21 @@ public class Starsystem extends AbstractDBTable {
         final StarsystemDao dao = getDbi().open(StarsystemDao.class);
         try {
             return dao.findByName(name);
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Liefert das gespeicherte Sternensystem für den übergebenen Namen
+     * 
+     * @return {@link DBStarsystem}
+     */
+    public DBStarsystem getCurrentSystem() {
+        final int id = new Properties(getDbi()).getIntValueForEntry(ENTRIES.CURRENT_STAR_SYSTEM);
+        final StarsystemDao dao = getDbi().open(StarsystemDao.class);
+        try {
+            return dao.findById(id);
         } finally {
             dao.close();
         }

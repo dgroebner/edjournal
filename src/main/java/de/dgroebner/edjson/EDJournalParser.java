@@ -2,22 +2,35 @@ package de.dgroebner.edjson;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.json.JSONObject;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Journal;
 import de.dgroebner.edjson.db.JournalFile;
+import de.dgroebner.edjson.db.Navlog;
+import de.dgroebner.edjson.db.Ship;
+import de.dgroebner.edjson.db.Starsystem;
 import de.dgroebner.edjson.model.EDJournalEvents;
 import de.dgroebner.edjson.model.JournalModel;
 
@@ -115,6 +128,37 @@ public class EDJournalParser {
         final Collection<File> files = FileUtils.listFiles(dir, new WildcardFileFilter("*.log"), null);
         LOGGER.info("{} Dateien gefunden", Integer.toString(files.size()));
         files.forEach(EDJournalParser::parse);
+        final EDJournalParser parser = new EDJournalParser(dir);
+        parser.createReports();
+    }
+
+    private void createReports() {
+        final Properties props = new Properties();
+        props.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+        props.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+        Velocity.init(props);
+        final VelocityContext context = new VelocityContext();
+
+        final Ship shipDao = new Ship(dbi);
+        context.put("journalList", new Journal(dbi).listJournals());
+        context.put("currentShip", shipDao.getCurrentShip());
+        context.put("shipList", shipDao.listShipSummary());
+        context.put("currentSystem", new Starsystem(dbi).getCurrentSystem());
+        context.put("currentCredits", Integer.valueOf(new Financedata(dbi).getSaldo()));
+        context.put("navLogList", new Navlog(dbi).getNavlog());
+
+        final Template journalTemplate = Velocity.getTemplate("templates/journalTemplate.vm");
+
+        final StringWriter sw = new StringWriter();
+        journalTemplate.merge(context, sw);
+        try {
+            final File journalReport = new File(
+                    "c:\\Users\\dgroebner\\Saved Games\\Frontier Developments\\Elite Dangerous\\reports\\journal.html");
+            FileUtils.write(journalReport, sw.toString(), Charsets.UTF_8, false);
+        } catch (IOException e) {
+            throw Throwables.propagate(e);
+
+        }
     }
 
     /**

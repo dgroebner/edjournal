@@ -6,14 +6,17 @@ import static de.dgroebner.edjson.db.mapper.JournalMapper.COLUMN_MESSAGE;
 import static de.dgroebner.edjson.db.mapper.JournalMapper.COLUMN_TIMESTAMP;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
+import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 import de.dgroebner.edjson.db.binder.LocalDateTimeBinder;
 import de.dgroebner.edjson.db.mapper.JournalMapper;
+import de.dgroebner.edjson.db.model.DBJournal;
 
 /**
  * DAO-Interface für die Tabelle 'journal'
@@ -38,4 +41,11 @@ public interface JournalDao extends AbstractDao {
             @Bind(value = COLUMN_TIMESTAMP, binder = LocalDateTimeBinder.class) LocalDateTime timestamp,
             @Bind(COLUMN_EVENT) String event, @Bind(COLUMN_MESSAGE) String message);
 
+    /**
+     * Gibt eine Liste aller Journaleinträge zurück
+     * 
+     * @return {@link List} von {@link DBJournal}
+     */
+    @SqlQuery("SELECT TOP 1000 id, journalfile_id, timestamp, event, message FROM journal ORDER BY timestamp DESC")
+    List<DBJournal> list();
 }

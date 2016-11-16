@@ -1,5 +1,6 @@
 package de.dgroebner.edjson.db.dao;
 
+import static de.dgroebner.edjson.db.mapper.AbstractMapper.COLUMN_ID;
 import static de.dgroebner.edjson.db.mapper.AbstractMapper.COLUMN_INARA_URL;
 import static de.dgroebner.edjson.db.mapper.AbstractMapper.COLUMN_JOURNAL_ID;
 import static de.dgroebner.edjson.db.mapper.StarsystemMapper.COLUMN_ALLGIANCE;
@@ -74,5 +75,14 @@ public interface StarsystemDao extends AbstractDao {
      */
     @SqlQuery("SELECT id, journal_id, name, inara_url, faction_id, security, allegiance, government, economy, starpos FROM starsystem WHERE name = :name")
     DBStarsystem findByName(@Bind(COLUMN_NAME) String name);
+
+    /**
+     * Selektiert ein Sternensystem anhand des Namens
+     * 
+     * @param id int
+     * @return DBStarsystem
+     */
+    @SqlQuery("SELECT id, journal_id, name, inara_url, faction_id, security, allegiance, government, economy, starpos FROM starsystem WHERE id = :id")
+    DBStarsystem findById(@Bind(COLUMN_ID) int id);
 
 }

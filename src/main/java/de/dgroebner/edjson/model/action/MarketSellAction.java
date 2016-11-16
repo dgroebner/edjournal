@@ -9,8 +9,8 @@ import static de.dgroebner.edjson.model.data.MarketSell.Fields.TYPE;
 
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Finanzdata;
-import de.dgroebner.edjson.db.Finanzdata.CATEGORY;
+import de.dgroebner.edjson.db.Financedata;
+import de.dgroebner.edjson.db.Financedata.CATEGORY;
 import de.dgroebner.edjson.model.data.MarketSell;
 
 /**
@@ -34,7 +34,7 @@ public class MarketSellAction extends AbstractAction<MarketSell> {
         remark.append((profit < 0) ? "Verlust" : "Gewinn");
         remark.append(" je Tonne ").append(Integer.toString(profit)).append("cr");
         
-        new Finanzdata(dbi).save(journalId, model.getTimestamp(), model.getValueAsInt(TOTAL_SALE), category,
+        new Financedata(dbi).save(journalId, model.getTimestamp(), model.getValueAsInt(TOTAL_SALE), category,
                 remark.toString());
     }
 

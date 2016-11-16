@@ -1,0 +1,108 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play">
+  <style>
+     body,h1,h2,h3,h4,h5 {font-family: "Play", sans-serif}
+  </style>
+  
+  <body class="w3-light-grey">
+    <div class="w3-content" style="max-width:1400px">
+      <div class="w3-col l8 s12">
+        <div class="w3-card-4 w3-margin w3-white">
+          <div class="w3-container w3-padding-8">
+            <h3><b>Letzte 50 FSA Spr&uuml;nge</b></h3>
+          </div>
+          <div class="w3-container">
+            <table class="w3-table-all">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Schiffsname (Typ)</th>
+                  <th>Zielsystem</th>
+                  <th>Entfernung</th>
+                  <th>Treibstoffverbrauch</th>
+                </tr>
+              </thead>
+              <tbody>
+                #foreach( $navitem in $navLogList )
+                <tr>
+                  <td>$navitem.timestamp</td>
+                  <td><a target="_blank" href="$navitem.shipUrl">$navitem.shipname ($navitem.shiptype)</td>
+                  <td><a target="_blank" href="$navitem.systemUrl">$navitem.systemname</td>
+                  <td>$navitem.distance</td>
+                  <td>$navitem.fuelused</td>
+                </tr>
+                #end
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="w3-card-4 w3-margin w3-white">
+          <div class="w3-container w3-padding-8">
+            <h3><b>Letzte 1000 Journallog-Eintr&auml;ge</b></h3>
+          </div>
+          <div class="w3-container">
+            <table class="w3-table-all">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Event</th>
+                  <th>Message</th>
+                </tr>
+              </thead>
+              <tbody>
+                #foreach( $journal in $journalList )
+                <tr>
+                  <td>$journal.timestamp</td>
+                  <td>$journal.event</td>
+                  <td>$journal.message</td>
+                </tr>
+                #end
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <div class="w3-col l4">
+        <div class="w3-card-2 w3-margin w3-margin-top">
+          <div align="center">
+            <img src="EoT_V5-150px.png" style="width:150"><img src="EoTMinorFaction_V5-150px.png" style="width:150">
+          </div>
+          <div class="w3-container w3-white">
+          <h4><b>Commander ShinFain</b></h4>
+          <p class="w3-wide">Explorer on Tour</p>
+          <p>Aktuelles Schiff: <a target="_blank" href="$currentShip.inaraUrl">$currentShip.callsign ($currentShip.type)</a></p>
+          <p>Aktuelles Sternensystem: <a target="_blank" href="$currentSystem.inaraUrl">$currentSystem.name</a></p>
+          <p>Aktueller Kontostand: $currentCredits cr</p>
+        </div>
+      </div><hr>
+      
+      <div class="w3-card-2 w3-margin">
+        <div class="w3-container w3-padding">
+          <h4>Flotte</h4>
+        </div>
+          <table class="w3-table-all">
+            <thead>
+              <tr>
+                <th>Schiff</th>
+                <th>Tachostand</th>
+              </tr>
+            </thead>
+            <tbody>
+              #foreach( $ship in $shipList )
+              <tr>
+                <td><a target="_blank" href="$ship.inaraUrl">$ship.callsign ($ship.type)</a></td>
+                <td class="w3-right-align">$ship.distance ly</td>
+              </tr>
+              #end
+            </tbody>
+          </table>
+       </div>
+      <hr> 
+    </div>
+  </body>
+</html>
