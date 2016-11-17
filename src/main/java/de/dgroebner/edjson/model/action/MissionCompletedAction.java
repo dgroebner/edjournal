@@ -33,7 +33,7 @@ public class MissionCompletedAction extends AbstractAction<MissionCompleted> {
         if (reward > 0) {
             final DBFaction faction = new Faction(dbi).writeOrGetFraction(journalId, model.getValueAsString(FACTION));
             final int financeId = new Financedata(dbi).save(journalId, model.getTimestamp(), reward, CATEGORY.MISSIONS,
-                    "Missionsbelonung", faction.getName(), faction.getState());
+                    "Missionssold", faction.getName(), faction.getState());
             mission.updateFinanceId(model.getValueAsInt(MISSION_ID), financeId, reward);
         }
 
