@@ -374,3 +374,13 @@ select faction.name, replace(replace(mission.name, '_', ' '), 'Mission ', ''), c
   join faction on faction.id = faction_id
   join journal on journal.id = mission.journal_id
   left join financedata on finance_id = financedata.id
+
+go
+if exists (select 1 from sysobjects where name = 'vfinancelog')
+   drop view vfinancelog
+go
+CREATE VIEW vfinancelog (valutadatum, amount, remark, factionname, factionurl)
+AS
+select valutadatum, amount, remark, faction.name, faction.inara_url
+  from financedata
+  join faction on faction.id = faction_id

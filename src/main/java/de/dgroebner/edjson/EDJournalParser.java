@@ -156,6 +156,7 @@ public class EDJournalParser {
         context.put("currentCredits", Integer.valueOf(new Financedata(dbi).getSaldo()));
         context.put("navLogList", new Navlog(dbi).getNavlog());
         context.put("missionList", new Mission(dbi).getMissionLog());
+        context.put("financeLogList", new Financedata(dbi).listFinanceLog());
 
         final Template journalTemplate = Velocity.getTemplate("templates/journalTemplate.vm");
 

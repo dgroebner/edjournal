@@ -15,7 +15,7 @@ public class LocalDateTimeTool extends DateTool {
     @Override
     public String format(final Object obj) {
         if (obj instanceof LocalDateTime) {
-            return ((LocalDateTime) obj).format(DateTimeFormatter.ofPattern("dd.mm.yyyy HH:mm:ss"));
+            return ((LocalDateTime) obj).format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
         }
         return super.format(obj);
     }

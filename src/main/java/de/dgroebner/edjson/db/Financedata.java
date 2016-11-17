@@ -1,11 +1,14 @@
 package de.dgroebner.edjson.db;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.dao.FinancedataDao;
+import de.dgroebner.edjson.db.dao.VFinanceLogDao;
 import de.dgroebner.edjson.db.model.DBFaction;
+import de.dgroebner.edjson.db.model.VFinanceLog;
 
 /**
  * Methoden für die Datenbanktabelle 'financdata' zur Speicherung der Finanzdaten
@@ -82,6 +85,20 @@ public class Financedata extends AbstractDBTable {
         final FinancedataDao dao = getDbi().open(FinancedataDao.class);
         try {
             return dao.selectSaldo();
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Selektiert die letzten 50 Einträge des Finanzlogs
+     * 
+     * @return {@link List} von {@link VFinanceLog}
+     */
+    public List<VFinanceLog> listFinanceLog() {
+        final VFinanceLogDao dao = getDbi().open(VFinanceLogDao.class);
+        try {
+            return dao.list();
         } finally {
             dao.close();
         }
