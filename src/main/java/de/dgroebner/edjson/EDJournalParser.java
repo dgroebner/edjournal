@@ -28,8 +28,10 @@ import com.google.common.base.Throwables;
 import de.dgroebner.edjson.db.Financedata;
 import de.dgroebner.edjson.db.Journal;
 import de.dgroebner.edjson.db.JournalFile;
+import de.dgroebner.edjson.db.Mission;
 import de.dgroebner.edjson.db.Navlog;
 import de.dgroebner.edjson.db.Ship;
+import de.dgroebner.edjson.db.Starport;
 import de.dgroebner.edjson.db.Starsystem;
 import de.dgroebner.edjson.model.EDJournalEvents;
 import de.dgroebner.edjson.model.JournalModel;
@@ -140,12 +142,16 @@ public class EDJournalParser {
         final VelocityContext context = new VelocityContext();
 
         final Ship shipDao = new Ship(dbi);
+        final Starsystem systemDao = new Starsystem(dbi);
         context.put("journalList", new Journal(dbi).listJournals());
         context.put("currentShip", shipDao.getCurrentShip());
         context.put("shipList", shipDao.listShipSummary());
-        context.put("currentSystem", new Starsystem(dbi).getCurrentSystem());
+        context.put("currentSystem", systemDao.getCurrentSystem());
+        context.put("starsystemLogList", systemDao.listTopSystems());
+        context.put("starportLogList", new Starport(dbi).listStarportLog());
         context.put("currentCredits", Integer.valueOf(new Financedata(dbi).getSaldo()));
         context.put("navLogList", new Navlog(dbi).getNavlog());
+        context.put("missionList", new Mission(dbi).getMissionLog());
 
         final Template journalTemplate = Velocity.getTemplate("templates/journalTemplate.vm");
 

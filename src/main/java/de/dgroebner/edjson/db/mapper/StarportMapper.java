@@ -24,8 +24,6 @@ public class StarportMapper extends AbstractMapper<DBStarport> {
 
     public static final String COLUMN_NAME = "name";
 
-    public static final String COLUMN_SECURITY = "security";
-
     public static final String COLUMN_STARSYSTEMID = "starsystem_id";
 
     public static final String COLUMN_TYPE = "type";
@@ -34,8 +32,8 @@ public class StarportMapper extends AbstractMapper<DBStarport> {
     public DBStarport map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
         return new DBStarport(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getInt(COLUMN_STARSYSTEMID),
                 r.getString(COLUMN_NAME), r.getString(COLUMN_TYPE), r.getString(COLUMN_INARA_URL),
-                r.getInt(COLUMN_FACTION_ID), r.getString(COLUMN_SECURITY), r.getString(COLUMN_ALLGIANCE),
-                r.getString(COLUMN_GOVERNMENT), r.getString(COLUMN_ECONOMY));
+                r.getInt(COLUMN_FACTION_ID), r.getString(COLUMN_ALLGIANCE), r.getString(COLUMN_GOVERNMENT),
+                r.getString(COLUMN_ECONOMY));
     }
 
 }

@@ -28,7 +28,8 @@ public class MissionAbandoned extends GenericModel<MissionAbandoned.Fields> {
         /* @formatter:off */
         TIMESTAMP("timestamp", LocalDateTime.class),
         EVENT("event", String.class),
-        NAME("Name", String.class);
+        NAME("Name", String.class),
+        MISSION_ID("MissionID", Integer.class);
         /* @formatter:on */
 
         private String code;
@@ -73,5 +74,10 @@ public class MissionAbandoned extends GenericModel<MissionAbandoned.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        return "Mission abgebrochen";
     }
 }

@@ -20,8 +20,6 @@ public class DBStarport extends AbstractModel {
 
     private int factionId;
 
-    private String security;
-
     private String allegiance;
 
     private String government;
@@ -46,14 +44,13 @@ public class DBStarport extends AbstractModel {
      * @param factionId int
      * @param allegiance {@link String}
      * @param inaraUrl {@link String}
-     * @param security {@link String}
      * @param government {@link String}
      * @param economy {@link String}
      */
     @SuppressWarnings("squid:S00107")
     public DBStarport(final int id, final int journalId, final int starsystemId, final String name, final String type,
-            final String inaraUrl, final int factionId, final String security, final String allegiance,
-            final String government, final String economy) {
+            final String inaraUrl, final int factionId, final String allegiance, final String government,
+            final String economy) {
         super(id);
         this.journalId = journalId;
         this.starsystemId = starsystemId;
@@ -62,7 +59,6 @@ public class DBStarport extends AbstractModel {
         this.factionId = factionId;
         this.allegiance = allegiance;
         this.inaraUrl = inaraUrl;
-        this.security = security;
         this.government = government;
         this.economy = economy;
     }
@@ -97,14 +93,6 @@ public class DBStarport extends AbstractModel {
 
     public final void setFactionId(int factionId) {
         this.factionId = factionId;
-    }
-
-    public final String getSecurity() {
-        return security;
-    }
-
-    public final void setSecurity(String security) {
-        this.security = security;
     }
 
     public final String getAllegiance() {

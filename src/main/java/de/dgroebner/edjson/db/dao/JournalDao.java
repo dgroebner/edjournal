@@ -36,7 +36,7 @@ public interface JournalDao extends AbstractDao {
      * @return int
      */
     @GetGeneratedKeys
-    @SqlUpdate("INSERT INTO journal (journalfile_id, timestamp, event, message) VALUES (:journalfileId, :timestamp, :event, :message)")
+    @SqlUpdate("INSERT INTO journal (journalfile_id, timestamp, event, message) VALUES (:journalfile_id, :timestamp, :event, :message)")
     int insert(@Bind(COLUMN_JOURNALFILE_ID) int journalfileId,
             @Bind(value = COLUMN_TIMESTAMP, binder = LocalDateTimeBinder.class) LocalDateTime timestamp,
             @Bind(COLUMN_EVENT) String event, @Bind(COLUMN_MESSAGE) String message);

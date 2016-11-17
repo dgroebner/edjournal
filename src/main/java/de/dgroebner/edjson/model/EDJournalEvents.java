@@ -25,6 +25,7 @@ import de.dgroebner.edjson.model.action.LoggingAction;
 import de.dgroebner.edjson.model.action.MarketBuyAction;
 import de.dgroebner.edjson.model.action.MarketSellAction;
 import de.dgroebner.edjson.model.action.MaterialCollectedAction;
+import de.dgroebner.edjson.model.action.MissionAbandonedAction;
 import de.dgroebner.edjson.model.action.MissionAcceptedAction;
 import de.dgroebner.edjson.model.action.MissionCompletedAction;
 import de.dgroebner.edjson.model.action.MissionFailedAction;
@@ -213,7 +214,7 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     ENGINEER_CRAFT("EngineerCraft", EngineerCraft.class),
     ENGINEER_PROGRESS("EngineerProgress", EngineerProgress.class),
     FETCH_REMOTE_MODULE("FetchRemoteModule", FetchRemoteModule.class, FetchRemoteModuleAction.class),
-    MISSION_ABANDONED("MissionAbandoned", MissionAbandoned.class),
+    MISSION_ABANDONED("MissionAbandoned", MissionAbandoned.class, MissionAbandonedAction.class),
     MISSION_ACCEPTED("MissionAccepted", MissionAccepted.class, MissionAcceptedAction.class),
     MISSION_COMPLETED("MissionCompleted", MissionCompleted.class, MissionCompletedAction.class),
     MISSION_FAILED("MissionFailed", MissionFailed.class, MissionFailedAction.class),

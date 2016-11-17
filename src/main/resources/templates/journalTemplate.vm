@@ -6,14 +6,103 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play">
   <style>
      body,h1,h2,h3,h4,h5 {font-family: "Play", sans-serif}
+
+     #journalFilterInput {
+       background-position: 10px 10px;
+       background-repeat: no-repeat;
+       width: 100%;
+       font-size: 16px;
+       padding: 12px 20px 12px 40px;
+       border: 1px solid #ddd;
+       margin-bottom: 12px;
+     }
+     
+      ​.header
+      {
+          height:50px;
+      }
+      .content
+      {
+          position:absolute;
+          top: 50px;
+          left:0px;
+          right:0px;
+          bottom:0px;
+          overflow-y:scroll;        
+      }
+     
+      a:link {
+          text-decoration: none;
+          color: blue
+      }
+      
+      a:visited {
+          text-decoration: none;
+          color: darkblue
+      }
+      
+      a:hover {
+          text-decoration: underline;
+          color: lightblue
+      }
+      
+      a:active {
+          text-decoration: underline;
+          color: lightblue
+      }
   </style>
   
+  <script>
+    function journalFilter() {
+      var input, filter, table, tr, td, i;
+      input = document.getElementById("journalFilterInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("journalTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    
+    function openRightMenu() {
+        document.getElementById("rightMenu").style.display = "block";
+    }
+    function closeRightMenu() {
+        document.getElementById("rightMenu").style.display = "none";
+    }
+  </script>
+  
   <body class="w3-light-grey">
-    <div class="w3-content" style="max-width:1400px">
-      <div class="w3-col l8 s12">
+  
+    <nav class="w3-sidenav w3-white w3-card-2 w3-animate-right" style="display:none;right:0;" id="rightMenu">
+      <a href="javascript:void(0)" onclick="closeRightMenu()" class="w3-closenav w3-large">Close &times;</a>
+      <a href="#top">Seitenanfang</a>
+      <a href="#lastports">Raumh&auml;fen</a>
+      <a href="#mostvisitsystems">Besuchte Systeme</a>
+      <a href="#navlog">Navigation</a>
+      <a href="#missions">Missionen</a>
+      <a href="#journal">Journal</a>
+      <a href="#ships">Flotte</a>
+    </nav>
+    
+    <header class="w3-container w3-teal w3-slim header">
+      <span class="w3-opennav w3-xlarge w3-right" onclick="openRightMenu()">&#9776;</span>
+    </header>
+  
+    <div class="w3-content content" style="max-width:1400px">
+      <div id="top" class="w3-col l8 s12">
+
+        <!-- navlog card -->
         <div class="w3-card-4 w3-margin w3-white">
-          <div class="w3-container w3-padding-8">
-            <h3><b>Letzte 50 FSA Spr&uuml;nge</b></h3>
+          <div id="navlog" class="w3-container w3-padding-8">
+            <h3><b>Letzte 50 FSA-Spr&uuml;nge</b></h3>
           </div>
           <div class="w3-container">
             <table class="w3-table-all">
@@ -30,22 +119,135 @@
                 #foreach( $navitem in $navLogList )
                 <tr>
                   <td>$navitem.timestamp</td>
-                  <td><a target="_blank" href="$navitem.shipUrl">$navitem.shipname ($navitem.shiptype)</td>
-                  <td><a target="_blank" href="$navitem.systemUrl">$navitem.systemname</td>
-                  <td>$navitem.distance</td>
-                  <td>$navitem.fuelused</td>
+                  <td><a target="_blank" href="$navitem.shipUrl">$navitem.shipname ($navitem.shiptype)</a></td>
+                  <td>#if ($navitem.systemUrl)<a target="_blank" href="$navitem.systemUrl">#end $navitem.systemname #if ($navitem.systemUrl)</a>#end</td>
+                  <td>$navitem.distance ly</td>
+                  <td>$navitem.fuelused t</td>
                 </tr>
                 #end
               </tbody>
             </table>
           </div>
         </div>
+        
+        <!-- last starports card -->
         <div class="w3-card-4 w3-margin w3-white">
-          <div class="w3-container w3-padding-8">
-            <h3><b>Letzte 1000 Journallog-Eintr&auml;ge</b></h3>
+          <div id="lastports" class="w3-container w3-padding-8">
+            <h3><b>25 zuletzt besuchten Raumh&auml;fen</b></h3>
           </div>
           <div class="w3-container">
             <table class="w3-table-all">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Raumhafen</th>
+                  <th>Fraktion</th>
+                  <th>Raumhafendaten</th>
+                </tr>
+              </thead>
+              <tbody>
+                #foreach( $starportLog in $starportLogList )
+                <tr>
+                  <td>$starportLog.timestamp</td>
+                  <td>#if ($starportLog.portUrl)<a target="_blank" href="$starportLog.portUrl">#end $starportLog.portname #if ($starportLog.portUrl)</a>#end</td>
+                  <td>#if ($starportLog.factionUrl)<a target="_blank" href="$starportLog.factionUrl">#end $starportLog.factionName #if ($starportLog.factionUrl)</a>#end</td>
+                  <td>
+                    <ul>
+                      #if ($starportLog.type) <li>$starportLog.type</li> #end
+                      #if ($starportLog.systemUrl) <li><a target="_blank" href="starportLog.systemUrl">#end $starportLog.systemname #if ($starportLog.systemUrl)</a>#end</li>
+                      #if ($starportLog.allegiance && $starportLog.allegiance != '') <li>$starportLog.allegiance</li> #end
+                      #if ($starportLog.government && $starportLog.government != 'Leer') <li>$starportLog.government</li> #end
+                      #if ($starportLog.economy && $starportLog.economy != 'Leer') <li>$starportLog.economy</li> #end
+                      #if ($starportLog.starpos) <li>$starportLog.starpos</li> #end
+                    </ul>
+                  </td>
+                </tr>
+                #end
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- top starsystems card -->
+        <div class="w3-card-4 w3-margin w3-white">
+          <div id="mostvisitsystems" class="w3-container w3-padding-8">
+            <h3><b>25 meistbesuchten Systeme</b></h3>
+          </div>
+          <div class="w3-container">
+            <table class="w3-table-all">
+              <thead>
+                <tr>
+                  <th>Besuche</th>
+                  <th>System</th>
+                  <th>Fraktion</th>
+                  <th>Systemdaten</th>
+                </tr>
+              </thead>
+              <tbody>
+                #foreach( $starsystemLog in $starsystemLogList )
+                <tr>
+                  <td>$starsystemLog.visits</td>
+                  <td>#if ($starsystemLog.systemUrl)<a target="_blank" href="$starsystemLog.systemUrl">#end $starsystemLog.systemname #if ($starsystemLog.systemUrl)</a>#end</td>
+                  <td>#if ($starsystemLog.factionUrl)<a target="_blank" href="$starsystemLog.factionUrl">#end $starsystemLog.factionName #if ($starsystemLog.factionUrl)</a>#else leer #end</td>
+                  <td>
+                    <ul>
+                      #if ($starsystemLog.allegiance && $starsystemLog.allegiance != '') <li>$starsystemLog.allegiance</li> #end
+                      #if ($starsystemLog.security) <li>$starsystemLog.security</li> #end
+                      #if ($starsystemLog.government && $starsystemLog.government != 'Leer') <li>$starsystemLog.government</li> #end
+                      #if ($starsystemLog.economy && $starsystemLog.economy != 'Leer') <li>$starsystemLog.economy</li> #end
+                      #if ($starsystemLog.starpos) <li>$starsystemLog.starpos</li> #end
+                    </ul>
+                  </td>
+                </tr>
+                #end
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- missions card -->
+        <div class="w3-card-4 w3-margin w3-white">
+          <div id="missions" class="w3-container w3-padding-8">
+            <h3><b>Letzte 25 Missionen</b></h3>
+          </div>
+          <div class="w3-container">
+            <table class="w3-table-all">
+            <table class="w3-table-all">
+              <thead>
+                <tr>
+                  <th>Faction</th>
+                  <th>Missionname</th>
+                  <th>Ladung</th>
+                  <th>Ziel</th>
+                  <th>Status (Gewinn)</th>
+                </tr>
+              </thead>
+              <tbody>
+                #foreach( $mission in $missionList )
+                <tr>
+                  <td>$mission.factionname</td>
+                  <td>$mission.missionname</td>
+                  <td>
+                     #if ($mission.commodityCount > 0) $mission.commodityCount $mission.commodity <br>#end
+                     #if ($mission.passengerCount > 0) $mission.passengerCount $mission.passengerType #end #if ($mission.passengerVip) VIP #end #if ($mission.passengerWanted) gesucht #end
+                   </td>
+                  <td>$mission.destinationPort ($mission.destination)</td>
+                  <td>$mission.status #if ($mission.reward > 0) ($mission.reward) #end</td>
+                </tr>
+                #end
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- journal card -->
+        <div class="w3-card-4 w3-margin w3-white">
+          <div id="journal" class="w3-container w3-padding-8">
+            <h3><b>Letzte 1000 Journallog-Eintr&auml;ge</b></h3>
+          </div>
+          <div class="w3-container">
+            <input type="text" id="journalFilterInput" onkeyup="journalFilter()" placeholder="Filter Events.." title="Eventfilter">
+            <table class="w3-table-all" id="journalTable">
               <thead>
                 <tr>
                   <th>Timestamp</th>
@@ -67,6 +269,7 @@
         </div>
       </div>
       
+      <!-- summary card -->
       <div class="w3-col l4">
         <div class="w3-card-2 w3-margin w3-margin-top">
           <div align="center">
@@ -81,8 +284,9 @@
         </div>
       </div><hr>
       
+      <!-- fleet card -->
       <div class="w3-card-2 w3-margin">
-        <div class="w3-container w3-padding">
+        <div id="ships" class="w3-container w3-padding">
           <h4>Flotte</h4>
         </div>
           <table class="w3-table-all">

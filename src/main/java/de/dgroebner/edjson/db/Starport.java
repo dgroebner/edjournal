@@ -1,11 +1,16 @@
 package de.dgroebner.edjson.db;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.dao.StarportDao;
 import de.dgroebner.edjson.db.dao.StarportVisitsDao;
+import de.dgroebner.edjson.db.dao.VStarportLogDao;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.db.model.DBStarport;
+import de.dgroebner.edjson.db.model.VStarportLog;
 
 /**
  * Methoden für die Datenbanktabelle 'starport' zur Speicherung der Sternenhäfen
@@ -35,12 +40,12 @@ public class Starport extends AbstractDBTable {
         try {
             final DBStarport saved = dao.findByName(forSave.getName());
             if (saved != null) {
-                dao.updateMetaData(forSave.getFactionId(), forSave.getSecurity(), forSave.getAllegiance(),
-                        forSave.getGovernment(), forSave.getEconomy(), forSave.getName());
+                dao.updateMetaData(forSave.getFactionId(), forSave.getAllegiance(), forSave.getGovernment(),
+                        forSave.getEconomy(), forSave.getName());
             } else {
-                dao.insert(journalId, forSave.getStarsystemId(), forSave.getName(), forSave.getType(), null,
-                        forSave.getFactionId(), forSave.getSecurity(), forSave.getAllegiance(),
-                        forSave.getGovernment(), forSave.getEconomy());
+                final String type = StringUtils.defaultString(forSave.getType(), "PlanetaryPort");
+                dao.insert(journalId, forSave.getStarsystemId(), forSave.getName(), type, null,
+                        forSave.getFactionId(), forSave.getAllegiance(), forSave.getGovernment(), forSave.getEconomy());
             }
             final DBStarport newPort = dao.findByName(forSave.getName());
             saveVisit(journalId, newPort);
@@ -61,6 +66,20 @@ public class Starport extends AbstractDBTable {
         final StarportVisitsDao dao = getDbi().open(StarportVisitsDao.class);
         try {
             dao.insert(journalId, saved.getId(), ship.getId());
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Selektiert die Liste der letztbesuchten Raumhäfen
+     * 
+     * @return {@link List} von {@link VStarportLog}
+     */
+    public List<VStarportLog> listStarportLog() {
+        final VStarportLogDao dao = getDbi().open(VStarportLogDao.class);
+        try {
+            return dao.list();
         } finally {
             dao.close();
         }

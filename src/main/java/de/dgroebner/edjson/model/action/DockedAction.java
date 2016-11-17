@@ -1,12 +1,11 @@
 package de.dgroebner.edjson.model.action;
 
+import static de.dgroebner.edjson.model.data.Docked.Fields.FACTION_STATE;
+import static de.dgroebner.edjson.model.data.Docked.Fields.STAR_SYSTEM;
 import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_ALLEGIANCE;
 import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_ECONOMY_LOCALISED;
 import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_FACTION;
-import static de.dgroebner.edjson.model.data.Docked.Fields.FACTION_STATE;
 import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_GOVERNMENT_LOCALISED;
-import static de.dgroebner.edjson.model.data.Docked.Fields.SECURITY_LOCALISED;
-import static de.dgroebner.edjson.model.data.Docked.Fields.STAR_SYSTEM;
 import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_NAME;
 import static de.dgroebner.edjson.model.data.Docked.Fields.STATION_TYPE;
 
@@ -44,7 +43,6 @@ public class DockedAction extends AbstractAction<Docked> {
         starPort.setType(model.getValueAsString(STATION_TYPE));
         starPort.setEconomy(model.getValueAsString(STATION_ECONOMY_LOCALISED));
         starPort.setGovernment(model.getValueAsString(STATION_GOVERNMENT_LOCALISED));
-        starPort.setSecurity(model.getValueAsString(SECURITY_LOCALISED));
         starPort.setAllegiance(model.getValueAsString(STATION_ALLEGIANCE));
         new Starport(dbi).writeOrGetStarport(journalId, starPort);
     }

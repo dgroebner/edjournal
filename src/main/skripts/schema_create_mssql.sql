@@ -194,7 +194,6 @@ CREATE TABLE starport(
 	type varchar(25) NOT NULL,
 	inara_url varchar(1000) NULL,
 	faction_id int NULL,
-	security varchar(50) NULL,
 	allegiance varchar(25) NULL,
 	government varchar(25) NULL,
 	economy varchar(25) NULL,
@@ -316,11 +315,11 @@ select type, callsign, inara_url,
 	      from navlog where ship_id = ship.id)
  from ship
 
-if exists (select 1 from sysobjects where name = 'vsystemsvisitedsummary')
-   drop view vsystemsvisitedsummary
+if exists (select 1 from sysobjects where name = 'vstarsystemslog')
+   drop view vstarsystemslog
 go
-create view vsystemsvisitedsummary (visits, systemname, system_inaraurl, 
-       faction_name, faction_inaraurl, security, allegiance,
+create view vstarsystemslog (visits, systemname, system_url, 
+       factionname, faction_url, security, allegiance,
 	   government, economy, starpos)
  as 
 select count(*), starsystem.name, starsystem.inara_url, 
@@ -332,8 +331,25 @@ select count(*), starsystem.name, starsystem.inara_url,
   group by starsystem.name, starsystem.inara_url, 
        faction.name, faction.inara_url, security, starsystem.allegiance,
 	   government, economy, starpos
-
 go
+
+if exists (select 1 from sysobjects where name = 'vstarportvisits')
+   drop view vstarportvisits
+go
+create view vstarportvisits (timestamp, portname, port_url, systemname, system_url, 
+       factionname, faction_url, allegiance,
+	   type, government, economy)
+ as
+select journal.timestamp, starport.name, starport.inara_url, starsystem.name, starsystem.inara_url,
+       faction.name, faction.inara_url, starport.allegiance,
+	   starport.type, starport.government, starport.economy
+  from starport_visits
+  join journal on journal.id = starport_visits.journal_id
+  join starport on starport_visits.starport_id = starport.id
+  join starsystem on starsystem.id = starsystem_id
+  join faction on faction.id = starport.faction_id
+go
+
 if exists (select 1 from sysobjects where name = 'vnavlog')
    drop view vnavlog
 go
@@ -343,3 +359,18 @@ select ship.callsign, ship.type, ship.inara_url, navlog.timestamp, starsystem.na
   from navlog
   left join ship on ship.id = ship_id
   join starsystem on starsystem.id = tosystem_id
+
+go
+if exists (select 1 from sysobjects where name = 'vmissionlog')
+   drop view vmissionlog
+go
+create view vmissionlog (factionname, missionname, commodity, commodity_count, passenger_type, passenger_count, passenger_vip,
+            passenger_wanted, destination, destination_port, status, reward, missionid)
+ as  
+select faction.name, replace(replace(mission.name, '_', ' '), 'Mission ', ''), commodity, commodity_count, 
+       passenger_type, passenger_count, passenger_vip,
+       passenger_wanted, destination, destination_port, status, financedata.amount, missionid
+  from mission
+  join faction on faction.id = faction_id
+  join journal on journal.id = mission.journal_id
+  left join financedata on finance_id = financedata.id

@@ -1,14 +1,18 @@
 package de.dgroebner.edjson.db;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.dao.StarsystemDao;
 import de.dgroebner.edjson.db.dao.StarsystemVisitsDao;
+import de.dgroebner.edjson.db.dao.VStarsystemLogDao;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.db.model.DBStarport;
 import de.dgroebner.edjson.db.model.DBStarsystem;
+import de.dgroebner.edjson.db.model.VStarsystemLog;
 
 /**
  * Methoden für die Datenbanktabelle 'starsystem' zur Speicherung der Sternensysteme
@@ -92,6 +96,20 @@ public class Starsystem extends AbstractDBTable {
         final StarsystemDao dao = getDbi().open(StarsystemDao.class);
         try {
             return dao.findById(id);
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Selektiert die Liste der meistbesuchten Sternensysteme
+     * 
+     * @return {@link List} von {@link VStarsystemLog}
+     */
+    public List<VStarsystemLog> listTopSystems() {
+        final VStarsystemLogDao dao = getDbi().open(VStarsystemLogDao.class);
+        try {
+            return dao.list();
         } finally {
             dao.close();
         }

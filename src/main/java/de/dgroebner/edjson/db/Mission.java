@@ -1,11 +1,14 @@
 package de.dgroebner.edjson.db;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
-import de.dgroebner.edjson.db.Mission.STATUS;
 import de.dgroebner.edjson.db.dao.MissionDao;
+import de.dgroebner.edjson.db.dao.VMissionLogDao;
 import de.dgroebner.edjson.db.model.DBMission;
+import de.dgroebner.edjson.db.model.VMissionLog;
 
 /**
  * Methoden für die Datenbanktabelle 'mission' zur Speicherung von Missionen
@@ -20,7 +23,7 @@ public class Mission extends AbstractDBTable {
      * @author dgroebner
      */
     public enum STATUS {
-        ACCEPTED, COMPLETED, DECLINED, FAILED;
+        ACCEPTED, COMPLETED, DECLINED, FAILED, ABANDONED;
     }
 
     /**
@@ -77,6 +80,20 @@ public class Mission extends AbstractDBTable {
         final MissionDao dao = getDbi().open(MissionDao.class);
         try {
             dao.updateFinanceId(financeId, reward, missionId);
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Liefert eine Liste des Missionlogs zurück
+     * 
+     * @return {@link List} von {@link VMissionLog}
+     */
+    public List<VMissionLog> getMissionLog() {
+        final VMissionLogDao dao = getDbi().open(VMissionLogDao.class);
+        try {
+            return dao.list();
         } finally {
             dao.close();
         }
