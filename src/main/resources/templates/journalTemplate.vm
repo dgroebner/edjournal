@@ -84,15 +84,16 @@
     <nav class="w3-sidenav w3-white w3-card-2 w3-animate-right" style="display:none;right:0;" id="rightMenu">
       <a href="javascript:void(0)" onclick="closeRightMenu()" class="w3-closenav w3-large">Close &times;</a>
       <a href="#top">Seitenanfang</a>
-      <a href="#lastports">Raumh&auml;fen</a>
+      <a href="#lastports">Letzte Raumh&auml;fen</a>
       <a href="#mostvisitsystems">Besuchte Systeme</a>
-      <a href="#navlog">Navigation</a>
-      <a href="#missions">Missionen</a>
-      <a href="#journal">Journal</a>
+      <a href="#navlog">Letzte FSA-Srp&uuml;nge</a>
+      <a href="#missions">Letzte Missionen</a>
+      <a href="#journal">Letzte Journallogs</a>
       <a href="#ships">Flotte</a>
     </nav>
     
     <header class="w3-container w3-teal w3-slim header">
+      Stand: $datetool
       <span class="w3-opennav w3-xlarge w3-right" onclick="openRightMenu()">&#9776;</span>
     </header>
   
@@ -118,11 +119,11 @@
               <tbody>
                 #foreach( $navitem in $navLogList )
                 <tr>
-                  <td>$navitem.timestamp</td>
+                  <td>$datetool.format($navitem.timestamp)</td>
                   <td><a target="_blank" href="$navitem.shipUrl">$navitem.shipname ($navitem.shiptype)</a></td>
                   <td>#if ($navitem.systemUrl)<a target="_blank" href="$navitem.systemUrl">#end $navitem.systemname #if ($navitem.systemUrl)</a>#end</td>
-                  <td>$navitem.distance ly</td>
-                  <td>$navitem.fuelused t</td>
+                  <td style="text-align:right">$numbertool.format($navitem.distance) ly</td>
+                  <td style="text-align:right">$numbertool.format($navitem.fuelused) t</td>
                 </tr>
                 #end
               </tbody>
@@ -133,7 +134,7 @@
         <!-- last starports card -->
         <div class="w3-card-4 w3-margin w3-white">
           <div id="lastports" class="w3-container w3-padding-8">
-            <h3><b>25 zuletzt besuchten Raumh&auml;fen</b></h3>
+            <h3><b>25 zuletzt besuchte Raumh&auml;fen</b></h3>
           </div>
           <div class="w3-container">
             <table class="w3-table-all">
@@ -148,7 +149,7 @@
               <tbody>
                 #foreach( $starportLog in $starportLogList )
                 <tr>
-                  <td>$starportLog.timestamp</td>
+                  <td>$datetool.format($starportLog.timestamp)</td>
                   <td>#if ($starportLog.portUrl)<a target="_blank" href="$starportLog.portUrl">#end $starportLog.portname #if ($starportLog.portUrl)</a>#end</td>
                   <td>#if ($starportLog.factionUrl)<a target="_blank" href="$starportLog.factionUrl">#end $starportLog.factionName #if ($starportLog.factionUrl)</a>#end</td>
                   <td>
@@ -171,7 +172,7 @@
         <!-- top starsystems card -->
         <div class="w3-card-4 w3-margin w3-white">
           <div id="mostvisitsystems" class="w3-container w3-padding-8">
-            <h3><b>25 meistbesuchten Systeme</b></h3>
+            <h3><b>25 meistbesuchte Systeme</b></h3>
           </div>
           <div class="w3-container">
             <table class="w3-table-all">
@@ -186,7 +187,7 @@
               <tbody>
                 #foreach( $starsystemLog in $starsystemLogList )
                 <tr>
-                  <td>$starsystemLog.visits</td>
+                  <td>$numbertool.format($starsystemLog.visits)</td>
                   <td>#if ($starsystemLog.systemUrl)<a target="_blank" href="$starsystemLog.systemUrl">#end $starsystemLog.systemname #if ($starsystemLog.systemUrl)</a>#end</td>
                   <td>#if ($starsystemLog.factionUrl)<a target="_blank" href="$starsystemLog.factionUrl">#end $starsystemLog.factionName #if ($starsystemLog.factionUrl)</a>#else leer #end</td>
                   <td>
@@ -231,8 +232,8 @@
                      #if ($mission.commodityCount > 0) $mission.commodityCount $mission.commodity <br>#end
                      #if ($mission.passengerCount > 0) $mission.passengerCount $mission.passengerType #end #if ($mission.passengerVip) VIP #end #if ($mission.passengerWanted) gesucht #end
                    </td>
-                  <td>$mission.destinationPort ($mission.destination)</td>
-                  <td>$mission.status #if ($mission.reward > 0) ($mission.reward) #end</td>
+                  <td>$mission.destinationPort<br>($mission.destination)</td>
+                  <td>$mission.status #if ($mission.reward > 0)<br>($numbertool.format($mission.reward)) #end</td>
                 </tr>
                 #end
               </tbody>
@@ -258,7 +259,7 @@
               <tbody>
                 #foreach( $journal in $journalList )
                 <tr>
-                  <td>$journal.timestamp</td>
+                  <td>$datetool.format($journal.timestamp)</td>
                   <td>$journal.event</td>
                   <td>$journal.message</td>
                 </tr>
@@ -280,7 +281,7 @@
           <p class="w3-wide">Explorer on Tour</p>
           <p>Aktuelles Schiff: <a target="_blank" href="$currentShip.inaraUrl">$currentShip.callsign ($currentShip.type)</a></p>
           <p>Aktuelles Sternensystem: <a target="_blank" href="$currentSystem.inaraUrl">$currentSystem.name</a></p>
-          <p>Aktueller Kontostand: $currentCredits cr</p>
+          <p>Aktueller Kontostand: $numbertool.format($currentCredits) cr</p>
         </div>
       </div><hr>
       
@@ -300,7 +301,7 @@
               #foreach( $ship in $shipList )
               <tr>
                 <td><a target="_blank" href="$ship.inaraUrl">$ship.callsign ($ship.type)</a></td>
-                <td class="w3-right-align">$ship.distance ly</td>
+                <td class="w3-right-align">$numbertool.format($ship.distance) ly</td>
               </tr>
               #end
             </tbody>

@@ -17,6 +17,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.apache.velocity.tools.generic.NumberTool;
 import org.json.JSONObject;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import de.dgroebner.edjson.db.Starport;
 import de.dgroebner.edjson.db.Starsystem;
 import de.dgroebner.edjson.model.EDJournalEvents;
 import de.dgroebner.edjson.model.JournalModel;
+import de.dgroebner.edjson.velocity.LocalDateTimeTool;
 
 /**
  * Parser für das Elite Dangerous Journal
@@ -143,6 +145,8 @@ public class EDJournalParser {
 
         final Ship shipDao = new Ship(dbi);
         final Starsystem systemDao = new Starsystem(dbi);
+        context.put("datetool", new LocalDateTimeTool());
+        context.put("numbertool", new NumberTool());
         context.put("journalList", new Journal(dbi).listJournals());
         context.put("currentShip", shipDao.getCurrentShip());
         context.put("shipList", shipDao.listShipSummary());

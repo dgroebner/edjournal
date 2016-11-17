@@ -10,7 +10,9 @@
     <description>Tool zur Auswertung des Elite Dangerous Journals</description>
 
     <properties>
-        <jasper.version>6.3.1</jasper.version>
+        <apache.commons.collections.version>3.2.1</apache.commons.collections.version>
+        <apache.commons.io.version>2.5</apache.commons.io.version>
+        <apache.commons.lang3.version>3.4</apache.commons.lang3.version>
         <jdbi.version>2.77</jdbi.version>
         <jtds.version>1.2.8</jtds.version>
         <junit.version>4.12</junit.version>
@@ -19,6 +21,8 @@
         <mockito.version>1.10.19</mockito.version>
         <org.json.version>20160810</org.json.version>
         <slf4j.version>1.7.21</slf4j.version>
+        <velocity.version>1.7</velocity.version>
+        <velocity.tools.version>2.0</velocity.tools.version>
         
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -65,17 +69,17 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
+            <version>${apache.commons.collections.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.5</version>
+            <version>${apache.commons.io.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>${apache.commons.lang3.version}</version>
         </dependency>
         
         <!-- json -->
@@ -109,7 +113,12 @@
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
-            <version>1.7</version>
+            <version>${velocity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-tools</artifactId>
+            <version>${velocity.tools.version}</version>
         </dependency>
         
         <!-- testing -->
