@@ -379,8 +379,8 @@ go
 if exists (select 1 from sysobjects where name = 'vfinancelog')
    drop view vfinancelog
 go
-CREATE VIEW vfinancelog (valutadatum, amount, remark, factionname, factionurl)
+CREATE VIEW vfinancelog (valutadatum, amount, category, remark, factionname, factionurl)
 AS
-select valutadatum, amount, remark, faction.name, faction.inara_url
+select valutadatum, amount, category, remark, faction.name, faction.inara_url
   from financedata
   join faction on faction.id = faction_id

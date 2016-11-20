@@ -49,6 +49,7 @@ import de.dgroebner.edjson.model.action.SendTextAction;
 import de.dgroebner.edjson.model.action.ShipyardBuyAction;
 import de.dgroebner.edjson.model.action.ShipyardNewAction;
 import de.dgroebner.edjson.model.action.ShipyardSwapAction;
+import de.dgroebner.edjson.model.action.SynthesisAction;
 import de.dgroebner.edjson.model.action.UndockedAction;
 import de.dgroebner.edjson.model.data.ApproachSettlement;
 import de.dgroebner.edjson.model.data.Bounty;
@@ -139,6 +140,7 @@ import de.dgroebner.edjson.model.data.SupercruiseEntry;
 import de.dgroebner.edjson.model.data.SupercruiseExit;
 import de.dgroebner.edjson.model.data.Synthesis;
 import de.dgroebner.edjson.model.data.Touchdown;
+import de.dgroebner.edjson.model.data.USSDrop;
 import de.dgroebner.edjson.model.data.Undocked;
 import de.dgroebner.edjson.model.data.VehicleSwitch;
 import de.dgroebner.edjson.model.data.WingAdd;
@@ -258,7 +260,8 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     RESURRECT("Resurrect", Resurrect.class, ResurrectAction.class),
     SELF_DESTRUCT("SelfDestruct", SelfDestruct.class),
     SEND_TEXT("SendText", SendText.class, SendTextAction.class),
-    SYNTHESIS("Synthesis", Synthesis.class),
+    SYNTHESIS("Synthesis", Synthesis.class, SynthesisAction.class),
+    USSDROP("USSDrop", USSDrop.class),
     VEHICLE_SWITCH("VehicleSwitch", VehicleSwitch.class),
     WING_ADD("WingAdd", WingAdd.class),
     WING_JOIN("WingJoin", WingJoin.class),

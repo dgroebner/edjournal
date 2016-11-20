@@ -76,4 +76,10 @@ public class Liftoff extends GenericModel<Liftoff.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Gestartet von Position %s:%s", getValueAsBigDecimal(Fields.LATITUDE),
+                getValueAsBigDecimal(Fields.LONGITUDE));
+    }
 }

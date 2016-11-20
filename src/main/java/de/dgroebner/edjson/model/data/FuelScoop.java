@@ -76,4 +76,10 @@ public class FuelScoop extends GenericModel<FuelScoop.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Treibstoff am Stern getankt. Menge: %s t Tankfüllstand: %s t",
+                getValueAsBigDecimal(Fields.SCOOPED), getValueAsBigDecimal(Fields.AMOUNT));
+    }
 }

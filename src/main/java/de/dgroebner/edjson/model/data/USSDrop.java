@@ -11,16 +11,16 @@ import de.dgroebner.edjson.model.GenericModel;
 import de.dgroebner.edjson.model.JournalModelField;
 
 /**
- * Modellklasse für den Elite Dangerous Journaleintrag 'Scan'
+ * Modellklasse für den Elite Dangerous Journaleintrag 'USSDrop'
  * 
  * @author dgroebner
  */
-public class Synthesis extends GenericModel<Synthesis.Fields> {
+public class USSDrop extends GenericModel<USSDrop.Fields> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Synthesis.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(USSDrop.class);
 
     /**
-     * Felder des Elite Dangerous Journaleintrag 'Scan'
+     * Felder des Elite Dangerous Journaleintrag 'USSDrop'
      * 
      * @author dgroebner
      */
@@ -28,8 +28,9 @@ public class Synthesis extends GenericModel<Synthesis.Fields> {
         /* @formatter:off */
         TIMESTAMP("timestamp", LocalDateTime.class),
         EVENT("event", String.class),
-        NAME("Name", String.class),
-        MATERIALS("Materials", JSONObject.class);
+        USSTYPE("USSType", String.class),
+        USSTYPE_LOCALISED("USSType_Localised", String.class),
+        USSTHREAT("USSThreat", Integer.class);
         /* @formatter:on */
 
         private String code;
@@ -57,7 +58,7 @@ public class Synthesis extends GenericModel<Synthesis.Fields> {
      * 
      * @param json {@link JSONObject}
      */
-    public Synthesis(final JSONObject json) {
+    public USSDrop(final JSONObject json) {
         super(json, Arrays.asList(Fields.values()));
     }
 
@@ -78,8 +79,7 @@ public class Synthesis extends GenericModel<Synthesis.Fields> {
 
     @Override
     public String getMessage() {
-        return String.format("%s aus %s Materialien synthetisiert", getValueAsString(Fields.NAME),
-                Integer.valueOf(getValueAsJsonObject(Fields.MATERIALS).length()));
+        return String.format("Unbekannte Signalquelle vom Typ %s untersucht. Gefahrenlevel: %s",
+                getValueAsString(Fields.USSTYPE_LOCALISED), Integer.valueOf(getValueAsInt(Fields.USSTHREAT)));
     }
-
 }

@@ -28,7 +28,8 @@ public class LaunchSRV extends GenericModel<LaunchSRV.Fields> {
         /* @formatter:off */
         TIMESTAMP("timestamp", LocalDateTime.class),
         EVENT("event", String.class),
-        LOADOUT("Loadout", String.class);
+        LOADOUT("Loadout", String.class),
+        PLAYERCONTROLLED("PlayerControlled", Boolean.class);
         /* @formatter:on */
 
         private String code;
@@ -73,5 +74,10 @@ public class LaunchSRV extends GenericModel<LaunchSRV.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        return String.format("SRV vom Typ %s gestartet", getValueAsString(Fields.LOADOUT));
     }
 }

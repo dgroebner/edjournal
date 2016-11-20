@@ -68,15 +68,6 @@ public class EngineerCraft extends GenericModel<EngineerCraft.Fields> {
         return LOGGER;
     }
 
-    /**
-     * Liefert verwendeten Zutaten zurück
-     * 
-     * @return {@link Ingredients}
-     */
-    public Ingredients getIngredients() {
-        return new Ingredients(getValueAsJsonObject(Fields.INGREDIENTS));
-    }
-
     @Override
     public LocalDateTime getTimestamp() {
         return getValueAsLocalDateTime(Fields.TIMESTAMP);

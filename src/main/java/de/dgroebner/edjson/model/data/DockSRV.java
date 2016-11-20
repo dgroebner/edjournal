@@ -73,4 +73,9 @@ public class DockSRV extends GenericModel<DockSRV.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return "SRV im Schiff gedockt";
+    }
 }
