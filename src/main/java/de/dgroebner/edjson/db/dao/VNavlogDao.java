@@ -21,7 +21,7 @@ public interface VNavlogDao extends AbstractDao {
      * 
      * @return {@link VNavlog}
      */
-    @SqlQuery("SELECT TOP 50 shipname, shiptype, ship_url, timestamp, systemname, system_url, distance, fuelused FROM vnavlog ORDER BY timestamp DESC")
+    @SqlQuery("SELECT TOP 50 shipname, shiptype, ship_url, timestamp, systemname, system_url, distance, fuelused, distanceToluku FROM vnavlog ORDER BY timestamp DESC")
     List<VNavlog> list();
 
 }

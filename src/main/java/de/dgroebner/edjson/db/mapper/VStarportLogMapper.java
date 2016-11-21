@@ -36,12 +36,15 @@ public class VStarportLogMapper extends AbstractMapper<VStarportLog> {
 
     public static final String COLUMN_TYPE = "type";
 
+    public static final String COLUMN_DISTANCETOLUKU = "distanceToluku";
+
     @Override
     public VStarportLog map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
         return new VStarportLog(r.getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime(), r.getString(COLUMN_PORTNAME),
                 r.getString(COLUMN_PORT_URL), r.getString(COLUMN_SYSTEMNAME), r.getString(COLUMN_SYSTEM_URL),
                 r.getString(COLUMN_FACTIONNAME), r.getString(COLUMN_FACTION_URL), r.getString(COLUMN_TYPE),
-                r.getString(COLUMN_ALLGIANCE), r.getString(COLUMN_GOVERNMENT), r.getString(COLUMN_ECONOMY));
+                r.getString(COLUMN_ALLGIANCE), r.getString(COLUMN_GOVERNMENT), r.getString(COLUMN_ECONOMY),
+                r.getBigDecimal(COLUMN_DISTANCETOLUKU));
     }
 
 }

@@ -76,4 +76,10 @@ public class MaterialDiscarded extends GenericModel<MaterialDiscarded.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Material %s %s vernichtet", Integer.valueOf(getValueAsInt(Fields.COUNT)),
+                getValueAsString(Fields.NAME));
+    }
 }

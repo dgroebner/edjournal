@@ -21,7 +21,7 @@ public interface VStarportLogDao extends AbstractDao {
      * 
      * @return {@link List} von {@link VStarportLog}
      */
-    @SqlQuery("SELECT TOP 25 timestamp, portname, port_url, systemname, system_url, factionname, faction_url, allegiance, type, government, economy FROM vstarportvisits ORDER BY timestamp DESC")
+    @SqlQuery("SELECT TOP 25 timestamp, portname, port_url, systemname, system_url, factionname, faction_url, allegiance, type, government, economy, distanceToluku FROM vstarportvisits ORDER BY timestamp DESC")
     List<VStarportLog> list();
 
 }

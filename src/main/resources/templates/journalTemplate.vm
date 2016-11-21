@@ -172,6 +172,7 @@
                   <th>Zielsystem</th>
                   <th>Entfernung</th>
                   <th>Treibstoffverbrauch</th>
+                  <th>Entfernung von Toluku</th>
                 </tr>
               </thead>
               <tbody>
@@ -182,6 +183,7 @@
                   <td>#if ($navitem.systemUrl)<a target="_blank" href="$navitem.systemUrl">#end $navitem.systemname #if ($navitem.systemUrl)</a>#end</td>
                   <td style="text-align:right">$numbertool.format($navitem.distance) ly</td>
                   <td style="text-align:right">$numbertool.format($navitem.fuelused) t</td>
+                  <td style="text-align:right">$numbertool.format($navitem.distanceToluku) ly</td>
                 </tr>
                 #end
               </tbody>
@@ -202,6 +204,7 @@
                   <th>Raumhafen</th>
                   <th>Fraktion</th>
                   <th>Raumhafendaten</th>
+                  <th>Entfernung von Toluku</th>
                 </tr>
               </thead>
               <tbody>
@@ -220,6 +223,7 @@
                       #if ($starportLog.starpos) <li>$starportLog.starpos</li> #end
                     </ul>
                   </td>
+                  <td style="text-align:right">$numbertool.format($starportLog.distanceToluku) ly</td>
                 </tr>
                 #end
               </tbody>

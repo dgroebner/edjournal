@@ -27,6 +27,8 @@ public class VNavlog extends AbstractModel {
 
     private BigDecimal fuelused;
 
+    private BigDecimal distanceToluku;
+
     /**
      * Constructor.
      */
@@ -45,10 +47,12 @@ public class VNavlog extends AbstractModel {
      * @param systemUrl {@link String}
      * @param distance {@link BigDecimal}
      * @param fuelused {@link BigDecimal}
+     * @param distanceToluku {@link BigDecimal}
      */
     @SuppressWarnings("squid:S00107")
     public VNavlog(final String shipname, final String shiptype, final String shipUrl, final LocalDateTime timestamp,
-            final String systemname, final String systemUrl, final BigDecimal distance, final BigDecimal fuelused) {
+            final String systemname, final String systemUrl, final BigDecimal distance, final BigDecimal fuelused,
+            final BigDecimal distanceToluku) {
         super(0);
         this.shipname = shipname;
         this.timestamp = timestamp;
@@ -58,6 +62,7 @@ public class VNavlog extends AbstractModel {
         this.systemUrl = systemUrl;
         this.distance = distance;
         this.fuelused = fuelused;
+        this.setDistanceToluku(distanceToluku);
     }
 
     public final BigDecimal getDistance() {
@@ -122,6 +127,14 @@ public class VNavlog extends AbstractModel {
 
     public final void setSystemUrl(String systemUrl) {
         this.systemUrl = systemUrl;
+    }
+
+    public BigDecimal getDistanceToluku() {
+        return distanceToluku;
+    }
+
+    public void setDistanceToluku(BigDecimal distanceToluku) {
+        this.distanceToluku = distanceToluku;
     }
 
 }

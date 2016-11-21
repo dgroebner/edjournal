@@ -338,11 +338,12 @@ if exists (select 1 from sysobjects where name = 'vstarportvisits')
 go
 create view vstarportvisits (timestamp, portname, port_url, systemname, system_url, 
        factionname, faction_url, allegiance,
-	   type, government, economy)
+	   type, government, economy, distanceToluku)
  as
 select journal.timestamp, starport.name, starport.inara_url, starsystem.name, starsystem.inara_url,
        faction.name, faction.inara_url, starport.allegiance,
-	   starport.type, starport.government, starport.economy
+	   starport.type, starport.government, starport.economy,
+	   dbo.fcDistance('Toluku', starport.name)
   from starport_visits
   join journal on journal.id = starport_visits.journal_id
   join starport on starport_visits.starport_id = starport.id
@@ -353,9 +354,9 @@ go
 if exists (select 1 from sysobjects where name = 'vnavlog')
    drop view vnavlog
 go
-create view vnavlog (shipname, shiptype, ship_url, timestamp, systemname, system_url, distance, fuelused)
+create view vnavlog (shipname, shiptype, ship_url, timestamp, systemname, system_url, distance, fuelused, distanceToluku)
  as  
-select ship.callsign, ship.type, ship.inara_url, navlog.timestamp, starsystem.name, starsystem.inara_url, distance, fuelused 
+select ship.callsign, ship.type, ship.inara_url, navlog.timestamp, starsystem.name, starsystem.inara_url, distance, fuelused, dbo.fcDistance('Toluku', name) 
   from navlog
   left join ship on ship.id = ship_id
   join starsystem on starsystem.id = tosystem_id
@@ -384,3 +385,107 @@ AS
 select valutadatum, amount, category, remark, faction.name, faction.inara_url
   from financedata
   join faction on faction.id = faction_id
+
+go
+if exists (select 1 from sysobjects where name = 'vrings')
+   drop view vrings
+go
+CREATE VIEW vrings (art, objectname, ringname, ringtype, starsystem_url, distanceInsystem, distanceToluku)
+AS
+select 'Planetarer Ring', planet.name, ring.name, ring.type, starsystem.inara_url, planet.distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
+--select ring.type + ' ' + ring.name + ' [url=' + starsystem.inara_url + ']' + planet.name + '[/url]'
+  from ring
+  join planet on ring.planet_id = planet.id
+  join starsystem on planet.starsystem_id = starsystem.id
+union all
+select CASE WHEN
+         ring.name like '%Belt%' then 'Asteroidengürtel'
+		 ELSE 'Stellarer Ring'
+	   END,
+  star.name, ring.name, ring.type, starsystem.inara_url, star.distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
+--select ring.type + ' ' + ring.name + ' [url=' + starsystem.inara_url + ']' + planet.name + '[/url]'
+  from ring
+  join star on star_id = star.id
+  join starsystem on star.starsystem_id = starsystem.id
+
+go
+CREATE FUNCTION fcTokenizer 
+/*****************************************************************
+* Funktion zum Trennen eines Strings mit einem Trennzeichen      *
+*                                                                *
+*                                                                *
+* Parameter:                                                     *
+* - der zu durchsuchende String                                  *
+* - die Position vor dem ersten Trennzeichen                     *
+* - das Trennzeichen (bei Oracle Optional)                       *
+*                                                                *
+* Verwendung:                                                    *
+*                                                                *
+* select '1='+avviso.fcTokenizer ('1|2|3|', 1, '|')              *
+*****************************************************************/
+(@Parameters varchar(2000), @position int, @delimiter varchar(1))
+RETURNS VARCHAR(200)
+AS  
+BEGIN
+    DECLARE @dx varchar(9)
+    DECLARE @loops int
+    SET @loops = 0
+    IF @position < 1 RETURN ''
+ 
+     IF @delimiter is null  SET @delimiter = '|'
+     IF len(@delimiter) < 1 SET @delimiter = '|'
+     SET @dx = left(@delimiter, DATALENGTH(@delimiter)-1)
+ 
+     DECLARE @Value varchar(80), @Pos int
+ 
+     SET @Parameters = LTRIM(RTRIM(@Parameters)) + @delimiter
+     SET @Pos = CHARINDEX(@delimiter, @Parameters, 1)
+ 
+     IF REPLACE(@Parameters, @delimiter, @dx) <> ''
+     BEGIN
+          WHILE @Pos > 0
+          BEGIN
+               SET @loops = @loops + 1
+               SET @Value = LTRIM(RTRIM(LEFT(@Parameters, @Pos - 1)))
+               IF @Value <> '' AND @loops = @position
+               BEGIN
+		    RETURN ltrim(rtrim(@Value))
+               END
+               SET @Parameters = SUBSTRING(@Parameters, @Pos + DATALENGTH(@delimiter), 8000)
+               SET @Pos = CHARINDEX(@delimiter, @Parameters, 1)
+           END
+     END    
+     RETURN ''
+END      
+GO
+
+CREATE FUNCTION fcDistance 
+/*****************************************************************
+* Funktion zum Berechnen des Abstands zweier Sternensysteme      *
+*                                                                *
+*                                                                *
+* Parameter:                                                     *
+* - der zu durchsuchende String                                  *
+* - die Position vor dem ersten Trennzeichen                     *
+* - das Trennzeichen (bei Oracle Optional)                       *
+*                                                                *
+* Verwendung:                                                    *
+*                                                                *
+* select '1='+avviso.fcTokenizer ('1|2|3|', 1, '|')              *
+*****************************************************************/
+(@Quellsystem varchar(200), @Zielsystem varchar(200))
+RETURNS FLOAT
+AS  
+BEGIN
+declare @x1 float (25), @x2 float (25), @y1 float (25), @y2 float (25), @z1 float (25), @z2 float (25);
+
+select @x1 = cast(dbo.fcTokenizer(starpos, 1, ':') as float) from starsystem where name = @Quellsystem
+select @y1 = cast(dbo.fcTokenizer(starpos, 2, ':') as float) from starsystem where name = @Quellsystem
+select @z1 = cast(dbo.fcTokenizer(starpos, 3, ':') as float) from starsystem where name = @Quellsystem
+select @x2 = cast(dbo.fcTokenizer(starpos, 1, ':') as float) from starsystem where name = @Zielsystem
+select @y2 = cast(dbo.fcTokenizer(starpos, 2, ':') as float) from starsystem where name = @Zielsystem
+select @z2 = cast(dbo.fcTokenizer(starpos, 3, ':') as float) from starsystem where name = @Zielsystem
+
+return ROUND(SQRT(POWER(@x2 - @x1, 2) + POWER(@y2 - @y1, 2) + POWER(@z2 - @z1, 2)), 2)
+END      
+GO

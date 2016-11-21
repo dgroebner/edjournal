@@ -1,5 +1,6 @@
 package de.dgroebner.edjson.db.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -32,6 +33,8 @@ public class VStarportLog extends AbstractModel {
 
     private String economy;
 
+    private BigDecimal distanceToluku;
+
     /**
      * Constructor.
      */
@@ -53,11 +56,13 @@ public class VStarportLog extends AbstractModel {
      * @param allegiance {@link String}
      * @param government {@link String}
      * @param economy {@link String}
+     * @param distanceToluku {@link BigDecimal}
      */
     @SuppressWarnings("squid:S00107")
     public VStarportLog(final LocalDateTime timestamp, final String portname, final String portUrl,
             final String systemname, final String systemUrl, final String factionName, final String factionUrl,
-            final String type, final String allegiance, final String government, final String economy) {
+            final String type, final String allegiance, final String government, final String economy,
+            final BigDecimal distanceToluku) {
         super(0);
         this.timestamp = timestamp;
         this.systemUrl = systemUrl;
@@ -70,6 +75,7 @@ public class VStarportLog extends AbstractModel {
         this.type = type;
         this.government = government;
         this.economy = economy;
+        this.distanceToluku = distanceToluku;
     }
 
     public final String getSystemname() {
@@ -158,6 +164,14 @@ public class VStarportLog extends AbstractModel {
 
     public final void setType(String type) {
         this.type = type;
+    }
+
+    public BigDecimal getDistanceToluku() {
+        return distanceToluku;
+    }
+
+    public void setDistanceToluku(BigDecimal distanceToluku) {
+        this.distanceToluku = distanceToluku;
     }
 
 }
