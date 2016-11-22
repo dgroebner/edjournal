@@ -43,4 +43,18 @@ public class Star extends AbstractDBTable {
         }
     }
 
+    /**
+     * Gibt die Anzahl der Sterne zurück
+     * 
+     * @return int
+     */
+    public int count() {
+        final StarDao dao = getDbi().open(StarDao.class);
+        try {
+            return dao.count();
+        } finally {
+            dao.close();
+        }
+    }
+
 }

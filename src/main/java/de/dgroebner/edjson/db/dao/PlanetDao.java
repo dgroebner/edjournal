@@ -92,4 +92,12 @@ public interface PlanetDao extends AbstractDao {
     @SqlQuery("SELECT id FROM planet WHERE name = :name")
     int getIdForName(@Bind(COLUMN_NAME) String name);
 
+    /**
+     * Gibt die Anzahl der Planeten zurück
+     * 
+     * @return int
+     */
+    @SqlQuery("SELECT COUNT(*) FROM planet")
+    int count();
+
 }

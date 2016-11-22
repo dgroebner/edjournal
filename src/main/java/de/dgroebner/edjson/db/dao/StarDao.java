@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
+import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
@@ -68,5 +69,13 @@ public interface StarDao extends AbstractDao {
             @Bind(COLUMN_ORBITAL_INCLINATION) BigDecimal orbitalInclination,
             @Bind(COLUMN_PERIAPSIS) BigDecimal periapsis, @Bind(COLUMN_ORBITAL_PERIOD) BigDecimal orbitalPeriod,
             @Bind(COLUMN_ROTATION_PERIOD) BigDecimal rotationPeriod);
+
+    /**
+     * Gibt die Anzahl der Sterne zurück
+     * 
+     * @return int
+     */
+    @SqlQuery("SELECT COUNT(*) FROM star")
+    int count();
 
 }

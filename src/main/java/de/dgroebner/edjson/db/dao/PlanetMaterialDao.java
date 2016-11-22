@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
+import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
@@ -37,5 +38,12 @@ public interface PlanetMaterialDao extends AbstractDao {
     int insert(@Bind(COLUMN_JOURNAL_ID) int journalId, @Bind(COLUMN_PLANET_ID) int planetId,
             @Bind(COLUMN_MATERIAL_ID) int materialId, @Bind(COLUMN_AMOUNT) BigDecimal ampunt);
 
+    /**
+     * Gibt die Anzahl der Planeten zurück, die Materialzuordnungen besitzen
+     * 
+     * @return int
+     */
+    @SqlQuery("SELECT COUNT(DISTINCT planet_id) FROM planet_material")
+    int countByPlanet();
 
 }

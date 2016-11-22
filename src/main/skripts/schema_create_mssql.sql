@@ -305,110 +305,6 @@ CREATE TABLE mission (
 CREATE INDEX i_mission_missionid on mission (missionId);
 
 go
-if exists (select 1 from sysobjects where name = 'vshipsummary')
-   drop view vshipsummary
-go
-create view vshipsummary (type, callsign, inara_url, distance)
- as 
-select type, callsign, inara_url, 
-       (select ISNULL(SUM(distance), 0) 
-	      from navlog where ship_id = ship.id)
- from ship
-
-if exists (select 1 from sysobjects where name = 'vstarsystemslog')
-   drop view vstarsystemslog
-go
-create view vstarsystemslog (visits, systemname, system_url, 
-       factionname, faction_url, security, allegiance,
-	   government, economy, starpos)
- as 
-select count(*), starsystem.name, starsystem.inara_url, 
-       faction.name, faction.inara_url, security, starsystem.allegiance,
-	   government, economy, starpos
-  from starsystem_visits
-  join starsystem on starsystem.id = starsystem_id
-  left join faction on faction.id = faction_id
-  group by starsystem.name, starsystem.inara_url, 
-       faction.name, faction.inara_url, security, starsystem.allegiance,
-	   government, economy, starpos
-go
-
-if exists (select 1 from sysobjects where name = 'vstarportvisits')
-   drop view vstarportvisits
-go
-create view vstarportvisits (timestamp, portname, port_url, systemname, system_url, 
-       factionname, faction_url, allegiance,
-	   type, government, economy, distanceToluku)
- as
-select journal.timestamp, starport.name, starport.inara_url, starsystem.name, starsystem.inara_url,
-       faction.name, faction.inara_url, starport.allegiance,
-	   starport.type, starport.government, starport.economy,
-	   dbo.fcDistance('Toluku', starport.name)
-  from starport_visits
-  join journal on journal.id = starport_visits.journal_id
-  join starport on starport_visits.starport_id = starport.id
-  join starsystem on starsystem.id = starsystem_id
-  join faction on faction.id = starport.faction_id
-go
-
-if exists (select 1 from sysobjects where name = 'vnavlog')
-   drop view vnavlog
-go
-create view vnavlog (shipname, shiptype, ship_url, timestamp, systemname, system_url, distance, fuelused, distanceToluku)
- as  
-select ship.callsign, ship.type, ship.inara_url, navlog.timestamp, starsystem.name, starsystem.inara_url, distance, fuelused, dbo.fcDistance('Toluku', name) 
-  from navlog
-  left join ship on ship.id = ship_id
-  join starsystem on starsystem.id = tosystem_id
-
-go
-if exists (select 1 from sysobjects where name = 'vmissionlog')
-   drop view vmissionlog
-go
-create view vmissionlog (factionname, missionname, commodity, commodity_count, passenger_type, passenger_count, passenger_vip,
-            passenger_wanted, destination, destination_port, status, reward, missionid)
- as  
-select faction.name, replace(replace(mission.name, '_', ' '), 'Mission ', ''), commodity, commodity_count, 
-       passenger_type, passenger_count, passenger_vip,
-       passenger_wanted, destination, destination_port, status, financedata.amount, missionid
-  from mission
-  join faction on faction.id = faction_id
-  join journal on journal.id = mission.journal_id
-  left join financedata on finance_id = financedata.id
-
-go
-if exists (select 1 from sysobjects where name = 'vfinancelog')
-   drop view vfinancelog
-go
-CREATE VIEW vfinancelog (valutadatum, amount, category, remark, factionname, factionurl)
-AS
-select valutadatum, amount, category, remark, faction.name, faction.inara_url
-  from financedata
-  join faction on faction.id = faction_id
-
-go
-if exists (select 1 from sysobjects where name = 'vrings')
-   drop view vrings
-go
-CREATE VIEW vrings (art, objectname, ringname, ringtype, starsystem_url, distanceInsystem, distanceToluku)
-AS
-select 'Planetarer Ring', planet.name, ring.name, ring.type, starsystem.inara_url, planet.distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
---select ring.type + ' ' + ring.name + ' [url=' + starsystem.inara_url + ']' + planet.name + '[/url]'
-  from ring
-  join planet on ring.planet_id = planet.id
-  join starsystem on planet.starsystem_id = starsystem.id
-union all
-select CASE WHEN
-         ring.name like '%Belt%' then 'Asteroidengürtel'
-		 ELSE 'Stellarer Ring'
-	   END,
-  star.name, ring.name, ring.type, starsystem.inara_url, star.distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
---select ring.type + ' ' + ring.name + ' [url=' + starsystem.inara_url + ']' + planet.name + '[/url]'
-  from ring
-  join star on star_id = star.id
-  join starsystem on star.starsystem_id = starsystem.id
-
-go
 CREATE FUNCTION fcTokenizer 
 /*****************************************************************
 * Funktion zum Trennen eines Strings mit einem Trennzeichen      *
@@ -479,13 +375,152 @@ AS
 BEGIN
 declare @x1 float (25), @x2 float (25), @y1 float (25), @y2 float (25), @z1 float (25), @z2 float (25);
 
-select @x1 = cast(dbo.fcTokenizer(starpos, 1, ':') as float) from starsystem where name = @Quellsystem
-select @y1 = cast(dbo.fcTokenizer(starpos, 2, ':') as float) from starsystem where name = @Quellsystem
-select @z1 = cast(dbo.fcTokenizer(starpos, 3, ':') as float) from starsystem where name = @Quellsystem
-select @x2 = cast(dbo.fcTokenizer(starpos, 1, ':') as float) from starsystem where name = @Zielsystem
-select @y2 = cast(dbo.fcTokenizer(starpos, 2, ':') as float) from starsystem where name = @Zielsystem
-select @z2 = cast(dbo.fcTokenizer(starpos, 3, ':') as float) from starsystem where name = @Zielsystem
+select @x1 = cast(fcTokenizer(starpos, 1, ':') as float) from starsystem where name = @Quellsystem
+select @y1 = cast(fcTokenizer(starpos, 2, ':') as float) from starsystem where name = @Quellsystem
+select @z1 = cast(fcTokenizer(starpos, 3, ':') as float) from starsystem where name = @Quellsystem
+select @x2 = cast(fcTokenizer(starpos, 1, ':') as float) from starsystem where name = @Zielsystem
+select @y2 = cast(fcTokenizer(starpos, 2, ':') as float) from starsystem where name = @Zielsystem
+select @z2 = cast(fcTokenizer(starpos, 3, ':') as float) from starsystem where name = @Zielsystem
 
 return ROUND(SQRT(POWER(@x2 - @x1, 2) + POWER(@y2 - @y1, 2) + POWER(@z2 - @z1, 2)), 2)
 END      
 GO
+
+go
+if exists (select 1 from sysobjects where name = 'vshipsummary')
+   drop view vshipsummary
+go
+create view vshipsummary (type, callsign, inara_url, distance)
+ as 
+select type, callsign, inara_url, 
+       (select ISNULL(SUM(distance), 0) 
+	      from navlog where ship_id = ship.id)
+ from ship
+
+if exists (select 1 from sysobjects where name = 'vstarsystemslog')
+   drop view vstarsystemslog
+go
+create view vstarsystemslog (visits, systemname, system_url, 
+       factionname, faction_url, security, allegiance,
+	   government, economy, starpos)
+ as 
+select count(*), starsystem.name, starsystem.inara_url, 
+       faction.name, faction.inara_url, security, starsystem.allegiance,
+	   government, economy, starpos
+  from starsystem_visits
+  join starsystem on starsystem.id = starsystem_id
+  left join faction on faction.id = faction_id
+  group by starsystem.name, starsystem.inara_url, 
+       faction.name, faction.inara_url, security, starsystem.allegiance,
+	   government, economy, starpos
+go
+
+if exists (select 1 from sysobjects where name = 'vstarportvisits')
+   drop view vstarportvisits
+go
+create view vstarportvisits (timestamp, portname, port_url, systemname, system_url, 
+       factionname, faction_url, allegiance,
+	   type, government, economy, distanceToluku)
+ as
+select journal.timestamp, starport.name, starport.inara_url, starsystem.name, starsystem.inara_url,
+       faction.name, faction.inara_url, starport.allegiance,
+	   starport.type, starport.government, starport.economy,
+	   fcDistance('Toluku', starsystem.name)
+  from starport_visits
+  join journal on journal.id = starport_visits.journal_id
+  join starport on starport_visits.starport_id = starport.id
+  join starsystem on starsystem.id = starsystem_id
+  join faction on faction.id = starport.faction_id
+go
+
+if exists (select 1 from sysobjects where name = 'vnavlog')
+   drop view vnavlog
+go
+create view vnavlog (shipname, shiptype, ship_url, timestamp, systemname, system_url, distance, fuelused, distanceToluku)
+ as  
+select ship.callsign, ship.type, ship.inara_url, navlog.timestamp, starsystem.name, starsystem.inara_url, distance, fuelused, fcDistance('Toluku', name) 
+  from navlog
+  left join ship on ship.id = ship_id
+  join starsystem on starsystem.id = tosystem_id
+
+go
+if exists (select 1 from sysobjects where name = 'vmissionlog')
+   drop view vmissionlog
+go
+create view vmissionlog (factionname, missionname, commodity, commodity_count, passenger_type, passenger_count, passenger_vip,
+            passenger_wanted, destination, destination_port, status, reward, missionid)
+ as  
+select faction.name, replace(replace(mission.name, '_', ' '), 'Mission ', ''), commodity, commodity_count, 
+       passenger_type, passenger_count, passenger_vip,
+       passenger_wanted, destination, destination_port, status, financedata.amount, missionid
+  from mission
+  join faction on faction.id = faction_id
+  join journal on journal.id = mission.journal_id
+  left join financedata on finance_id = financedata.id
+
+go
+if exists (select 1 from sysobjects where name = 'vfinancelog')
+   drop view vfinancelog
+go
+CREATE VIEW vfinancelog (valutadatum, amount, category, remark, factionname, factionurl)
+AS
+select valutadatum, amount, category, remark, faction.name, faction.inara_url
+  from financedata
+  join faction on faction.id = faction_id
+
+go
+if exists (select 1 from sysobjects where name = 'vrings')
+   drop view vrings
+go
+CREATE VIEW vrings (art, starsystemname, ringname, ringtype, starsystem_url, distanceInsystem, distanceToluku)
+AS
+select 'Planetarer Ring', starsystem.name, ring.name, ring.type, starsystem.inara_url, planet.distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
+--select ring.type + ' ' + ring.name + ' [url=' + starsystem.inara_url + ']' + planet.name + '[/url]'
+  from ring
+  join planet on ring.planet_id = planet.id
+  join starsystem on planet.starsystem_id = starsystem.id
+union all
+select CASE WHEN
+         ring.name like '%Belt%' then 'Asteroidengürtel'
+		 ELSE 'Stellarer Ring'
+	   END,
+  starsystem.name, ring.name, ring.type, starsystem.inara_url, star.distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
+--select ring.type + ' ' + ring.name + ' [url=' + starsystem.inara_url + ']' + planet.name + '[/url]'
+  from ring
+  join star on star_id = star.id
+  join starsystem on star.starsystem_id = starsystem.id
+
+go
+if exists (select 1 from sysobjects where name = 'vmaterial_summary')
+  drop view vmaterial_summary
+go
+create view vmaterial_summary (material, amount, planet, planet_type, gravity, material_url,
+            starsystem_url, distanceInsystem, distanceToluku)
+as
+select material.name, amount, planet.name, planet.type, planet.surface_gravity, material.inara_url, 
+       starsystem.inara_url, planet.distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
+ from
+ (select *, row_number() OVER (partition by planet_material.material_id order by amount desc) as rn
+  from planet_material) t
+join material on t.material_id = material.id
+join planet on t.planet_id = planet.id
+join starsystem on planet.starsystem_id = starsystem.id
+where t.rn = 1
+go
+
+if exists (select 1 from sysobjects where name = 'vmaterial_overview')
+  drop view vmaterial_overview
+go
+CREATE VIEW vmaterial_overview (material, material_kuerzel, amount, 
+     starsystem, planet, planet_type, gravity, material_url, starsystem_url,
+	 distance_jumpin, distanceToluku)	 
+AS
+SELECT material.name, material.kuerzel, amount, 
+       starsystem.name, planet.name, planet.type, surface_gravity, material.inara_url, starsystem.inara_url,
+	   planet.distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
+  FROM starsystem 
+  JOIN planet ON starsystem.id = planet.starsystem_id 
+  JOIN planet_material ON planet_material.planet_id = planet.id 
+  JOIN material ON material.id = planet_material.material_id
+GO
+

@@ -52,33 +52,15 @@
       }
   </style>
   
-  <script>
-    function financeFilter() {
+  <script> 
+    function ringFilter() {
       var input, filter, table, tr, td, i;
-      input = document.getElementById("financeFilterInput");
+      input = document.getElementById("ringFilterInput");
       filter = input.value.toUpperCase();
-      table = document.getElementById("financeTable");
+      table = document.getElementById("ringTable");
       tr = table.getElementsByTagName("tr");
       for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[2];
-        if (td) {
-          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
-  
-    function journalFilter() {
-      var input, filter, table, tr, td, i;
-      input = document.getElementById("journalFilterInput");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("journalTable");
-      tr = table.getElementsByTagName("tr");
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[1];
+        td = tr[i].getElementsByTagName("td")[3];
         if (td) {
           if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
             tr[i].style.display = "";
@@ -102,13 +84,12 @@
     <nav class="w3-sidenav w3-white w3-card-2 w3-animate-right" style="display:none;right:0;" id="rightMenu">
       <a href="javascript:void(0)" onclick="closeRightMenu()" class="w3-closenav w3-large">Close &times;</a>
       <a href="#top">Seitenanfang</a>
-      <a href="#financelog">Letzte Kontobewegungen</a>
-      <a href="#lastports">Letzte Raumh&auml;fen</a>
-      <a href="#mostvisitsystems">Besuchte Systeme</a>
-      <a href="#navlog">Letzte FSA-Srp&uuml;nge</a>
-      <a href="#missions">Letzte Missionen</a>
-      <a href="#journal">Letzte Journallogs</a>
-      <a href="#ships">Flotte</a>
+      <a href="#content">&Uuml;berblick</a>
+      <a href="#materialSummary">Maximalvorkommen</a>
+      <a href="#rings">Ringe</a>
+      <a href="#materialOverview">Planeten mit Materialen</a>
+      <a href="#stars">Sternenliste</a>
+      <a href="#planets">Planetenliste</a>
     </nav>
     
     <header class="w3-container w3-teal w3-slim header">
@@ -119,72 +100,38 @@
     <div class="w3-content content" style="max-width:1400px">
       <div id="top" class="w3-col l8 s12">
 
-        <!-- financelog card -->
-        <div class="w3-card-4 w3-margin w3-white">
-          <div id="financelog" class="w3-container w3-padding-8">
-            <h3><b>Letzte 50 Kontobewegungen</b></h3>
-          </div>
-          <div class="w3-container">
-            <input type="text" id="financeFilterInput" class="filterInput" onkeyup="financeFilter()" placeholder="Filter Kategorien.." title="Kategoriefilter">
-            <table id="financeTable" class="w3-table-all">
-              <thead>
-                <tr>
-                  <th>Valutadatum</th>
-                  <th>Betrag</th>
-                  <th>Kategorie</th>
-                  <th>Buchungstext</th>
-                  <th>Fraktion</th>
-                </tr>
-              </thead>
-              <tbody>
-                #foreach( $financeitem in $financeLogList )
-                <tr>
-                  <td>$datetool.format($financeitem.valutadatum)</td>
-                  #if ($financeitem.amount < 0)
-                    <td style="color:red; text-align:right">
-                  #elseif ($financeitem.amount > 0) 
-                    <td style="color:green; text-align:right">
-                  #else 
-                    <td style="color:black; text-align:right">
-                  #end
-                    $numbertool.format($financeitem.amount)</td>
-                  <td>$financeitem.category</td>
-                  <td>$financeitem.remark</td>
-                  <td>#if ($financeitem.factionUrl)<a target="_blank" href="$financeitem.factionUrl">#end $financeitem.factionName #if ($financeitem.factionUrl)</a>#end</td>
-                </tr>
-                #end
-              </tbody>
-            </table><br>
-          </div>
-        </div>
-
         <!-- navlog card -->
         <div class="w3-card-4 w3-margin w3-white">
-          <div id="navlog" class="w3-container w3-padding-8">
-            <h3><b>Letzte 50 FSA-Spr&uuml;nge</b></h3>
+          <div id="materialSummary" class="w3-container w3-padding-8">
+            <h3><b>Maximalvorkommen Materialen</b></h3>
           </div>
           <div class="w3-container">
             <table class="w3-table-all">
               <thead>
                 <tr>
-                  <th>Timestamp</th>
-                  <th>Schiffsname (Typ)</th>
-                  <th>Zielsystem<br>(Entfernung von Toluku)</th>
-                  <th>Entfernung</th>
-                  <th>Treibstoffverbrauch</th>
+                  <th>Material</th>
+                  <th style="text-align:right">H&auml;ufigkeit</th>
+                  <th>
+                    Planet<br>
+                    (Typ)
+                  </th>
+                  <th style="text-align:right">Gravitation</th>
+                  <th style="text-align:right">Entfernung Hauptstern</th>
+                  <th style="text-align:right">Entfernung Toluku</th>
                 </tr>
               </thead>
               <tbody>
-                #foreach( $navitem in $navLogList )
+                #foreach( $materialSummaryItem in $materialSummary )
                 <tr>
-                  <td>$datetool.format($navitem.timestamp)</td>
-                  <td><a target="_blank" href="$navitem.shipUrl">$navitem.shipname ($navitem.shiptype)</a></td>
+                  <td><a target="_blank" href="$materialSummaryItem.materialUrl">$materialSummaryItem.material</a></td>
+                  <td style="text-align:right">$numbertool.format($materialSummaryItem.amount)%</td>
                   <td>
-                     #if ($navitem.systemUrl)<a target="_blank" href="$navitem.systemUrl">#end $navitem.systemname #if ($navitem.systemUrl)</a>#end<br>
-                     ($numbertool.format($navitem.distanceToluku) ly)
+                     #if ($materialSummaryItem.starsystemUrl)<a target="_blank" href="$materialSummaryItem.starsystemUrl">#end $materialSummaryItem.planet #if ($materialSummaryItem.starsystemUrl)</a>#end<br>
+                     ($materialSummaryItem.planetType)
                   </td>
-                  <td style="text-align:right">$numbertool.format($navitem.distance) ly</td>
-                  <td style="text-align:right">$numbertool.format($navitem.fuelused) t</td>
+                  <td style="text-align:right">$numbertool.format($materialSummaryItem.gravity)g</td>
+                  <td style="text-align:right">$numbertool.format($materialSummaryItem.distanceInSystem) ls</td>
+                  <td style="text-align:right">$numbertool.format($materialSummaryItem.distanceToluku) ly</td>
                 </tr>
                 #end
               </tbody>
@@ -194,37 +141,31 @@
         
         <!-- last starports card -->
         <div class="w3-card-4 w3-margin w3-white">
-          <div id="lastports" class="w3-container w3-padding-8">
-            <h3><b>25 zuletzt besuchte Raumh&auml;fen</b></h3>
+          <div id="rings" class="w3-container w3-padding-8">
+            <h3><b>Ringe</b></h3>
           </div>
           <div class="w3-container">
-            <table class="w3-table-all">
+            <input type="text" id="ringFilterInput" class="filterInput" onkeyup="ringFilter()" placeholder="Filter Ringtypen.." title="Ringtypfilter">
+            <table id="ringTable" class="w3-table-all">
               <thead>
                 <tr>
-                  <th>Timestamp</th>
-                  <th>Raumhafen</th>
-                  <th>Fraktion</th>
-                  <th>Raumhafendaten</th>
-                  <th>Entfernung von Toluku</th>
+                  <th>Art</th>
+                  <th>System</th>
+                  <th>Ringname</th>
+                  <th>Typ</th>
+                  <th style="text-align:right">Entfernung Hauptstern</th>
+                  <th style="text-align:right">Entfernung Toluku</th>
                 </tr>
               </thead>
               <tbody>
-                #foreach( $starportLog in $starportLogList )
+                #foreach( $ring in $ringList )
                 <tr>
-                  <td>$datetool.format($starportLog.timestamp)</td>
-                  <td>#if ($starportLog.portUrl)<a target="_blank" href="$starportLog.portUrl">#end $starportLog.portname #if ($starportLog.portUrl)</a>#end</td>
-                  <td>#if ($starportLog.factionUrl)<a target="_blank" href="$starportLog.factionUrl">#end $starportLog.factionName #if ($starportLog.factionUrl)</a>#end</td>
-                  <td>
-                    <ul>
-                      #if ($starportLog.type) <li>$starportLog.type</li> #end
-                      #if ($starportLog.systemUrl) <li><a target="_blank" href="starportLog.systemUrl">#end $starportLog.systemname #if ($starportLog.systemUrl)</a>#end</li>
-                      #if ($starportLog.allegiance && $starportLog.allegiance != '') <li>$starportLog.allegiance</li> #end
-                      #if ($starportLog.government && $starportLog.government != 'Leer') <li>$starportLog.government</li> #end
-                      #if ($starportLog.economy && $starportLog.economy != 'Leer') <li>$starportLog.economy</li> #end
-                      #if ($starportLog.starpos) <li>$starportLog.starpos</li> #end
-                    </ul>
-                  </td>
-                  <td style="text-align:right">$numbertool.format($starportLog.distanceToluku) ly</td>
+                  <td>$ring.art</td>
+                  <td>#if ($ring.starsystemUrl)<a target="_blank" href="$ring.starsystemUrl">#end $ring.starsystemname #if ($ring.starsystemUrl)</a>#end</td>
+                  <td>$ring.ringname</td>
+                  <td>$ring.ringtype</td>
+                  <td style="text-align:right">$numbertool.format($ring.distanceInSystem) ls</td>
+                  <td style="text-align:right">$numbertool.format($ring.distanceToluku) ly</td>
                 </tr>
                 #end
               </tbody>
@@ -336,41 +277,33 @@
       <!-- summary card -->
       <div class="w3-col l4">
         <div class="w3-card-2 w3-margin w3-margin-top">
-          <div align="center">
+          <div id="content" align="center">
             <img src="EoT_V5-150px.png" style="width:150"><img src="EoTMinorFaction_V5-150px.png" style="width:150">
           </div>
           <div class="w3-container w3-white">
-          <h4><b>Commander ShinFain</b></h4>
-          <p class="w3-wide"><a href="http://inara.cz/wing/1462" target="_blank">Explorer on Tour</a></p>
-          <p>Aktuelles Schiff: <a target="_blank" href="$currentShip.inaraUrl">$currentShip.callsign ($currentShip.type)</a></p>
-          <p>Aktuelles Sternensystem: <a target="_blank" href="$currentSystem.inaraUrl">$currentSystem.name</a></p>
-          <p>Aktueller Kontostand: $numbertool.format($currentCredits) cr</p>
+          <h4><b><a href="http://inara.cz/wing/1462" target="_blank">Explorer on Tour</a></b></h4>
+          <p class="w3-wide">Materialen, Ringe und Planeten</p>
+          <table class="w3-table w3-border">
+            <tr>
+              <td>Anzahl Sterne</td>
+              <td style="text-align:right">$countStars</td>
+            </tr>
+            <tr>
+              <td>Anzahl Planeten</td>
+              <td style="text-align:right">$countPlanets</td>
+            </tr>
+            <tr>
+              <td>Anzahl Planeten mit Materialien</td>
+              <td style="text-align:right">$countByPlanet</td>
+            </tr>
+            <tr>
+              <td>Anzahl Ringe</td>
+              <td style="text-align:right">$countRings</td>
+            </tr>
+          </table><br>
         </div>
       </div><hr>
       
-      <!-- fleet card -->
-      <div class="w3-card-2 w3-margin">
-        <div id="ships" class="w3-container w3-padding">
-          <h4>Flotte</h4>
-        </div>
-          <table class="w3-table-all">
-            <thead>
-              <tr>
-                <th>Schiff</th>
-                <th>Tachostand</th>
-              </tr>
-            </thead>
-            <tbody>
-              #foreach( $ship in $shipList )
-              <tr>
-                <td><a target="_blank" href="$ship.inaraUrl">$ship.callsign ($ship.type)</a></td>
-                <td class="w3-right-align">$numbertool.format($ship.distance) ly</td>
-              </tr>
-              #end
-            </tbody>
-          </table><br>
-       </div>
-      <hr> 
     </div>
   </body>
 </html>

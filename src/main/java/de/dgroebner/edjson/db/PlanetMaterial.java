@@ -1,10 +1,13 @@
 package de.dgroebner.edjson.db;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.dao.PlanetMaterialDao;
+import de.dgroebner.edjson.db.dao.VMaterialSummaryDao;
+import de.dgroebner.edjson.db.model.VMaterialSummary;
 
 /**
  * Methoden für die Datenbanktabelle 'planet_material' zur Speicherung der Materialien je Planet
@@ -35,6 +38,34 @@ public class PlanetMaterial extends AbstractDBTable {
         final PlanetMaterialDao dao = getDbi().open(PlanetMaterialDao.class);
         try {
             dao.insert(journalId, planetId, materialId, amount);
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Gibt die Anzahl der Planeten zurück, die Materialzuordnungen besitzen
+     * 
+     * @return int
+     */
+    public int countByPlanet() {
+        final PlanetMaterialDao dao = getDbi().open(PlanetMaterialDao.class);
+        try {
+            return dao.countByPlanet();
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Gibt eine Liste Maximalvorkommen der Materialien zurück
+     * 
+     * @return {@link List} von {@link VMaterialSummary}
+     */
+    public List<VMaterialSummary> listMaterialSummary() {
+        final VMaterialSummaryDao dao = getDbi().open(VMaterialSummaryDao.class);
+        try {
+            return dao.list();
         } finally {
             dao.close();
         }

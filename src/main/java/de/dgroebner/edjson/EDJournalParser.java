@@ -31,7 +31,11 @@ import de.dgroebner.edjson.db.Journal;
 import de.dgroebner.edjson.db.JournalFile;
 import de.dgroebner.edjson.db.Mission;
 import de.dgroebner.edjson.db.Navlog;
+import de.dgroebner.edjson.db.Planet;
+import de.dgroebner.edjson.db.PlanetMaterial;
+import de.dgroebner.edjson.db.RingTable;
 import de.dgroebner.edjson.db.Ship;
+import de.dgroebner.edjson.db.Star;
 import de.dgroebner.edjson.db.Starport;
 import de.dgroebner.edjson.db.Starsystem;
 import de.dgroebner.edjson.model.EDJournalEvents;
@@ -159,16 +163,36 @@ public class EDJournalParser {
         context.put("financeLogList", new Financedata(dbi).listFinanceLog());
 
         final Template journalTemplate = Velocity.getTemplate("templates/journalTemplate.vm");
+        writeToFile(context, journalTemplate, "journal.html");
 
-        final StringWriter sw = new StringWriter();
-        journalTemplate.merge(context, sw);
+        final RingTable ringDao = new RingTable(dbi);
+        final PlanetMaterial planetMaterialDao = new PlanetMaterial(dbi);
+        context.put("countStars", Integer.valueOf(new Star(dbi).count()));
+        context.put("countPlanets", Integer.valueOf(new Planet(dbi).count()));
+        context.put("countByPlanet", Integer.valueOf(planetMaterialDao.countByPlanet()));
+        context.put("countRings", Integer.valueOf(ringDao.count()));
+        context.put("materialSummary", planetMaterialDao.listMaterialSummary());
+        context.put("ringList", ringDao.list());
+        final Template planetTemplate = Velocity.getTemplate("templates/planetTemplate.vm");
+        writeToFile(context, planetTemplate, "planeten.html");
+    }
+
+    /**
+     * Füllt das Template und schreibt es in die Datei
+     * 
+     * @param context {@link VelocityContext}
+     * @param template {@link Template}
+     * @param fileName {@link String}
+     */
+    private void writeToFile(final VelocityContext context, final Template template, final String fileName) {
+        final StringWriter writer = new StringWriter();
+        template.merge(context, writer);
         try {
             final File journalReport = new File(
-                    "c:\\Users\\dgroebner\\Saved Games\\Frontier Developments\\Elite Dangerous\\reports\\journal.html");
-            FileUtils.write(journalReport, sw.toString(), Charsets.UTF_8, false);
+                    "c:\\Users\\dgroebner\\Saved Games\\Frontier Developments\\Elite Dangerous\\reports\\" + fileName);
+            FileUtils.write(journalReport, writer.toString(), Charsets.UTF_8, false);
         } catch (IOException e) {
             throw Throwables.propagate(e);
-
         }
     }
 

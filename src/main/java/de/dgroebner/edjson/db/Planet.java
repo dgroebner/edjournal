@@ -60,4 +60,18 @@ public class Planet extends AbstractDBTable {
         }
     }
 
+    /**
+     * Gibt die Anzahl der Planeten zurück
+     * 
+     * @return int
+     */
+    public int count() {
+        final PlanetDao dao = getDbi().open(PlanetDao.class);
+        try {
+            return dao.count();
+        } finally {
+            dao.close();
+        }
+    }
+
 }
