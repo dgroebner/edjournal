@@ -22,6 +22,15 @@ public interface VMaterialSummaryDao extends AbstractDao {
      * @return {@link List} von {@link VMaterialSummary}
      */
     @SqlQuery("SELECT material, amount, planet, planet_type, gravity, material_url, starsystem_url, distanceInsystem, distanceToluku FROM vmaterial_summary ORDER BY material")
+    List<VMaterialSummary> listSummary();
+
+    /**
+     * Gibt eine Gesamtliste der Materialvorkommen zurück
+     * 
+     * @return {@link List} von {@link VMaterialSummary}
+     */
+    @SqlQuery("SELECT material, amount, planet, planet_type, gravity, material_url, starsystem_url, distanceInsystem, distanceToluku FROM vmaterial_overview ORDER BY planet, amount DESC")
     List<VMaterialSummary> list();
+
 
 }

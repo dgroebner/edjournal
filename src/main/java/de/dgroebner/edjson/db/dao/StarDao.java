@@ -77,5 +77,4 @@ public interface StarDao extends AbstractDao {
      */
     @SqlQuery("SELECT COUNT(*) FROM star")
     int count();
-
 }

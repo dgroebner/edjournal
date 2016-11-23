@@ -1,10 +1,14 @@
 package de.dgroebner.edjson.db;
 
+import java.util.List;
+
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.dao.PlanetDao;
+import de.dgroebner.edjson.db.dao.VPlanetDao;
 import de.dgroebner.edjson.db.model.DBPlanet;
+import de.dgroebner.edjson.db.model.VPlanet;
 
 /**
  * Methoden für die Datenbanktabelle 'planet' zur Speicherung von Planeten
@@ -69,6 +73,20 @@ public class Planet extends AbstractDBTable {
         final PlanetDao dao = getDbi().open(PlanetDao.class);
         try {
             return dao.count();
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Gibt eine Liste der Planeten zurück
+     * 
+     * @return int
+     */
+    public List<VPlanet> list() {
+        final VPlanetDao dao = getDbi().open(VPlanetDao.class);
+        try {
+            return dao.list();
         } finally {
             dao.close();
         }

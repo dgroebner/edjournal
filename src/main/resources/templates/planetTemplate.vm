@@ -52,6 +52,7 @@
       }
   </style>
   
+  <script src="sorttable.js"></script>
   <script> 
     function ringFilter() {
       var input, filter, table, tr, td, i;
@@ -71,6 +72,42 @@
       }
     }
     
+    function materialFilter() {
+      var input, filter, table, tr, td, i;
+      input = document.getElementById("materialFilterInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("materialTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    
+    function planetFilter() {
+      var input, filter, table, tr, td, i;
+      input = document.getElementById("planetFilterInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("planetTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[3];
+        if (td) {
+          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    } 
+    
     function openRightMenu() {
         document.getElementById("rightMenu").style.display = "block";
     }
@@ -87,7 +124,7 @@
       <a href="#content">&Uuml;berblick</a>
       <a href="#materialSummary">Maximalvorkommen</a>
       <a href="#rings">Ringe</a>
-      <a href="#materialOverview">Planeten mit Materialen</a>
+      <a href="#materialList">Materialliste</a>
       <a href="#stars">Sternenliste</a>
       <a href="#planets">Planetenliste</a>
     </nav>
@@ -98,15 +135,18 @@
     </header>
   
     <div class="w3-content content" style="max-width:1400px">
+    
+    <div class="w3-row">
+    
       <div id="top" class="w3-col l8 s12">
 
-        <!-- navlog card -->
+        <!-- material max card -->
         <div class="w3-card-4 w3-margin w3-white">
           <div id="materialSummary" class="w3-container w3-padding-8">
             <h3><b>Maximalvorkommen Materialen</b></h3>
           </div>
           <div class="w3-container">
-            <table class="w3-table-all">
+            <table class="w3-table-all sortable">
               <thead>
                 <tr>
                   <th>Material</th>
@@ -139,14 +179,14 @@
           </div>
         </div>
         
-        <!-- last starports card -->
+        <!-- ring card -->
         <div class="w3-card-4 w3-margin w3-white">
           <div id="rings" class="w3-container w3-padding-8">
             <h3><b>Ringe</b></h3>
           </div>
           <div class="w3-container">
             <input type="text" id="ringFilterInput" class="filterInput" onkeyup="ringFilter()" placeholder="Filter Ringtypen.." title="Ringtypfilter">
-            <table id="ringTable" class="w3-table-all">
+            <table id="ringTable" class="w3-table-all sortable">
               <thead>
                 <tr>
                   <th>Art</th>
@@ -173,34 +213,79 @@
           </div>
         </div>
         
-        <!-- top starsystems card -->
+        <!-- materiallist card -->
         <div class="w3-card-4 w3-margin w3-white">
-          <div id="mostvisitsystems" class="w3-container w3-padding-8">
-            <h3><b>25 meistbesuchte Systeme</b></h3>
+          <div id="materialList" class="w3-container w3-padding-8">
+            <h3><b>Materialliste</b></h3>
           </div>
           <div class="w3-container">
-            <table class="w3-table-all">
+            <input type="text" id="materialFilterInput" class="filterInput" onkeyup="materialFilter()" placeholder="Filter Materialien.." title="Materialfilter">
+            <table id="materialTable" class="w3-table-all sortable">
               <thead>
                 <tr>
-                  <th>Besuche</th>
-                  <th>System</th>
-                  <th>Fraktion</th>
-                  <th>Systemdaten</th>
+                  <th>
+                    Planet<br>
+                    (Typ)
+                  </th>
+                  <th>Material</th>
+                  <th style="text-align:right">H&auml;ufigkeit</th>
+                  <th style="text-align:right">Gravitation</th>
+                  <th style="text-align:right">Entfernung Hauptstern</th>
+                  <th style="text-align:right">Entfernung Toluku</th>
                 </tr>
               </thead>
               <tbody>
-                #foreach( $starsystemLog in $starsystemLogList )
+                #foreach( $materialItem in $materialList )
                 <tr>
-                  <td>$numbertool.format($starsystemLog.visits)</td>
-                  <td>#if ($starsystemLog.systemUrl)<a target="_blank" href="$starsystemLog.systemUrl">#end $starsystemLog.systemname #if ($starsystemLog.systemUrl)</a>#end</td>
-                  <td>#if ($starsystemLog.factionUrl)<a target="_blank" href="$starsystemLog.factionUrl">#end $starsystemLog.factionName #if ($starsystemLog.factionUrl)</a>#else leer #end</td>
+                  <td>
+                     #if ($materialItem.starsystemUrl)<a target="_blank" href="$materialItem.starsystemUrl">#end $materialItem.planet #if ($materialItem.starsystemUrl)</a>#end<br>
+                     ($materialItem.planetType)
+                  </td>
+                  <td><a target="_blank" href="$materialItem.materialUrl">$materialItem.material</a></td>
+                  <td style="text-align:right">$numbertool.format($materialItem.amount)%</td>
+                  <td style="text-align:right">$numbertool.format($materialItem.gravity)g</td>
+                  <td style="text-align:right">$numbertool.format($materialItem.distanceInSystem) ls</td>
+                  <td style="text-align:right">$numbertool.format($materialItem.distanceToluku) ly</td>
+                </tr>
+                #end
+              </tbody>
+            </table><br>
+          </div>
+        </div>
+          
+        <!-- star card -->
+        <div class="w3-card-4 w3-margin w3-white">
+          <div id="stars" class="w3-container w3-padding-8">
+            <h3><b>Liste der analysierten Sterne</b></h3>
+          </div>
+          <div class="w3-container">
+            <table class="w3-table-all sortable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Klasse</th>
+                  <th style="text-align:right">Entfernung Hauptstern</th>
+                  <th style="text-align:right">Entfernung Toluku</th>
+                  <th>Eigenschaften</th>
+                </tr>
+              </thead>
+              <tbody>
+                #foreach( $starItem in $starList )
+                <tr>
+                  <td>
+                     #if ($starItem.starsystemUrl)<a target="_blank" href="$starItem.starsystemUrl">#end $starItem.starname #if ($starItem.starsystemUrl)</a>#end
+                  </td>
+                  <td>$starItem.type</a></td>
+                  <td style="text-align:right">$numbertool.format($starItem.distanceInSystem) ls</td>
+                  <td style="text-align:right">$numbertool.format($starItem.distanceToluku) ly</td>
                   <td>
                     <ul>
-                      #if ($starsystemLog.allegiance && $starsystemLog.allegiance != '') <li>$starsystemLog.allegiance</li> #end
-                      #if ($starsystemLog.security) <li>$starsystemLog.security</li> #end
-                      #if ($starsystemLog.government && $starsystemLog.government != 'Leer') <li>$starsystemLog.government</li> #end
-                      #if ($starsystemLog.economy && $starsystemLog.economy != 'Leer') <li>$starsystemLog.economy</li> #end
-                      #if ($starsystemLog.starpos) <li>$starsystemLog.starpos</li> #end
+                      <li>Masse: $numbertool.format($starItem.stellarMass) Sols</li>
+                      <li>Radius: $numbertool.format($starItem.radius)</li>
+                      <li>Alter: $numbertool.format($starItem.ageMY) Millionen Jahre</li>
+                      <li>Temperatur: $numbertool.format($starItem.surfaceTemperature)</li>
+                      <li>Magnitute: $numbertool.format($starItem.absoluteMagnitude)</li>
+                      <li>Rotationszeit: $numbertool.format($starItem.rotationPeriod)</li>
                     </ul>
                   </td>
                 </tr>
@@ -209,69 +294,9 @@
             </table><br>
           </div>
         </div>
+        
+   
 
-        <!-- missions card -->
-        <div class="w3-card-4 w3-margin w3-white">
-          <div id="missions" class="w3-container w3-padding-8">
-            <h3><b>Letzte 25 Missionen</b></h3>
-          </div>
-          <div class="w3-container">
-            <table class="w3-table-all">
-            <table class="w3-table-all">
-              <thead>
-                <tr>
-                  <th>Faction</th>
-                  <th>Missionname</th>
-                  <th>Ladung</th>
-                  <th>Ziel</th>
-                  <th>Status (Gewinn)</th>
-                </tr>
-              </thead>
-              <tbody>
-                #foreach( $mission in $missionList )
-                <tr>
-                  <td>$mission.factionname</td>
-                  <td>$mission.missionname</td>
-                  <td>
-                     #if ($mission.commodityCount > 0) $mission.commodityCount $mission.commodity <br>#end
-                     #if ($mission.passengerCount > 0) $mission.passengerCount $mission.passengerType #end #if ($mission.passengerVip) VIP #end #if ($mission.passengerWanted) gesucht #end
-                   </td>
-                  <td>$mission.destinationPort<br>($mission.destination)</td>
-                  <td>$mission.status #if ($mission.reward > 0)<br>($numbertool.format($mission.reward)) #end</td>
-                </tr>
-                #end
-              </tbody>
-            </table><br>
-          </div>
-        </div>
-
-        <!-- journal card -->
-        <div class="w3-card-4 w3-margin w3-white">
-          <div id="journal" class="w3-container w3-padding-8">
-            <h3><b>Letzte 1000 Journallog-Eintr&auml;ge</b></h3>
-          </div>
-          <div class="w3-container">
-            <input type="text" id="journalFilterInput" class="filterInput" onkeyup="journalFilter()" placeholder="Filter Events.." title="Eventfilter">
-            <table class="w3-table-all" id="journalTable">
-              <thead>
-                <tr>
-                  <th>Timestamp</th>
-                  <th>Event</th>
-                  <th>Message</th>
-                </tr>
-              </thead>
-              <tbody>
-                #foreach( $journal in $journalList )
-                <tr>
-                  <td>$datetool.format($journal.timestamp)</td>
-                  <td>$journal.event</td>
-                  <td>$journal.message</td>
-                </tr>
-                #end
-              </tbody>
-            </table><br>
-          </div>
-        </div>
       </div>
       
       <!-- summary card -->
@@ -303,7 +328,79 @@
           </table><br>
         </div>
       </div><hr>
-      
+    </div>
+    </div>
+    
+    <div class="w3-row">
+      <div class="w3-rest">
+        <!-- planet card -->
+        <div class="w3-card-4 w3-margin w3-white w3-rest">
+          <div id="planets" class="w3-container w3-padding-large">
+            <h3><b>Liste der analysierten Planeten</b></h3>
+          </div>
+          <div class="w3-container">
+            <input type="text" id="planetFilterInput" class="filterInput" onkeyup="planetFilter()" placeholder="Filter Vulkanismus.." title="Vulkanismusfilter">
+            <table id="planetTable" class="w3-table-all sortable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Typ</th>
+                  <th style="text-align:right">Gravitation</th>
+                  <th>Vulkanismus</th>
+                  <th style="text-align:right">Entfernung Hauptstern</th>
+                  <th style="text-align:right">Entfernung Toluku</th>
+                  <th>Eigenschaften</th>
+                </tr>
+              </thead>
+              <tbody>
+                #foreach( $planetItem in $planetList )
+                <tr>
+                  <td>
+                     #if ($planetItem.starsystemUrl)<a target="_blank" href="$planetItem.starsystemUrl">#end $planetItem.planetname #if ($planetItem.starsystemUrl)</a>#end
+                  </td>
+                  #if ($planetItem.landable)
+                  <td style="color:green;">
+                  #else
+                  <td style="color:red;">
+                  #end
+                    $planetItem.type
+                  </td>
+                  <td style="text-align:right">#if ($planetItem.surfaceGravity) $numbertool.format($planetItem.surfaceGravity)g #end</td>
+                  <td>$planetItem.volcanism</a></td>
+                  <td style="text-align:right">$numbertool.format($planetItem.distanceInSystem) ls</td>
+                  <td style="text-align:right">$numbertool.format($planetItem.distanceToluku) ly</td>
+                  <td>
+                    <ul>
+                      #if ($planetItem.massEM)
+                          <li>Masse: $numbertool.format($planetItem.massEM) Terras</li>
+                      #end
+                      #if ($planetItem.radius)
+                          <li>Radius: $numbertool.format($planetItem.radius)</li>
+                      #end
+                      #if ($planetItem.surfaceTemperature)
+                          <li>Temperatur: $numbertool.format($planetItem.surfaceTemperature)</li>
+                      #end
+                      #if ($planetItem.surfacePressure)
+                          <li>Druck: $numbertool.format($planetItem.surfacePressure)</li>
+                      #end
+                      #if ($planetItem.orbitalPeriod)
+                        <li>Umlaufzeit: $numbertool.format($planetItem.orbitalPeriod)</li>
+                      #end
+                      #if ($planetItem.rotationPeriod)
+                        <li>Rotationszeit: $numbertool.format($planetItem.rotationPeriod)</li>
+                      #end
+                      #if ($stringUtils.isNotBlank($planetItem.atmosphere))
+                        <li>Atmoshp&auml;re: $planetItem.atmosphere</li>
+                      #end
+                    </ul>
+                  </td>
+                </tr>
+                #end
+              </tbody>
+            </table><br>
+          </div>
+        </div> 
+      </div>
     </div>
   </body>
 </html>

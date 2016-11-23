@@ -3,6 +3,7 @@ package de.dgroebner.edjson.model.data;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,5 +75,11 @@ public class CollectCargo extends GenericModel<CollectCargo.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        return String.format("Fracht %s%s aufgenommen", getValueAsString(Fields.TYPE), getValueAsBoolean(Fields.STOLEN)
+                ? " (gestohlen)" : StringUtils.EMPTY);
     }
 }

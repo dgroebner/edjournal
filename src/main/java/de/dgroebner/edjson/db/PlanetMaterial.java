@@ -65,6 +65,20 @@ public class PlanetMaterial extends AbstractDBTable {
     public List<VMaterialSummary> listMaterialSummary() {
         final VMaterialSummaryDao dao = getDbi().open(VMaterialSummaryDao.class);
         try {
+            return dao.listSummary();
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Gibt eine Gesamtliste der Materialvorkommen zurück
+     * 
+     * @return {@link List} von {@link VMaterialSummary}
+     */
+    public List<VMaterialSummary> listMaterialComplete() {
+        final VMaterialSummaryDao dao = getDbi().open(VMaterialSummaryDao.class);
+        try {
             return dao.list();
         } finally {
             dao.close();

@@ -151,6 +151,7 @@ public class EDJournalParser {
         final Starsystem systemDao = new Starsystem(dbi);
         context.put("datetool", new LocalDateTimeTool());
         context.put("numbertool", new NumberTool());
+        context.put("stringUtils", new StringUtils());
         context.put("journalList", new Journal(dbi).listJournals());
         context.put("currentShip", shipDao.getCurrentShip());
         context.put("shipList", shipDao.listShipSummary());
@@ -166,15 +167,19 @@ public class EDJournalParser {
         writeToFile(context, journalTemplate, "journal.html");
 
         final RingTable ringDao = new RingTable(dbi);
+        final Planet planetDao = new Planet(dbi);
         final PlanetMaterial planetMaterialDao = new PlanetMaterial(dbi);
         context.put("countStars", Integer.valueOf(new Star(dbi).count()));
-        context.put("countPlanets", Integer.valueOf(new Planet(dbi).count()));
+        context.put("countPlanets", Integer.valueOf(planetDao.count()));
         context.put("countByPlanet", Integer.valueOf(planetMaterialDao.countByPlanet()));
         context.put("countRings", Integer.valueOf(ringDao.count()));
         context.put("materialSummary", planetMaterialDao.listMaterialSummary());
         context.put("ringList", ringDao.list());
+        context.put("materialList", planetMaterialDao.listMaterialComplete());
+        context.put("starList", new Star(dbi).list());
+        context.put("planetList", planetDao.list());
         final Template planetTemplate = Velocity.getTemplate("templates/planetTemplate.vm");
-        writeToFile(context, planetTemplate, "planeten.html");
+        writeToFile(context, planetTemplate, "starobjects.html");
     }
 
     /**

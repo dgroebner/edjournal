@@ -1,10 +1,14 @@
 package de.dgroebner.edjson.db;
 
+import java.util.List;
+
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.dao.StarDao;
+import de.dgroebner.edjson.db.dao.VStarDao;
 import de.dgroebner.edjson.db.model.DBStar;
+import de.dgroebner.edjson.db.model.VStar;
 
 /**
  * Methoden für die Datenbanktabelle 'star' zur Speicherung von Sternen
@@ -52,6 +56,20 @@ public class Star extends AbstractDBTable {
         final StarDao dao = getDbi().open(StarDao.class);
         try {
             return dao.count();
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Gibt eine Liste der Sterne zurück
+     * 
+     * @return int
+     */
+    public List<VStar> list() {
+        final VStarDao dao = getDbi().open(VStarDao.class);
+        try {
+            return dao.list();
         } finally {
             dao.close();
         }

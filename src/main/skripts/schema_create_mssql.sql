@@ -511,12 +511,11 @@ go
 if exists (select 1 from sysobjects where name = 'vmaterial_overview')
   drop view vmaterial_overview
 go
-CREATE VIEW vmaterial_overview (material, material_kuerzel, amount, 
-     starsystem, planet, planet_type, gravity, material_url, starsystem_url,
-	 distance_jumpin, distanceToluku)	 
+CREATE VIEW vmaterial_overview (material, amount, planet, planet_type, gravity, material_url,
+            starsystem_url, distanceInsystem, distanceToluku)	 
 AS
-SELECT material.name, material.kuerzel, amount, 
-       starsystem.name, planet.name, planet.type, surface_gravity, material.inara_url, starsystem.inara_url,
+SELECT material.name, amount, 
+       planet.name, planet.type, surface_gravity, material.inara_url, starsystem.inara_url,
 	   planet.distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
   FROM starsystem 
   JOIN planet ON starsystem.id = planet.starsystem_id 
@@ -524,3 +523,38 @@ SELECT material.name, material.kuerzel, amount,
   JOIN material ON material.id = planet_material.material_id
 GO
 
+if exists (select 1 from sysobjects where name = 'vstar')
+  drop view vstar
+go
+create view vstar
+       (starname, type, stellar_mass, radius, absolute_magnitude, 
+       ageMY, surface_temperature, semi_major_axis, eccentricity, orbital_inclination, 
+	   periapsis, orbital_period, rotation_period, 
+	   starsystem_url, distanceInsystem, distanceToluku)
+ as
+select star.name, type, stellar_mass, radius, absolute_magnitude, 
+       ageMY, surface_temperature, semi_major_axis, eccentricity, orbital_inclination, 
+	   periapsis, orbital_period, rotation_period, 
+	   starsystem.inara_url, distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
+  from star
+  join starsystem on starsystem.id = starsystem_id
+
+go
+if exists (select 1 from sysobjects where name = 'vplanet')
+  drop view vplanet
+go
+create view vplanet
+       (planetname, type, tidal_lock, terraform_state, atmosphere, volcanism,
+       mass_em, radius, surface_gravity, surface_temperature,
+	   surface_pressure, landable, semi_major_axis, eccentricity,
+	   orbital_inclination, periapsis, orbital_period,
+	   rotation_period, starsystem_url, distanceInsystem, distanceToluku)
+as
+  select planet.name, type, tidal_lock, terraform_state, atmosphere, volcanism,
+       mass_em, radius, surface_gravity, surface_temperature,
+	   surface_pressure, landable, semi_major_axis, eccentricity,
+	   orbital_inclination, periapsis, orbital_period,
+	   rotation_period, starsystem.inara_url, distance_from_arrival_ls, 
+	   dbo.fcDistance('Toluku', starsystem.name)
+  from planet
+  join starsystem on starsystem_id = starsystem.id
