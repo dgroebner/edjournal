@@ -281,11 +281,17 @@
                   <td>
                     <ul>
                       <li>Masse: $numbertool.format($starItem.stellarMass) Sols</li>
-                      <li>Radius: $numbertool.format($starItem.radius)</li>
-                      <li>Alter: $numbertool.format($starItem.ageMY) Millionen Jahre</li>
-                      <li>Temperatur: $numbertool.format($starItem.surfaceTemperature)</li>
-                      <li>Magnitute: $numbertool.format($starItem.absoluteMagnitude)</li>
-                      <li>Rotationszeit: $numbertool.format($starItem.rotationPeriod)</li>
+                      <li>Radius: $numbertool.format($starItem.radius) Sols</li>
+                      <li>Alter: $numbertool.format($starItem.ageMY) Mio. Jahre</li>
+                      #if ($starItem.surfaceTemperature > 0)
+                        <li>Temperatur: $numbertool.format($starItem.surfaceTemperature)&deg;</li>
+                      #end
+                      #if ($starItem.absoluteMagnitude)
+                        <li>Magnitude: $numbertool.format($starItem.absoluteMagnitude)</li>
+                      #end
+                      #if ($starItem.rotationPeriod > 0)
+                          <li>Rotation: $numbertool.format($starItem.rotationPeriod) t</li>
+                      #end
                     </ul>
                   </td>
                 </tr>
