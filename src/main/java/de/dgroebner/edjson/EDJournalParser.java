@@ -29,6 +29,7 @@ import com.google.common.base.Throwables;
 import de.dgroebner.edjson.db.Financedata;
 import de.dgroebner.edjson.db.Journal;
 import de.dgroebner.edjson.db.JournalFile;
+import de.dgroebner.edjson.db.Material;
 import de.dgroebner.edjson.db.Mission;
 import de.dgroebner.edjson.db.Navlog;
 import de.dgroebner.edjson.db.Planet;
@@ -162,6 +163,7 @@ public class EDJournalParser {
         context.put("navLogList", new Navlog(dbi).getNavlog());
         context.put("missionList", new Mission(dbi).getMissionLog());
         context.put("financeLogList", new Financedata(dbi).listFinanceLog());
+        context.put("materials", new Material(dbi).list());
 
         final Template journalTemplate = Velocity.getTemplate("templates/journalTemplate.vm");
         writeToFile(context, journalTemplate, "journal.html");

@@ -1,5 +1,7 @@
 package de.dgroebner.edjson.db;
 
+import java.util.List;
+
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.dao.MaterialDao;
@@ -45,7 +47,7 @@ public class Material extends AbstractDBTable {
 
     /**
      * Liefert den Materialeintrag für den übergebenen Elite-Dangerous Namen zurück. Liefert <code>null</code> wenn noch
-     * kein Eintrag vorhandne ist.
+     * kein Eintrag vorhanden ist.
      * 
      * @param edName {@link String}
      * @return {@link DBMaterial}
@@ -54,6 +56,20 @@ public class Material extends AbstractDBTable {
         final MaterialDao dao = getDbi().open(MaterialDao.class);
         try {
             return dao.findValueByEdName(edName);
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Liefert eine Liste der Materialien zurück
+     * 
+     * @return {@link DBMaterial}
+     */
+    public List<DBMaterial> list() {
+        final MaterialDao dao = getDbi().open(MaterialDao.class);
+        try {
+            return dao.list();
         } finally {
             dao.close();
         }

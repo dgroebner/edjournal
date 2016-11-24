@@ -5,11 +5,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.dgroebner.edjson.db.Faction;
 import de.dgroebner.edjson.model.GenericModel;
 import de.dgroebner.edjson.model.JournalModelField;
 
@@ -94,9 +96,11 @@ public class Bounty extends GenericModel<Bounty.Fields> {
 
     @Override
     public String getMessage() {
+        final String faction = StringUtils.isBlank(getValueAsString(Fields.VICTIM_FACTION)) ? Faction.UNDEFINED
+                : getValueAsString(Fields.VICTIM_FACTION);
         return String.format(
                 "Kopfgeld %scr von %s Fraktion(en) für zerstörtes Schiff von Fraktion %s kann eingefordert werden.",
-                        Integer.valueOf(getValueAsInt(Fields.TOTAL_REWARD)),
-                        Integer.valueOf(getRewardPerFaction().size()), getValueAsString(Fields.VICTIM_FACTION));
+                Integer.valueOf(getValueAsInt(Fields.TOTAL_REWARD)), Integer.valueOf(getRewardPerFaction().size()),
+                faction);
     }
 }

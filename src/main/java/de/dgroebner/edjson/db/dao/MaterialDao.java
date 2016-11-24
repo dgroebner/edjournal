@@ -8,6 +8,8 @@ import static de.dgroebner.edjson.db.mapper.MaterialMapper.COLUMN_KUERZEL;
 import static de.dgroebner.edjson.db.mapper.MaterialMapper.COLUMN_NAME;
 import static de.dgroebner.edjson.db.mapper.MaterialMapper.COLUMN_STOCK;
 
+import java.util.List;
+
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
@@ -31,8 +33,16 @@ public interface MaterialDao extends AbstractDao {
      * @param edName {@link String}
      * @return {@link String}
      */
-    @SqlQuery("SELECT id, name, inara_url, kuerzel, ed_name, category, stock FROM material WHERE ed_name = :ed_name")
+    @SqlQuery("SELECT id, name, inara_url, kuerzel, ed_name, category, stock, rarity FROM material WHERE ed_name = :ed_name")
     DBMaterial findValueByEdName(@Bind(COLUMN_ED_NAME) String edName);
+
+    /**
+     * Gibt eine Liste der Materialen zurück
+     * 
+     * @return {@link List} von {@link DBMaterial}
+     */
+    @SqlQuery("SELECT id, name, inara_url, kuerzel, ed_name, category, stock, rarity FROM material ORDER BY category, name")
+    List<DBMaterial> list();
 
     /**
      * Fügt eine Einstellung ein

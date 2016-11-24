@@ -25,7 +25,8 @@ CREATE TABLE material (
 	kuerzel varchar(2) NULL,
 	ed_name varchar(200) NOT NULL,
 	category varchar(50) NULL,
-	stock int NOT NULL default 0
+	stock int NOT NULL default 0,
+	rarity varchar(25) NULL,
 	CONSTRAINT pk_material PRIMARY KEY clustered (id)
 )
 CREATE INDEX i_material_edname on material(ed_name);

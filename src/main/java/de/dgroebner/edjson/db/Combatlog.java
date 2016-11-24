@@ -2,6 +2,7 @@ package de.dgroebner.edjson.db;
 
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Properties.ENTRIES;
@@ -46,7 +47,9 @@ public class Combatlog extends AbstractDBTable {
     public void save(final int journalId, final LocalDateTime timestamp, final ACTION action, final String enemy,
             final String factionName, final int reward) {
         final String currentShip = new Properties(getDbi()).getValueForEntry(ENTRIES.CURRENT_SHIP);
-        final DBFaction faction = new Faction(getDbi()).writeOrGetFraction(journalId, factionName);
+        final Faction factionDao = new Faction(getDbi());
+        final DBFaction faction = factionDao.writeOrGetFraction(journalId, StringUtils.isBlank(factionName)
+                ? Faction.UNDEFINED : factionName);
         final CombatlogDao dao = getDbi().open(CombatlogDao.class);
         try {
             dao.insert(journalId, Integer.parseInt(currentShip), timestamp, action.name(), enemy, faction.getId(),

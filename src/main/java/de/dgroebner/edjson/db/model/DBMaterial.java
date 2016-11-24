@@ -20,6 +20,8 @@ public class DBMaterial extends AbstractModel {
 
     private int stock;
 
+    private String rarity;
+
     /**
      * Constructor.
      */
@@ -37,10 +39,11 @@ public class DBMaterial extends AbstractModel {
      * @param edName {@link String}
      * @param category {@link String}
      * @param stock {@link String}
+     * @param rarity {@link String}
      */
     @SuppressWarnings("squid:S00107")
     public DBMaterial(final int id, final String name, final String inaraUrl, final String kuerzel,
-            final String edName, final String category, final int stock) {
+            final String edName, final String category, final int stock, final String rarity) {
         super(id);
         this.name = name;
         this.inaraUrl = inaraUrl;
@@ -48,6 +51,7 @@ public class DBMaterial extends AbstractModel {
         this.edName = edName;
         this.category = category;
         this.stock = stock;
+        this.rarity = rarity;
     }
 
     public final String getName() {
@@ -96,6 +100,14 @@ public class DBMaterial extends AbstractModel {
 
     public final void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public final String getRarity() {
+        return rarity;
+    }
+
+    public final void setRarity(String rarity) {
+        this.rarity = rarity;
     }
 
 }

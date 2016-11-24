@@ -3,6 +3,7 @@
     <meta charset="utf-8"/>
   </head>
   <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+  <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-colors-signal.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play">
   <style>
      body,h1,h2,h3,h4,h5 {font-family: "Play", sans-serif}
@@ -71,6 +72,24 @@
         }
       }
     }
+    
+    function materialFilter() {
+      var input, filter, table, tr, td, i;
+      input = document.getElementById("materialFilterInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("materialTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
   
     function journalFilter() {
       var input, filter, table, tr, td, i;
@@ -104,6 +123,7 @@
       <a href="javascript:void(0)" onclick="closeRightMenu()" class="w3-closenav w3-large">Close &times;</a>
       <a href="#top">Seitenanfang</a>
       <a href="#financelog">Letzte Kontobewegungen</a>
+      <a href="#material">Materiallager</a>
       <a href="#lastports">Letzte Raumh&auml;fen</a>
       <a href="#mostvisitsystems">Besuchte Systeme</a>
       <a href="#navlog">Letzte FSA-Srp&uuml;nge</a>
@@ -152,6 +172,48 @@
                   <td>$financeitem.category</td>
                   <td>$financeitem.remark</td>
                   <td>#if ($financeitem.factionUrl)<a target="_blank" href="$financeitem.factionUrl">#end $financeitem.factionName #if ($financeitem.factionUrl)</a>#end</td>
+                </tr>
+                #end
+              </tbody>
+            </table><br>
+          </div>
+        </div>
+        
+        <!-- material card -->
+        <div class="w3-card-4 w3-margin w3-white">
+          <div id="material" class="w3-container w3-padding-8">
+            <h3><b>Materiallager</b></h3>
+          </div>
+          <div class="w3-container">
+            <input type="text" id="materialFilterInput" class="filterInput" onkeyup="materialFilter()" placeholder="Filter Kategorien.." title="Kategoriefilter">
+            <table id="materialTable" class="w3-table-all sortable">
+              <thead>
+                <tr>
+                  <th>Material</th>
+                  <th>Kategorie</th>
+                  <th>Rarit&auml;t</th>
+                  <th style="text-align:right">Anzahl</th>
+                </tr>
+              </thead>
+              <tbody>
+                #foreach( $material in $materials )
+                <tr>
+                  <td>#if ($material.inaraUrl)<a target="_blank" href="$material.inaraUrl">#end $material.name #if ($material.inaraUrl)</a>#end</td>
+                  <td>$material.category</td>
+                  <td>
+                  #if ($stringUtils.equals($material.rarity, "VeryCommon"))
+                    <div class="w3-tag w3-signal-green w3-round-large">sehr h&auml;ufig</div>
+                  #elseif ($stringUtils.equals($material.rarity, "Common"))
+                    <div class="w3-tag w3-signal-blue w3-round-large">h&auml;ufig</div>
+                  #elseif ($stringUtils.equals($material.rarity, "Rare"))
+                    <div class="w3-tag w3-signal-violet w3-round-large">selten</div>
+                  #elseif ($stringUtils.equals($material.rarity, "VeryRare"))
+                    <div class="w3-tag w3-signal-orange w3-round-large">sehr selten</div>
+                  #else
+                    <div class="w3-tag w3-signal-white w3-round-large">unbestimmt</div>
+                  #end
+                  </td>
+                  <td style="text-align:right">$material.stock</td>
                 </tr>
                 #end
               </tbody>
