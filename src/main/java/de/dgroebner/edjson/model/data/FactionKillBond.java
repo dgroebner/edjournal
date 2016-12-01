@@ -3,10 +3,12 @@ package de.dgroebner.edjson.model.data;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.dgroebner.edjson.db.Faction;
 import de.dgroebner.edjson.model.GenericModel;
 import de.dgroebner.edjson.model.JournalModelField;
 
@@ -75,5 +77,15 @@ public class FactionKillBond extends GenericModel<FactionKillBond.Fields> {
     @Override
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
+    }
+
+    @Override
+    public String getMessage() {
+        final String faction = StringUtils.isBlank(getValueAsString(Fields.VICTIM_FACTION)) ? Faction.UNDEFINED
+                : getValueAsString(Fields.VICTIM_FACTION);
+        return String
+                .format("Kampfzonenbelohnung in Höhe von %scr für zerstörtes Schiff von Fraktion %s kann von %s eingefordert werden.",
+                        Integer.valueOf(getValueAsInt(Fields.REWARD)), faction,
+                        getValueAsString(Fields.AWARDING_FACTION));
     }
 }

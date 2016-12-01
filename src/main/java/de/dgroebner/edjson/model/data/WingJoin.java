@@ -87,4 +87,10 @@ public class WingJoin extends GenericModel<WingJoin.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Trete Wing mit %s weiteren Mitgliedern bei",
+                Integer.valueOf(getValueAsJsonArray(Fields.OTHERS).length()));
+    }
 }

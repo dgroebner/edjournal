@@ -6,7 +6,11 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -25,7 +29,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
 
+import de.dgroebner.edjson.db.Combatlog;
 import de.dgroebner.edjson.db.Financedata;
 import de.dgroebner.edjson.db.Journal;
 import de.dgroebner.edjson.db.JournalFile;
@@ -39,6 +45,7 @@ import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.Star;
 import de.dgroebner.edjson.db.Starport;
 import de.dgroebner.edjson.db.Starsystem;
+import de.dgroebner.edjson.db.model.VCombatlog;
 import de.dgroebner.edjson.model.EDJournalEvents;
 import de.dgroebner.edjson.model.JournalModel;
 import de.dgroebner.edjson.velocity.LocalDateTimeTool;
@@ -52,7 +59,7 @@ public class EDJournalParser {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EDJournalParser.class);
 
-    private File file;
+    private final File file;
 
     private final DBI dbi = new DBI("jdbc:jtds:sqlserver://localhost:1433", "edjournal", "edjournal");
 
@@ -150,6 +157,7 @@ public class EDJournalParser {
 
         final Ship shipDao = new Ship(dbi);
         final Starsystem systemDao = new Starsystem(dbi);
+        final Combatlog combatLogDao = new Combatlog(dbi);
         context.put("datetool", new LocalDateTimeTool());
         context.put("numbertool", new NumberTool());
         context.put("stringUtils", new StringUtils());
@@ -164,6 +172,9 @@ public class EDJournalParser {
         context.put("missionList", new Mission(dbi).getMissionLog());
         context.put("financeLogList", new Financedata(dbi).listFinanceLog());
         context.put("materials", new Material(dbi).list());
+        final List<VCombatlog> combatLogList = combatLogDao.list();
+        context.put("combatLogList", combatLogList);
+        context.put("combatLogOverview", aggregateCombatLog(combatLogList));
 
         final Template journalTemplate = Velocity.getTemplate("templates/journalTemplate.vm");
         writeToFile(context, journalTemplate, "journal.html");
@@ -185,6 +196,41 @@ public class EDJournalParser {
     }
 
     /**
+     * Generiert eine Überblicks-Map über das Kampflog und gibt diese zurück
+     * 
+     * @param combatLogList {@link List} von {@link VCombatlog}
+     * @return {@link Map} von {@link StringUtils} und {@link Integer}
+     */
+    private Map<String, Integer> aggregateCombatLog(final List<VCombatlog> combatLogList) {
+        final Map<String, Integer> overview = new HashMap<>();
+        combatLogList.stream().filter(log -> Combatlog.ACTION.FIGHT_WON.name().equals(log.getAction()))
+                .forEach(log -> aggregateCombatOverview(log, overview));
+
+        final List<Map.Entry<String, Integer>> list = Lists.newArrayList(overview.entrySet());
+        Collections.sort(list, (o1, o2) -> o1.getValue().compareTo(o2.getValue()));
+        Collections.reverse(list);
+
+        final LinkedHashMap<String, Integer> result = new LinkedHashMap<>();
+        list.forEach(entry -> result.put(entry.getKey(), entry.getValue()));
+        return result;
+    }
+
+    /**
+     * Aggregiert die Kontakte je Fraktion
+     * 
+     * @param log {@link VCombatlog}
+     * @param overview {@link Map} von {@link StringUtils} und {@link Integer}
+     */
+    private void aggregateCombatOverview(final VCombatlog log, final Map<String, Integer> overview) {
+        if (overview.containsKey(log.getFactionName())) {
+            final int currentCount = overview.get(log.getFactionName()).intValue();
+            overview.put(log.getFactionName(), Integer.valueOf(currentCount + 1));
+        } else {
+            overview.put(log.getFactionName(), Integer.valueOf(1));
+        }
+    }
+
+    /**
      * Füllt das Template und schreibt es in die Datei
      * 
      * @param context {@link VelocityContext}
@@ -198,7 +244,7 @@ public class EDJournalParser {
             final File journalReport = new File(
                     "c:\\Users\\dgroebner\\Saved Games\\Frontier Developments\\Elite Dangerous\\reports\\" + fileName);
             FileUtils.write(journalReport, writer.toString(), Charsets.UTF_8, false);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw Throwables.propagate(e);
         }
     }
@@ -212,7 +258,7 @@ public class EDJournalParser {
         final EDJournalParser parser = new EDJournalParser(file);
         try {
             parser.doAction();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw Throwables.propagate(e);
         }
     }

@@ -559,3 +559,14 @@ as
 	   dbo.fcDistance('Toluku', starsystem.name)
   from planet
   join starsystem on starsystem_id = starsystem.id
+
+go
+if exists (select 1 from sysobjects where name = 'vcombatlog')
+  drop view vcombatlog
+go
+create view vcombatlog (timestamp, action, enemy, faction_name, faction_url, shipName, ship_url)
+as
+select timestamp, action, enemy, faction.name, faction.inara_url, ship.callsign, ship.inara_url
+  from combatlog 
+  join faction on faction.id = faction_id
+  join ship on ship.id = ship_id

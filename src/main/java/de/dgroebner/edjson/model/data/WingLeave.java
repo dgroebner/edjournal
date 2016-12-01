@@ -74,4 +74,9 @@ public class WingLeave extends GenericModel<WingLeave.Fields> {
         return getValueAsString(Fields.EVENT);
     }
 
+    @Override
+    public String getMessage() {
+        return "Wing verlassen";
+    }
+
 }

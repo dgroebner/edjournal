@@ -1,5 +1,6 @@
 package de.dgroebner.edjson.model.action;
 
+import static de.dgroebner.edjson.model.data.Bounty.Fields.TIMESTAMP;
 import static de.dgroebner.edjson.model.data.Died.Fields.KILLER_NAME;
 import static de.dgroebner.edjson.model.data.Died.Fields.KILLER_RANK;
 import static de.dgroebner.edjson.model.data.Died.Fields.KILLER_SHIP;
@@ -7,6 +8,9 @@ import static de.dgroebner.edjson.model.data.Died.Fields.KILLER_SHIP;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
+import de.dgroebner.edjson.db.Combatlog;
+import de.dgroebner.edjson.db.Combatlog.ACTION;
+import de.dgroebner.edjson.db.Faction;
 import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.model.DBShip;
 import de.dgroebner.edjson.model.data.Died;
@@ -47,6 +51,8 @@ public class DiedAction extends AbstractAction<Died> {
 
     @Override
     public void doActionOn(final DBI dbi, final int journalId, final Died model) {
+        new Combatlog(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), ACTION.DIED,
+                model.getValueAsString(KILLER_NAME), Faction.UNDEFINED, 0);
     }
 
 }

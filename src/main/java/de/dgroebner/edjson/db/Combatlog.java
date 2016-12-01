@@ -1,13 +1,16 @@
 package de.dgroebner.edjson.db;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 
 import de.dgroebner.edjson.db.Properties.ENTRIES;
 import de.dgroebner.edjson.db.dao.CombatlogDao;
+import de.dgroebner.edjson.db.dao.VCombatlogDao;
 import de.dgroebner.edjson.db.model.DBFaction;
+import de.dgroebner.edjson.db.model.VCombatlog;
 
 /**
  * Methoden für die Datenbanktabelle 'combatlog' zur Speicherung des Kampfprotokolls
@@ -22,7 +25,7 @@ public class Combatlog extends AbstractDBTable {
      * @author dgroebner
      */
     public enum ACTION {
-        INTERDICTED, FIGHT_WON;
+        INTERDICTED, FIGHT_WON, DIED;
     }
 
     /**
@@ -54,6 +57,20 @@ public class Combatlog extends AbstractDBTable {
         try {
             dao.insert(journalId, Integer.parseInt(currentShip), timestamp, action.name(), enemy, faction.getId(),
                     reward);
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Listet das komplette Combatlog auf
+     * 
+     * @return {@link List} von {@link VCombatlog}
+     */
+    public List<VCombatlog> list() {
+        final VCombatlogDao dao = getDbi().open(VCombatlogDao.class);
+        try {
+            return dao.list();
         } finally {
             dao.close();
         }

@@ -53,61 +53,8 @@
   </style>
   
   <script src="sorttable.js"></script>
+  <script src="filtertable.js"></script>
   <script> 
-    function ringFilter() {
-      var input, filter, table, tr, td, i;
-      input = document.getElementById("ringFilterInput");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("ringTable");
-      tr = table.getElementsByTagName("tr");
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[3];
-        if (td) {
-          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
-    
-    function materialFilter() {
-      var input, filter, table, tr, td, i;
-      input = document.getElementById("materialFilterInput");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("materialTable");
-      tr = table.getElementsByTagName("tr");
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[1];
-        if (td) {
-          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
-    
-    function planetFilter() {
-      var input, filter, table, tr, td, i;
-      input = document.getElementById("planetFilterInput");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("planetTable");
-      tr = table.getElementsByTagName("tr");
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[3];
-        if (td) {
-          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    } 
-    
     function openRightMenu() {
         document.getElementById("rightMenu").style.display = "block";
     }
@@ -185,7 +132,7 @@
             <h3><b>Ringe</b></h3>
           </div>
           <div class="w3-container">
-            <input type="text" id="ringFilterInput" class="filterInput" onkeyup="ringFilter()" placeholder="Filter Ringtypen.." title="Ringtypfilter">
+            <input type="text" id="ringFilterInput" class="filterInput" onkeyup="tableFilter('ringFilterInput', 'ringTable', 3)" placeholder="Filter Ringtypen.." title="Ringtypfilter">
             <table id="ringTable" class="w3-table-all sortable">
               <thead>
                 <tr>
@@ -219,7 +166,7 @@
             <h3><b>Materialliste</b></h3>
           </div>
           <div class="w3-container">
-            <input type="text" id="materialFilterInput" class="filterInput" onkeyup="materialFilter()" placeholder="Filter Materialien.." title="Materialfilter">
+            <input type="text" id="materialFilterInput" class="filterInput" onkeyup="tableFilter('materialFilterInput', 'materialTable', 1)" placeholder="Filter Materialien.." title="Materialfilter">
             <table id="materialTable" class="w3-table-all sortable">
               <thead>
                 <tr>
@@ -345,7 +292,7 @@
             <h3><b>Liste der analysierten Planeten</b></h3>
           </div>
           <div class="w3-container">
-            <input type="text" id="planetFilterInput" class="filterInput" onkeyup="planetFilter()" placeholder="Filter Vulkanismus.." title="Vulkanismusfilter">
+            <input type="text" id="planetFilterInput" class="filterInput" onkeyup="tableFilter('planetFilterInput', 'planetTable', 3)" placeholder="Filter Vulkanismus.." title="Vulkanismusfilter">
             <table id="planetTable" class="w3-table-all sortable">
               <thead>
                 <tr>

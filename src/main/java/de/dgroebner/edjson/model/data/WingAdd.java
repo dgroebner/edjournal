@@ -74,4 +74,9 @@ public class WingAdd extends GenericModel<WingAdd.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("%s tritt dem Wing bei", getValueAsString(Fields.NAME));
+    }
 }
