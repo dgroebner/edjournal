@@ -15,7 +15,6 @@ import de.dgroebner.edjson.model.action.BuyAmmoAction;
 import de.dgroebner.edjson.model.action.DiedAction;
 import de.dgroebner.edjson.model.action.DockedAction;
 import de.dgroebner.edjson.model.action.FSDJumpAction;
-import de.dgroebner.edjson.model.action.FactionKillBondAction;
 import de.dgroebner.edjson.model.action.FetchRemoteModuleAction;
 import de.dgroebner.edjson.model.action.HullDamageAction;
 import de.dgroebner.edjson.model.action.InterdictedAction;
@@ -184,7 +183,7 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     CAP_SHIP_BOND("CapShipBond", CapShipBond.class),
     DIED("Died", Died.class, DiedAction.class),
     ESCAPE_INTERDICTION("EscapeInterdiction", EscapeInterdiction.class),
-    FACTION_KILL_BOND("FactionKillBond", FactionKillBond.class, FactionKillBondAction.class),
+    FACTION_KILL_BOND("FactionKillBond", FactionKillBond.class),
     HEAT_DAMAGE("HeatDamage", HeatDamage.class),
     HEAT_WARNING("HeatWarning", HeatWarning.class),
     HULL_DAMAGE("HullDamage", HullDamage.class, HullDamageAction.class),

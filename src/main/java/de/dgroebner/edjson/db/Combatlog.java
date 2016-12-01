@@ -25,7 +25,7 @@ public class Combatlog extends AbstractDBTable {
      * @author dgroebner
      */
     public enum ACTION {
-        INTERDICTED, FIGHT_WON, DIED;
+        INTERDICTED, ENEMY_KILLED, DIED;
     }
 
     /**

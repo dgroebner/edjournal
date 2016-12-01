@@ -18,7 +18,7 @@ public class BountyAction extends AbstractAction<Bounty> {
 
     @Override
     public void doActionOn(final DBI dbi, final int journalId, final Bounty model) {
-        new Combatlog(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), ACTION.FIGHT_WON, null,
+        new Combatlog(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP), ACTION.ENEMY_KILLED, null,
                 model.getValueAsString(VICTIM_FACTION), 0);
     }
 

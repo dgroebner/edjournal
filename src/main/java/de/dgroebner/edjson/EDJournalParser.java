@@ -203,7 +203,7 @@ public class EDJournalParser {
      */
     private Map<String, Integer> aggregateCombatLog(final List<VCombatlog> combatLogList) {
         final Map<String, Integer> overview = new HashMap<>();
-        combatLogList.stream().filter(log -> Combatlog.ACTION.FIGHT_WON.name().equals(log.getAction()))
+        combatLogList.stream().filter(log -> Combatlog.ACTION.ENEMY_KILLED.name().equals(log.getAction()))
                 .forEach(log -> aggregateCombatOverview(log, overview));
 
         final List<Map.Entry<String, Integer>> list = Lists.newArrayList(overview.entrySet());
