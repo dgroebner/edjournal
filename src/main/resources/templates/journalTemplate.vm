@@ -387,7 +387,10 @@
           <h4><b>Commander ShinFain</b></h4>
           <p class="w3-wide"><a href="http://inara.cz/wing/1462" target="_blank">Explorer on Tour</a></p>
           <p>Aktuelles Schiff: <a target="_blank" href="$currentShip.inaraUrl">$currentShip.callsign ($currentShip.type)</a></p>
-          <p>Aktuelles Sternensystem: <a target="_blank" href="$currentSystem.inaraUrl">$currentSystem.name</a></p>
+          <p>Aktuelles Sternensystem:
+             #if ($currentSystem.inaraUrl) <a target="_blank" href="$currentSystem.inaraUrl">#end
+              $currentSystem.name 
+             #if ($currentSystem.inaraUrl)</a>#end</p>
           <p>Aktueller Kontostand: $numbertool.format($currentCredits) cr</p>
         </div>
       </div><hr>

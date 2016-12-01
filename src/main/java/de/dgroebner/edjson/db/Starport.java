@@ -40,8 +40,8 @@ public class Starport extends AbstractDBTable {
         try {
             final DBStarport saved = dao.findByName(forSave.getName());
             if (saved != null) {
-                dao.updateMetaData(forSave.getFactionId(), forSave.getAllegiance(), forSave.getGovernment(),
-                        forSave.getEconomy(), forSave.getName());
+                dao.updateMetaData(forSave.getFactionId(), StringUtils.trimToNull(forSave.getAllegiance()),
+                        forSave.getGovernment(), StringUtils.trimToNull(forSave.getEconomy()), forSave.getName());
             } else {
                 final String type = StringUtils.defaultIfBlank(forSave.getType(), "PlanetaryPort");
                 dao.insert(journalId, forSave.getStarsystemId(), forSave.getName(), type, null, forSave.getFactionId(),
