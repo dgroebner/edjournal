@@ -75,4 +75,9 @@ public class CommunityGoalJoin extends GenericModel<CommunityGoalJoin.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Gemeinschaftsmission %s beigetreten.", getValueAsString(Fields.NAME));
+    }
 }

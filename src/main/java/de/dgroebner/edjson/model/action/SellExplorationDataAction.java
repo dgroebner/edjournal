@@ -30,13 +30,8 @@ public class SellExplorationDataAction extends AbstractAction<SellExplorationDat
 
         final int bonus = model.getValueAsInt(BONUS);
         if (bonus > 0) {
-            new Financedata(dbi).save(
-                    journalId,
-                    model.getValueAsLocalDateTime(TIMESTAMP),
-                    model.getValueAsInt(BASE_VALUE),
-                    CATEGORY.EXPLORATION_DATA,
-                    String.format("Bonus für %s neu entdeckte Systeme erhalten",
-                            Integer.valueOf(model.getValueAsJsonArray(BONUS).length())));
+            new Financedata(dbi).save(journalId, model.getValueAsLocalDateTime(TIMESTAMP),
+                    model.getValueAsInt(BASE_VALUE), CATEGORY.EXPLORATION_DATA, "Bonus für Erstentdeckungen");
         }
     }
 
