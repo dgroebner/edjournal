@@ -13,6 +13,7 @@
         <apache.commons.collections.version>3.2.1</apache.commons.collections.version>
         <apache.commons.io.version>2.5</apache.commons.io.version>
         <apache.commons.lang3.version>3.4</apache.commons.lang3.version>
+        <apache.camel.version>2.18.1</apache.camel.version>
         <jdbi.version>2.77</jdbi.version>
         <jtds.version>1.2.8</jtds.version>
         <junit.version>4.12</junit.version>
@@ -27,7 +28,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -64,7 +65,7 @@
             <version>${logback.version}</version>
             <optional>true</optional>
         </dependency>
-               
+
         <!-- apache commons -->
         <dependency>
             <groupId>commons-collections</groupId>
@@ -81,21 +82,38 @@
             <artifactId>commons-lang3</artifactId>
             <version>${apache.commons.lang3.version}</version>
         </dependency>
-        
+
+        <!-- camel -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
+            <version>${apache.camel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-stream</artifactId>
+            <version>${apache.camel.version}</version>
+        </dependency>        
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-velocity</artifactId>
+            <version>${apache.camel.version}</version>
+        </dependency>
+
         <!-- json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>${org.json.version}</version>
         </dependency>
-        
+
         <!-- guava -->
         <dependency>
           <groupId>com.google.guava</groupId>
           <artifactId>guava</artifactId>
           <version>${google.guava.version}</version>
         </dependency>
-        
+
         <!-- sql -->
         <dependency>
             <groupId>net.sourceforge.jtds</groupId>
@@ -108,7 +126,7 @@
           <artifactId>jdbi</artifactId>
           <version>${jdbi.version}</version>
         </dependency>
-        
+
         <!-- velocity -->
         <dependency>
             <groupId>org.apache.velocity</groupId>
@@ -120,7 +138,7 @@
             <artifactId>velocity-tools</artifactId>
             <version>${velocity.tools.version}</version>
         </dependency>
-        
+
         <!-- testing -->
         <dependency>
             <groupId>junit</groupId>

@@ -46,7 +46,7 @@ public class JournalFile extends AbstractDBTable {
      * 
      * @return boolean
      */
-    public boolean isFileAlreadyPared() {
+    public boolean isFileAlreadyParsed() {
         final JournalFileDao journalFileDao = getDbi().open(JournalFileDao.class);
         try {
             return journalFileDao.countByName(file.getName()) > 0;

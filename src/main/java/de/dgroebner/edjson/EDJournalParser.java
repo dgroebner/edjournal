@@ -104,7 +104,7 @@ public class EDJournalParser {
      */
     private void doAction() throws IOException {
         final JournalFile fileTable = new JournalFile(dbi, file);
-        if (fileTable.isFileAlreadyPared()) {
+        if (fileTable.isFileAlreadyParsed()) {
             return;
         }
         final int id = fileTable.save();
