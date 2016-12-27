@@ -58,6 +58,8 @@ public class VPlanetMapper extends AbstractMapper<VPlanet> {
 
     public static final String COLUMN_DISTANCETOLUKU = "distanceToluku";
 
+    public static final String COLUMN_STARSYSTEMID = "starsystemId";
+
     @Override
     public VPlanet map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
         return new VPlanet(r.getString(COLUMN_PLANETNAME), r.getString(COLUMN_TYPE), r.getBoolean(COLUMN_TIDAL_LOCK),

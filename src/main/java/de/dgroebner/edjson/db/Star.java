@@ -64,12 +64,27 @@ public class Star extends AbstractDBTable {
     /**
      * Gibt eine Liste der Sterne zurück
      * 
-     * @return int
+     * @return {@link List} von {@link VStar}
      */
     public List<VStar> list() {
         final VStarDao dao = getDbi().open(VStarDao.class);
         try {
             return dao.list();
+        } finally {
+            dao.close();
+        }
+    }
+
+    /**
+     * Gibt eine Liste der Sterne für das übergebene Sternensystem zurück
+     * 
+     * @param starsystemId id des Starsystem
+     * @return {@link List} von {@link VStar}
+     */
+    public List<VStar> listByStarsystemId(final Integer starsystemId) {
+        final VStarDao dao = getDbi().open(VStarDao.class);
+        try {
+            return dao.list(starsystemId);
         } finally {
             dao.close();
         }

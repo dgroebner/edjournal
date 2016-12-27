@@ -92,4 +92,19 @@ public class Planet extends AbstractDBTable {
         }
     }
 
+    /**
+     * Gibt eine Liste der Planeten für das übergebene Sternensystem zurück
+     * 
+     * @param starsystemId id des Starsystem
+     * @return {@link List} von {@link VPlanet}
+     */
+    public List<VPlanet> listByStarsystemId(final Integer starsystemId) {
+        final VPlanetDao dao = getDbi().open(VPlanetDao.class);
+        try {
+            return dao.list(starsystemId);
+        } finally {
+            dao.close();
+        }
+    }
+
 }

@@ -1,0 +1,83 @@
+==Beschreibung==
+Das System $system.name besteht aus $displayTool.plural($planetList.size(), "einem Stern", "$starList.size() Sternen") #if ($planetList.size() > 0)und $displayTool.plural($planetList.size(), "einem Planet", "$planetList.size() Planeten")#end. Es ist $numberTool.format($firststar.distanceToluku) ly von [[Toluku]] entfernt.
+{| class="wikitable sortable"
+|-
+| Alter || $numberTool.format($firststar.ageMY) Millionen Jahre
+#if ($system.inaraUrl)
+|-
+| Sicherheit || $system.security
+|-
+| Führende Fraktion || [$systemFaction.inaraUrl $systemFaction.name]
+|-
+| Politisches System || $system.government
+|-
+| Wirtschaft || $system.economy
+|-
+| zugehörige Supermacht || $system.allegiance
+|-
+| Koordinaten || $system.starpos
+|}
+#end
+
+==Sterne==
+
+#foreach( $star in $starList )
+===$star.starname===
+
+$star.starname ist ein Klasse $star.type Stern mit einem Radius von $numberTool.format($star.radius) Sonnenradien.
+
+{| class="wikitable sortable"
+|-
+| Sternenklasse || $star.type
+|-
+| Radius || $numberTool.format($star.radius) Sonnenradien
+|-
+| Stellare Masse || $numberTool.format($star.stellarMass)
+|-
+| Oberflächentemperatur || $numberTool.format($star.surfaceTemperature)°
+|}
+
+#end
+
+==Planeten==
+
+#foreach( $planet in $planetList )
+===$planet.planetname===
+
+$planet.planetname ist ein Planet des Types $planet.type einer Schwerkraft von $numberTool.format($planet.surfaceGravity)g.
+
+{| class="wikitable sortable"
+|-
+| Planetentyp || $planet.type
+|-
+| Schwerkraft || $numberTool.format($planet.surfaceGravity)g
+|-
+| Entfernung vom Einsprungpunkt || $numberTool.format($planet.distanceInSystem)ls
+|}
+
+#foreach( $material in $materialList )
+#if ($planet.planetname.equals($material.planet))$material.material $numberTool.format($material.amount)% #end
+#end
+
+
+#end
+
+==Stationen==
+
+#foreach( $station in $stationList )
+===$station.portname===
+
+[$station.portUrl $station.portname] ist eine Station vom Typ $station.type #if ($station.government)mit dem politischen System $station.government#end. Führende Fraktion ist [$station.factionUrl $station.factionName].
+#if ($station.economy)Das wirtschaftliche System ist: $station.economy #end
+
+#if ($station.allegiance)Die Station steht unter der Kontrolle von: $station.allegiance #end
+
+
+#end
+
+==Links==
+[$system.inaraUrl inara.cz]
+
+----
+
+[[Category:Sternsysteme|$stringUtils.left($system.name, 1)]]]

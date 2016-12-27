@@ -85,4 +85,19 @@ public class PlanetMaterial extends AbstractDBTable {
         }
     }
 
+    /**
+     * Gibt eine Gesamtliste der Materialvorkommen für den übergebenen Planeten zurück
+     * 
+     * @param planet {@link String} planet
+     * @return {@link List} von {@link VMaterialSummary}
+     */
+    public List<VMaterialSummary> listMaterialByPlanet(final String planet) {
+        final VMaterialSummaryDao dao = getDbi().open(VMaterialSummaryDao.class);
+        try {
+            return dao.list(planet);
+        } finally {
+            dao.close();
+        }
+    }
+
 }

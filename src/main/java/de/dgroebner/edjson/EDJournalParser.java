@@ -21,6 +21,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.apache.velocity.tools.generic.DisplayTool;
 import org.apache.velocity.tools.generic.NumberTool;
 import org.json.JSONObject;
 import org.skife.jdbi.v2.DBI;
@@ -32,6 +33,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
 import de.dgroebner.edjson.db.Combatlog;
+import de.dgroebner.edjson.db.Faction;
 import de.dgroebner.edjson.db.Financedata;
 import de.dgroebner.edjson.db.Journal;
 import de.dgroebner.edjson.db.JournalFile;
@@ -45,7 +47,13 @@ import de.dgroebner.edjson.db.Ship;
 import de.dgroebner.edjson.db.Star;
 import de.dgroebner.edjson.db.Starport;
 import de.dgroebner.edjson.db.Starsystem;
+import de.dgroebner.edjson.db.model.DBFaction;
+import de.dgroebner.edjson.db.model.DBStarsystem;
 import de.dgroebner.edjson.db.model.VCombatlog;
+import de.dgroebner.edjson.db.model.VMaterialSummary;
+import de.dgroebner.edjson.db.model.VPlanet;
+import de.dgroebner.edjson.db.model.VStar;
+import de.dgroebner.edjson.db.model.VStarportLog;
 import de.dgroebner.edjson.model.EDJournalEvents;
 import de.dgroebner.edjson.model.JournalModel;
 import de.dgroebner.edjson.velocity.LocalDateTimeTool;
@@ -193,6 +201,33 @@ public class EDJournalParser {
         context.put("planetList", planetDao.list());
         final Template planetTemplate = Velocity.getTemplate("templates/planetTemplate.vm");
         writeToFile(context, planetTemplate, "starobjects.html");
+
+        writeStarsystemWikipage("HIP 67086");
+    }
+
+    private void writeStarsystemWikipage(final String name) {
+        final VelocityContext context = new VelocityContext();
+        final DBStarsystem system = new Starsystem(dbi).getByName(name);
+        final DBFaction systemFaction = new Faction(dbi).getById(system.getFactionId());
+        final List<VStar> starList = new Star(dbi).listByStarsystemId(Integer.valueOf(system.getId()));
+        final List<VPlanet> planetList = new Planet(dbi).listByStarsystemId(Integer.valueOf(system.getId()));
+        final List<VMaterialSummary> materialList = new ArrayList<>();
+        final PlanetMaterial planMatDao = new PlanetMaterial(dbi);
+        final List<VStarportLog> stationList = new Starport(dbi).list(system.getName());
+        planetList.forEach(planet -> materialList.addAll(planMatDao.listMaterialByPlanet(planet.getPlanetname())));
+        context.put("displayTool", new DisplayTool());
+        context.put("numberTool", new NumberTool());
+        context.put("stringUtils", new StringUtils());
+        context.put("system", system);
+        context.put("systemFaction", systemFaction);
+        context.put("starList", starList);
+        context.put("firststar", starList.stream().findFirst().get());
+        context.put("planetList", planetList);
+        context.put("materialList", materialList);
+        context.put("stationList", stationList);
+
+        final Template wikiStarsystemTemplate = Velocity.getTemplate("templates/wiki.starsystem.vm", "UTF-8");
+        writeToFile(context, wikiStarsystemTemplate, name + ".txt");
     }
 
     /**

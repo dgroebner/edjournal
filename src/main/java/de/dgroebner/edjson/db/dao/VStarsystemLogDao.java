@@ -21,7 +21,7 @@ public interface VStarsystemLogDao extends AbstractDao {
      * 
      * @return {@link List} von {@link VStarsystemLog}
      */
-    @SqlQuery("SELECT TOP 25 visits, systemname, system_url, factionname, faction_url, security, allegiance, government, economy, starpos FROM vstarsystemslog ORDER BY visits DESC, systemname ASC")
+    @SqlQuery("SELECT TOP 25 visits, systemname, system_url, factionname, faction_url, security, allegiance, government, economy, starpos FROM vstarsystemslog WHERE system_url IS NOT NULL ORDER BY visits DESC, systemname ASC")
     List<VStarsystemLog> list();
 
 }

@@ -86,4 +86,19 @@ public class Starport extends AbstractDBTable {
         }
     }
 
+    /**
+     * Selektiert die Liste der Raumhäfen im System mit dem übergebenen Namen
+     * 
+     * @param systemname {@link String} Systemname
+     * @return {@link List} von {@link VStarportLog}
+     */
+    public List<VStarportLog> list(final String systemname) {
+        final VStarportLogDao dao = getDbi().open(VStarportLogDao.class);
+        try {
+            return dao.list(systemname);
+        } finally {
+            dao.close();
+        }
+    }
+
 }

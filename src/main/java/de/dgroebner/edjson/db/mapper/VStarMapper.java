@@ -46,6 +46,8 @@ public class VStarMapper extends AbstractMapper<VStar> {
 
     public static final String COLUMN_DISTANCETOLUKU = "distanceToluku";
 
+    public static final String COLUMN_STARSYSTEMID = "starsystemId";
+
     @Override
     public VStar map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
         return new VStar(r.getString(COLUMN_STARNAME), r.getString(COLUMN_TYPE), r.getBigDecimal(COLUMN_STELLAR_MASS),

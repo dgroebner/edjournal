@@ -531,12 +531,13 @@ create view vstar
        (starname, type, stellar_mass, radius, absolute_magnitude, 
        ageMY, surface_temperature, semi_major_axis, eccentricity, orbital_inclination, 
 	   periapsis, orbital_period, rotation_period, 
-	   starsystem_url, distanceInsystem, distanceToluku)
+	   starsystem_url, distanceInsystem, distanceToluku, starsystem_id)
  as
 select star.name, type, stellar_mass, radius, absolute_magnitude, 
        ageMY, surface_temperature, semi_major_axis, eccentricity, orbital_inclination, 
 	   periapsis, orbital_period, rotation_period, 
-	   starsystem.inara_url, distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name)
+	   starsystem.inara_url, distance_from_arrival_ls, dbo.fcDistance('Toluku', starsystem.name),
+	   starsystem.id
   from star
   join starsystem on starsystem.id = starsystem_id
 
@@ -549,14 +550,16 @@ create view vplanet
        mass_em, radius, surface_gravity, surface_temperature,
 	   surface_pressure, landable, semi_major_axis, eccentricity,
 	   orbital_inclination, periapsis, orbital_period,
-	   rotation_period, starsystem_url, distanceInsystem, distanceToluku)
+	   rotation_period, starsystem_url, distanceInsystem, distanceToluku,
+	   starsystem_id)
 as
   select planet.name, type, tidal_lock, terraform_state, atmosphere, volcanism,
        mass_em, radius, surface_gravity, surface_temperature,
 	   surface_pressure, landable, semi_major_axis, eccentricity,
 	   orbital_inclination, periapsis, orbital_period,
 	   rotation_period, starsystem.inara_url, distance_from_arrival_ls, 
-	   dbo.fcDistance('Toluku', starsystem.name)
+	   dbo.fcDistance('Toluku', starsystem.name),
+	   starsystem.id
   from planet
   join starsystem on starsystem_id = starsystem.id
 
