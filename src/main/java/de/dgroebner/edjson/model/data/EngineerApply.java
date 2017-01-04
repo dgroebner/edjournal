@@ -77,4 +77,11 @@ public class EngineerApply extends GenericModel<EngineerApply.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Ingenieurmodifikation %s (Level %s) von %s angewandt",
+                getValueAsString(Fields.BLUEPRINT), Integer.toString(getValueAsInt(Fields.LEVEL)),
+                getValueAsString(Fields.ENGINEER));
+    }
 }

@@ -14,6 +14,7 @@ import de.dgroebner.edjson.model.action.BountyAction;
 import de.dgroebner.edjson.model.action.BuyAmmoAction;
 import de.dgroebner.edjson.model.action.DiedAction;
 import de.dgroebner.edjson.model.action.DockedAction;
+import de.dgroebner.edjson.model.action.EngineerCraftAction;
 import de.dgroebner.edjson.model.action.FSDJumpAction;
 import de.dgroebner.edjson.model.action.FetchRemoteModuleAction;
 import de.dgroebner.edjson.model.action.HullDamageAction;
@@ -45,11 +46,13 @@ import de.dgroebner.edjson.model.action.RepairAction;
 import de.dgroebner.edjson.model.action.RepairAllAction;
 import de.dgroebner.edjson.model.action.ResurrectAction;
 import de.dgroebner.edjson.model.action.ScanAction;
+import de.dgroebner.edjson.model.action.SellDronesAction;
 import de.dgroebner.edjson.model.action.SellExplorationDataAction;
 import de.dgroebner.edjson.model.action.SendTextAction;
 import de.dgroebner.edjson.model.action.ShipyardBuyAction;
 import de.dgroebner.edjson.model.action.ShipyardNewAction;
 import de.dgroebner.edjson.model.action.ShipyardSwapAction;
+import de.dgroebner.edjson.model.action.ShipyardTransferAction;
 import de.dgroebner.edjson.model.action.SynthesisAction;
 import de.dgroebner.edjson.model.action.UndockedAction;
 import de.dgroebner.edjson.model.data.ApproachSettlement;
@@ -214,7 +217,7 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     COMMUNITY_GOAL_JOIN("CommunityGoalJoin", CommunityGoalJoin.class),
     COMMUNITY_GOAL_REWARED("CommunityGoalReward", CommunityGoalReward.class),
     ENGINEER_APPLY("EngineerApply", EngineerApply.class),
-    ENGINEER_CRAFT("EngineerCraft", EngineerCraft.class),
+    ENGINEER_CRAFT("EngineerCraft", EngineerCraft.class, EngineerCraftAction.class),
     ENGINEER_PROGRESS("EngineerProgress", EngineerProgress.class),
     FETCH_REMOTE_MODULE("FetchRemoteModule", FetchRemoteModule.class, FetchRemoteModuleAction.class),
     MISSION_ABANDONED("MissionAbandoned", MissionAbandoned.class, MissionAbandonedAction.class),
@@ -235,12 +238,12 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     REPAIR("Repair", Repair.class, RepairAction.class),
     REPAIR_ALL("RepairAll", RepairAll.class, RepairAllAction.class),
     RESTOCK_VEHICLE("RestockVehicle", RestockVehicle.class),
-    SELL_DRONES("SellDrones", SellDrones.class),
+    SELL_DRONES("SellDrones", SellDrones.class, SellDronesAction.class),
     SHIPYARD_BUY("ShipyardBuy", ShipyardBuy.class, ShipyardBuyAction.class),
     SHIPYARD_NEW("ShipyardNew", ShipyardNew.class, ShipyardNewAction.class),
     SHIPYARD_SELL("ShipyardSell", ShipyardSell.class),
     SHIPYARD_SWAP("ShipyardSwap", ShipyardSwap.class, ShipyardSwapAction.class),
-    SHIPYARD_TRANSFER("ShipyardTransfer", ShipyardTransfer.class),
+    SHIPYARD_TRANSFER("ShipyardTransfer", ShipyardTransfer.class, ShipyardTransferAction.class),
     
     /* Power Play */
     

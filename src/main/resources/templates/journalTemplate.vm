@@ -410,7 +410,7 @@
             <tbody>
               #foreach( $ship in $shipList )
               <tr>
-                <td><a target="_blank" href="$ship.inaraUrl">$ship.callsign ($ship.type)</a></td>
+                <td>#if ($ship.inaraUrl)<a target="_blank" href="$ship.inaraUrl"> #end$ship.callsign ($ship.type) #if ($ship.inaraUrl)</a>#end</td>
                 <td class="w3-right-align">$numbertool.format($ship.distance) ly</td>
               </tr>
               #end

@@ -77,4 +77,10 @@ public class SellDrones extends GenericModel<SellDrones.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("%s Drohnen für %scr pro Stück verkauft", Integer.toString(getValueAsInt(Fields.COUNT)),
+                getValueAsBigDecimal(Fields.SELL_PRICE));
+    }
 }
