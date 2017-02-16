@@ -11,16 +11,16 @@ import de.dgroebner.edjson.model.GenericModel;
 import de.dgroebner.edjson.model.JournalModelField;
 
 /**
- * Modellklasse für den Elite Dangerous Journaleintrag 'MiningRefined'
+ * Modellklasse für den Elite Dangerous Journaleintrag 'CrewFire'
  * 
  * @author dgroebner
  */
-public class MiningRefined extends GenericModel<MiningRefined.Fields> {
+public class CrewFire extends GenericModel<CrewFire.Fields> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MiningRefined.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrewFire.class);
 
     /**
-     * Felder des Elite Dangerous Journaleintrag 'MiningRefined'
+     * Felder des Elite Dangerous Journaleintrag 'CrewFire'
      * 
      * @author dgroebner
      */
@@ -28,8 +28,7 @@ public class MiningRefined extends GenericModel<MiningRefined.Fields> {
         /* @formatter:off */
         TIMESTAMP("timestamp", LocalDateTime.class),
         EVENT("event", String.class),
-        TYPE("Type", String.class),
-        TYPE_LOCALISED("Type_Localised", String.class);
+        NAME("Name", String.class);
         /* @formatter:on */
 
         private String code;
@@ -57,7 +56,7 @@ public class MiningRefined extends GenericModel<MiningRefined.Fields> {
      * 
      * @param json {@link JSONObject}
      */
-    public MiningRefined(final JSONObject json) {
+    public CrewFire(final JSONObject json) {
         super(json, Arrays.asList(Fields.values()));
     }
 
@@ -78,6 +77,6 @@ public class MiningRefined extends GenericModel<MiningRefined.Fields> {
 
     @Override
     public String getMessage() {
-        return String.format("Material aus Abbau raffiniert: %s", getValueAsString(Fields.TYPE_LOCALISED));
+        return String.format("Crew-Mitglied %s entlassen.", getValueAsString(Fields.NAME));
     }
 }

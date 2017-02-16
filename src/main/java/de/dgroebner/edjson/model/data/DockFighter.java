@@ -73,4 +73,9 @@ public class DockFighter extends GenericModel<DockFighter.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return "Fighter angedockt";
+    }
 }

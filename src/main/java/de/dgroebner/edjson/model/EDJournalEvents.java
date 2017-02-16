@@ -12,6 +12,10 @@ import com.google.common.base.Throwables;
 
 import de.dgroebner.edjson.model.action.BountyAction;
 import de.dgroebner.edjson.model.action.BuyAmmoAction;
+import de.dgroebner.edjson.model.action.BuyDronesAction;
+import de.dgroebner.edjson.model.action.BuyExplorationDataAction;
+import de.dgroebner.edjson.model.action.CommunityGoalRewardAction;
+import de.dgroebner.edjson.model.action.CrewHireAction;
 import de.dgroebner.edjson.model.action.DiedAction;
 import de.dgroebner.edjson.model.action.DockedAction;
 import de.dgroebner.edjson.model.action.EngineerCraftAction;
@@ -67,6 +71,9 @@ import de.dgroebner.edjson.model.data.CollectCargo;
 import de.dgroebner.edjson.model.data.CommitCrime;
 import de.dgroebner.edjson.model.data.CommunityGoalJoin;
 import de.dgroebner.edjson.model.data.CommunityGoalReward;
+import de.dgroebner.edjson.model.data.CrewAssign;
+import de.dgroebner.edjson.model.data.CrewFire;
+import de.dgroebner.edjson.model.data.CrewHire;
 import de.dgroebner.edjson.model.data.DataScanned;
 import de.dgroebner.edjson.model.data.DatalinkScan;
 import de.dgroebner.edjson.model.data.Died;
@@ -199,7 +206,7 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     MATERIAL_COLLECTED("MaterialCollected", MaterialCollected.class, MaterialCollectedAction.class),
     MATERIAL_DISCARDED("MaterialDiscarded", MaterialDiscarded.class, MaterialDiscardedAction.class),
     MATERIAL_DISCOVERED("MaterialDiscovered", MaterialDiscovered.class),
-    BUY_EXPLORATION_DATA("BuyExplorationData", BuyExplorationData.class),
+    BUY_EXPLORATION_DATA("BuyExplorationData", BuyExplorationData.class, BuyExplorationDataAction.class),
     SELL_EXPLORATION_DATA("SellExplorationData", SellExplorationData.class, SellExplorationDataAction.class),
     SCREENSHOT("Screenshot", Screenshot.class),
 
@@ -213,9 +220,12 @@ public enum EDJournalEvents implements EDJournalEventInterface {
     
     /*Station Services */
     BUY_AMMO("BuyAmmo", BuyAmmo.class, BuyAmmoAction.class),
-    BUY_DRONES("BuyDrones", BuyDrones.class),
+    BUY_DRONES("BuyDrones", BuyDrones.class, BuyDronesAction.class),
     COMMUNITY_GOAL_JOIN("CommunityGoalJoin", CommunityGoalJoin.class),
-    COMMUNITY_GOAL_REWARED("CommunityGoalReward", CommunityGoalReward.class),
+    COMMUNITY_GOAL_REWARED("CommunityGoalReward", CommunityGoalReward.class, CommunityGoalRewardAction.class),
+    CREW_ASSIGN("CrewAssign", CrewAssign.class),
+    CREW_FIRE("CrewFire", CrewFire.class),
+    CREW_HIRE("CrewHire", CrewHire.class, CrewHireAction.class),
     ENGINEER_APPLY("EngineerApply", EngineerApply.class),
     ENGINEER_CRAFT("EngineerCraft", EngineerCraft.class, EngineerCraftAction.class),
     ENGINEER_PROGRESS("EngineerProgress", EngineerProgress.class),

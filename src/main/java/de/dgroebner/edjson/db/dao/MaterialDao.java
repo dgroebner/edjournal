@@ -41,7 +41,7 @@ public interface MaterialDao extends AbstractDao {
      * 
      * @return {@link List} von {@link DBMaterial}
      */
-    @SqlQuery("SELECT id, name, inara_url, kuerzel, ed_name, category, stock, rarity FROM material ORDER BY category, name")
+    @SqlQuery("SELECT id, name, inara_url, kuerzel, ed_name, category, stock, rarity FROM material WHERE NOT category = 'Commodity' ORDER BY category, name")
     List<DBMaterial> list();
 
     /**

@@ -76,4 +76,10 @@ public class EjectCargo extends GenericModel<EjectCargo.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("%st Fracht vom Typ %s abgeworfen", Integer.toString(getValueAsInt(Fields.COUNT)),
+                getValueAsString(Fields.TYPE));
+    }
 }

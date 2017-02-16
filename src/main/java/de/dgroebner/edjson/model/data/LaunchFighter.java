@@ -75,4 +75,9 @@ public class LaunchFighter extends GenericModel<LaunchFighter.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return "Fighter gestartet";
+    }
 }

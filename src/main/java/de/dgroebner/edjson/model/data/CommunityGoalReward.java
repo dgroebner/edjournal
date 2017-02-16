@@ -76,4 +76,10 @@ public class CommunityGoalReward extends GenericModel<CommunityGoalReward.Fields
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Belohnung aus Gemeinschaftsmission %s in System %s erhalten.",
+                getValueAsString(Fields.NAME), getValueAsString(Fields.SYSTEM));
+    }
 }

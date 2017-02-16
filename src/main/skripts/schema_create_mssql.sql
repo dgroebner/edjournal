@@ -306,6 +306,57 @@ CREATE TABLE mission (
 CREATE INDEX i_mission_missionid on mission (missionId);
 
 go
+--drop table blueprint
+CREATE TABLE blueprint (
+    id INT IDENTITY(1,1) NOT NULL,
+	modul VARCHAR(50) NOT NULL,
+	name VARCHAR(50) UNIQUE NOT NULL,
+	name_en VARCHAR(50) UNIQUE NOT NULL,
+	inara_url VARCHAR(1000) NULL,
+	favorit BIT NOT NULL DEFAULT 0,
+	CONSTRAINT pk_blueprint PRIMARY KEY CLUSTERED (id)
+)
+CREATE UNIQUE INDEX ui_blueprint ON blueprint (modul, name)
+
+go
+--drop table engineer
+CREATE TABLE engineer (
+    id INT IDENTITY(1,1) NOT NULL,
+	name VARCHAR(50) UNIQUE NOT NULL,
+	inara_url VARCHAR(1000) NULL,
+	starport_id INT NULL,
+	starsystem_id INT NULL,
+	CONSTRAINT pk_engineer PRIMARY KEY CLUSTERED (id),
+	CONSTRAINT fk_engineer_starport FOREIGN KEY (starport_id) REFERENCES starport (id),
+	CONSTRAINT fk_engineer_starsystem FOREIGN KEY (starsystem_id) REFERENCES starsystem (id) ON DELETE SET NULL
+)
+
+go
+--drop table blueprint_engineer
+CREATE TABLE blueprint_engineer (
+    id INT IDENTITY(1,1) NOT NULL,
+	blueprint_id INT NOT NULL,
+	engineer_id INT NOT NULL,
+	CONSTRAINT pk_blueprint_engineer PRIMARY KEY CLUSTERED (id),
+	CONSTRAINT fk_blueprintengineer_blueprint FOREIGN KEY (blueprint_id) REFERENCES blueprint (id) ON DELETE CASCADE,
+	CONSTRAINT fk_blueprintengineer_engineer FOREIGN KEY (engineer_id) REFERENCES engineer (id) ON DELETE CASCADE
+)
+CREATE UNIQUE INDEX I_blueprint_engineer ON blueprint_engineer (blueprint_id, engineer_id)
+
+go
+--drop table blueprint_material
+CREATE TABLE blueprint_material (
+    id INT IDENTITY(1,1) NOT NULL,
+	blueprint_id INT NOT NULL,
+	material_id INT NOT NULL,
+	CONSTRAINT pk_blueprint_material PRIMARY KEY CLUSTERED (id),
+	CONSTRAINT fk_blueprintmaterial_blueprint FOREIGN KEY (blueprint_id) REFERENCES blueprint (id) ON DELETE CASCADE,
+	CONSTRAINT fk_blueprintmaterial_material FOREIGN KEY (material_id) REFERENCES material (id) ON DELETE CASCADE
+)
+CREATE UNIQUE INDEX i_blueprint_material ON blueprint_material (blueprint_id, material_id)
+
+
+go
 CREATE FUNCTION fcTokenizer 
 /*****************************************************************
 * Funktion zum Trennen eines Strings mit einem Trennzeichen      *

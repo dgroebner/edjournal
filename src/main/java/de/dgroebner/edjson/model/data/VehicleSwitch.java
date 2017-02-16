@@ -74,4 +74,10 @@ public class VehicleSwitch extends GenericModel<VehicleSwitch.Fields> {
     public String getEvent() {
         return getValueAsString(Fields.EVENT);
     }
+
+    @Override
+    public String getMessage() {
+        return String.format("Steuerung des %s übernommen", "Mothership".equals(getValueAsString(Fields.TO))
+                ? "Schiffs" : "Fighters");
+    }
 }
