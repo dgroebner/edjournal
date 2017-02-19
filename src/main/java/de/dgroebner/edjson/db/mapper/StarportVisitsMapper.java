@@ -20,8 +20,14 @@ public class StarportVisitsMapper extends AbstractMapper<DBStarportVisits> {
 
     @Override
     public DBStarportVisits map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBStarportVisits(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getInt(COLUMN_STARPORTID),
-                r.getInt(COLUMN_SHIP_ID));
+        /* @formatter:off */
+        return DBStarportVisits.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .starportId(r.getInt(COLUMN_STARPORTID))
+                .shipId(r.getInt(COLUMN_SHIP_ID))
+                .build();
+        /* @formatter:on */
     }
 
 }

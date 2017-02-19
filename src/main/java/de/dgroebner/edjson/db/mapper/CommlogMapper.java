@@ -26,9 +26,17 @@ public class CommlogMapper extends AbstractMapper<DBCommlog> {
 
     @Override
     public DBCommlog map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBCommlog(r.getInt(COLUMN_ID), r.getInt(AbstractMapper.COLUMN_JOURNAL_ID), r.getTimestamp(
-                COLUMN_TIMESTAMP).toLocalDateTime(), r.getString(COLUMN_SENDER), r.getString(COLUMN_RECEIVER),
-                r.getString(COLUMN_CHANNEL), r.getString(COLUMN_MESSAGE));
+        /* @formatter:off */
+        return DBCommlog.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(AbstractMapper.COLUMN_JOURNAL_ID))
+                .timestamp(r.getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime())
+                .sender(r.getString(COLUMN_SENDER))
+                .reciever(r.getString(COLUMN_RECEIVER))
+                .channel(r.getString(COLUMN_CHANNEL))
+                .message(r.getString(COLUMN_MESSAGE))
+                .build();
+        /* @formatter:on */
     }
 
 }

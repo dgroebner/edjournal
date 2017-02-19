@@ -17,11 +17,14 @@ public abstract class AbstractAction<M extends JournalModel> implements JournalE
 
     @Override
     public int writeJournalToDatabase(final DBI dbi, final int journalFileId, final M model) {
-        final DBJournal dbJournal = new DBJournal();
-        dbJournal.setJournalfileId(journalFileId);
-        dbJournal.setTimestamp(model.getTimestamp());
-        dbJournal.setEvent(model.getEvent());
-        dbJournal.setMessage(buildJournalMessage(dbi, model));
+        /* @formatter:off */
+        final DBJournal dbJournal = DBJournal.builder()
+                .event(model.getEvent())
+                .timestamp(model.getTimestamp())
+                .journalfileId(journalFileId)
+                .message(buildJournalMessage(dbi, model))
+                .build();
+        /* @formatter:on */
         return new Journal(dbi).writeJournal(dbJournal);
     }
 

@@ -22,8 +22,14 @@ public class VShipSummaryMapper extends AbstractMapper<VShipSummary> {
 
     @Override
     public VShipSummary map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new VShipSummary(r.getString(COLUMN_TYPE), r.getString(COLUMN_CALLSIGN), r.getString(COLUMN_INARA_URL),
-                r.getBigDecimal(COLUMN_DISTANCE));
+        /* @formatter:off */
+        return VShipSummary.builder()
+                .type(r.getString(COLUMN_TYPE))
+                .callsign(r.getString(COLUMN_CALLSIGN))
+                .inaraUrl(r.getString(COLUMN_INARA_URL))
+                .distance(r.getBigDecimal(COLUMN_DISTANCE))
+                .build();
+        /* @formatter:on */
     }
 
 }

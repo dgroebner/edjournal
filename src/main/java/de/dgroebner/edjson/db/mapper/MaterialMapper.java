@@ -28,9 +28,18 @@ public class MaterialMapper extends AbstractMapper<DBMaterial> {
 
     @Override
     public DBMaterial map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBMaterial(r.getInt(COLUMN_ID), r.getString(COLUMN_NAME), r.getString(COLUMN_INARA_URL),
-                r.getString(COLUMN_KUERZEL), r.getString(COLUMN_NAME), r.getString(COLUMN_CATEGORY),
-                r.getInt(COLUMN_STOCK), r.getString(COLUMN_RARITY));
+        /* @formatter:off */
+        return DBMaterial.builder()
+                .id(r.getInt(COLUMN_ID))
+                .edName(r.getString(COLUMN_ED_NAME))
+                .inaraUrl(r.getString(COLUMN_INARA_URL))
+                .kuerzel(r.getString(COLUMN_KUERZEL))
+                .name(r.getString(COLUMN_NAME))
+                .category(r.getString(COLUMN_CATEGORY))
+                .stock(r.getInt(COLUMN_STOCK))
+                .rarity(r.getString(COLUMN_RARITY))
+                .build();
+        /* @formatter:on */
     }
 
 }

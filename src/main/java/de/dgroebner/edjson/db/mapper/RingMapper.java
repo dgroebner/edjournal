@@ -32,10 +32,20 @@ public class RingMapper extends AbstractMapper<DBRing> {
 
     @Override
     public DBRing map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBRing(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getInt(COLUMN_STARSYSTEM_ID),
-                r.getInt(COLUMN_STAR_ID), r.getInt(COLUMN_PLANET_ID), r.getString(COLUMN_NAME),
-                r.getString(COLUMN_TYPE), r.getString(COLUMN_MASS_MT), r.getString(COLUMN_INNER_RAD),
-                r.getString(COLUMN_OUTER_RAD));
+        /* @formatter:off */
+        return DBRing.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .starsystemId(r.getInt(COLUMN_STARSYSTEM_ID))
+                .starId(r.getInt(COLUMN_STAR_ID))
+                .planetId(r.getInt(COLUMN_PLANET_ID))
+                .name(r.getString(COLUMN_NAME))
+                .type( r.getString(COLUMN_TYPE))
+                .massMt( r.getString(COLUMN_MASS_MT))
+                .innerRad(r.getString(COLUMN_INNER_RAD))
+                .outerRad(r.getString(COLUMN_OUTER_RAD))
+                .build();
+        /* @formatter:on */
     }
 
 }

@@ -35,14 +35,18 @@ public class FSDJumpAction extends AbstractAction<FSDJump> {
         final DBFaction faction = new Faction(dbi).writeOrGetFraction(journalId, model.getValueAsString(SYSTEM_FACTION),
                 model.getValueAsString(FACTION_STATE));
 
-        final DBStarsystem starSystemForSave = new DBStarsystem();
-        starSystemForSave.setFactionId(faction.getId());
-        starSystemForSave.setName(model.getValueAsString(STAR_SYSTEM));
-        starSystemForSave.setEconomy(model.getValueAsString(SYSTEM_ECONOMY_LOCALISED));
-        starSystemForSave.setGovernment(model.getValueAsString(SYSTEM_GOVERNMENT_LOCALISED));
-        starSystemForSave.setSecurity(model.getValueAsString(SYSTEM_SECURITY_LOCALISED));
-        starSystemForSave.setAllegiance(model.getValueAsString(SYSTEM_ALLEGIANCE));
-        starSystemForSave.setStarpos(model.getValueAsCoordinates(STAR_POS).getCoordString());
+        /* @formatter:off */
+        final DBStarsystem starSystemForSave = DBStarsystem.builder()
+                .factionId(faction.getId())
+                .name(model.getValueAsString(STAR_SYSTEM))
+                .economy(model.getValueAsString(SYSTEM_ECONOMY_LOCALISED))
+                .government(model.getValueAsString(SYSTEM_GOVERNMENT_LOCALISED))
+                .security(model.getValueAsString(SYSTEM_SECURITY_LOCALISED))
+                .allegiance(model.getValueAsString(SYSTEM_ALLEGIANCE))
+                .starpos(model.getValueAsCoordinates(STAR_POS).getCoordString())
+                .build();
+        /* @formatter:on */
+
         final Starsystem starsystemDao = new Starsystem(dbi);
         final DBStarsystem savedStarSystem = starsystemDao.writeOrGetStarsystem(journalId, starSystemForSave);
         starsystemDao.saveVisit(journalId, savedStarSystem);

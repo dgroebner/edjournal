@@ -28,9 +28,18 @@ public class CombatlogMapper extends AbstractMapper<DBCombatlog> {
 
     @Override
     public DBCombatlog map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBCombatlog(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getInt(COLUMN_SHIP_ID), r
-                .getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime(), r.getString(COLUMN_ACTION),
-                r.getString(COLUMN_ENEMY), r.getInt(COLUMN_FACTION_ID), r.getInt(COLUMN_REWARD));
+        /* @formatter:off */
+        return DBCombatlog.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .shipId(r.getInt(COLUMN_SHIP_ID))
+                .timestamp(r.getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime())
+                .action(r.getString(COLUMN_ACTION))
+                .enemy(r.getString(COLUMN_ENEMY))
+                .factionId(r.getInt(COLUMN_FACTION_ID))
+                .reward(r.getInt(COLUMN_REWARD))
+                .build();
+        /* @formatter:on */
     }
 
 }

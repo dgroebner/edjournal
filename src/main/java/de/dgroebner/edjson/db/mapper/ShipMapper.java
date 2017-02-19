@@ -22,8 +22,15 @@ public class ShipMapper extends AbstractMapper<DBShip> {
 
     @Override
     public DBShip map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBShip(r.getInt(COLUMN_ID), r.getInt(COLUMN_ED_ID), r.getString(COLUMN_TYPE),
-                r.getString(COLUMN_CALLSIGN), r.getString(COLUMN_INARA_URL));
+        /* @formatter:off */
+        return DBShip.builder()
+                .id(r.getInt(COLUMN_ID))
+                .edId(r.getInt(COLUMN_ED_ID))
+                .type(r.getString(COLUMN_TYPE))
+                .callsign(r.getString(COLUMN_CALLSIGN))
+                .inaraUrl(r.getString(COLUMN_INARA_URL))
+                .build();
+        /* @formatter:on */
     }
 
 }

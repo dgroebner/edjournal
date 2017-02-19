@@ -17,6 +17,7 @@
         <jtds.version>1.2.8</jtds.version>
         <junit.version>4.12</junit.version>
         <logback.version>1.1.6</logback.version>
+        <lombok.version>1.16.10</lombok.version>
         <google.guava.version>18.0</google.guava.version>
         <mockito.version>1.10.19</mockito.version>
         <org.json.version>20160810</org.json.version>
@@ -80,6 +81,14 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${apache.commons.lang3.version}</version>
+        </dependency>
+        
+        <!-- lombok -->
+        <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>${lombok.version}</version>
+          <scope>provided</scope>
         </dependency>
         
         <!-- json -->

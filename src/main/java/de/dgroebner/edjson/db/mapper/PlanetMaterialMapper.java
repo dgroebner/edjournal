@@ -22,8 +22,15 @@ public class PlanetMaterialMapper extends AbstractMapper<DBPlanetMaterial> {
 
     @Override
     public DBPlanetMaterial map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBPlanetMaterial(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getInt(COLUMN_PLANET_ID),
-                r.getInt(COLUMN_MATERIAL_ID), r.getBigDecimal(COLUMN_AMOUNT));
+        /* @formatter:off */
+        return DBPlanetMaterial.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .planetId(r.getInt(COLUMN_PLANET_ID))
+                .materialId(r.getInt(COLUMN_MATERIAL_ID))
+                .amount(r.getBigDecimal(COLUMN_AMOUNT))
+                .build();
+        /* @formatter:on */
     }
 
 }

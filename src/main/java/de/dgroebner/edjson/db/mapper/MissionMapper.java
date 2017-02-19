@@ -48,13 +48,28 @@ public class MissionMapper extends AbstractMapper<DBMission> {
 
     @Override
     public DBMission map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBMission(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getInt(COLUMN_MISSION_ID),
-                r.getInt(COLUMN_FACTION_ID), r.getString(COLUMN_NAME), r.getString(COLUMN_COMMODITY),
-                r.getInt(COLUMN_COMMODITY_COUNT), r.getString(COLUMN_PASSENGER_TYPE), r.getInt(COLUMN_PASSENGER_COUNT),
-                r.getBoolean(COLUMN_PASSENGER_VIP), r.getBoolean(COLUMN_PASSENGER_WANTED),
-                r.getString(COLUMN_DESTINATION), r.getString(COLUMN_DESTINATION_PORT),
-                r.getString(COLUMN_TARGET_FACTION), r.getInt(COLUMN_REWARD), r.getTimestamp(COLUMN_EXPIRY)
-                        .toLocalDateTime(), r.getString(COLUMN_STATUS), r.getInt(COLUMN_FINANCE_ID));
+        /* @formatter:off */
+        return DBMission.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .missionId(r.getInt(COLUMN_MISSION_ID))
+                .factionId(r.getInt(COLUMN_FACTION_ID))
+                .name(r.getString(COLUMN_NAME))
+                .commodity(r.getString(COLUMN_COMMODITY))
+                .commodityCount(r.getInt(COLUMN_COMMODITY_COUNT))
+                .passengerType(r.getString(COLUMN_PASSENGER_TYPE))
+                .passengerCount(r.getInt(COLUMN_PASSENGER_COUNT))
+                .passengerVip(r.getBoolean(COLUMN_PASSENGER_VIP))
+                .passengerWanted(r.getBoolean(COLUMN_PASSENGER_WANTED))
+                .destination(r.getString(COLUMN_DESTINATION))
+                .destinationPort(r.getString(COLUMN_DESTINATION_PORT))
+                .targetFaction(r.getString(COLUMN_TARGET_FACTION))
+                .reward(r.getInt(COLUMN_REWARD))
+                .expiry(r.getTimestamp(COLUMN_EXPIRY).toLocalDateTime())
+                .status(r.getString(COLUMN_STATUS))
+                .financeId(r.getInt(COLUMN_FINANCE_ID))
+                .build();
+        /* @formatter:on */
     }
 
 }

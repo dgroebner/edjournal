@@ -56,15 +56,32 @@ public class PlanetMapper extends AbstractMapper<DBPlanet> {
 
     @Override
     public DBPlanet map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBPlanet(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getInt(COLUMN_STARSYSTEM_ID),
-                r.getString(COLUMN_NAME), r.getString(COLUMN_TYPE), r.getBigDecimal(COLUMN_DISTANCE_FROM_ARRIVAL_LS),
-                r.getBoolean(COLUMN_TIDAL_LOCK), r.getString(COLUMN_TERRAFORM_STATE), r.getString(COLUMN_ATMOSPHERE),
-                r.getString(COLUMN_VOLCANISM), r.getBigDecimal(COLUMN_MASS_EM), r.getBigDecimal(COLUMN_RADIUS),
-                r.getBigDecimal(COLUMN_SURFACE_GRAVITY), r.getBigDecimal(COLUMN_SURFACE_TEMPERATURE),
-                r.getBigDecimal(COLUMN_SURFACE_PRESSURE), r.getBoolean(COLUMN_LANDABLE),
-                r.getBigDecimal(COLUMN_SEMI_MAJOR_AXIS), r.getBigDecimal(COLUMN_ECCENTRICITY),
-                r.getBigDecimal(COLUMN_ORBITAL_INCLINATION), r.getBigDecimal(COLUMN_PERIAPSIS),
-                r.getBigDecimal(COLUMN_ORBITAL_PERIOD), r.getBigDecimal(COLUMN_ROTATION_PERIOD));
+        /* @formatter:off */
+        return DBPlanet.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .starsystemId(r.getInt(COLUMN_STARSYSTEM_ID))
+                .name(r.getString(COLUMN_NAME))
+                .type(r.getString(COLUMN_TYPE))
+                .distanceFromArrivalLS(r.getBigDecimal(COLUMN_DISTANCE_FROM_ARRIVAL_LS))
+                .tidalLock(r.getBoolean(COLUMN_TIDAL_LOCK))
+                .terraformState(r.getString(COLUMN_TERRAFORM_STATE))
+                .atmosphere(r.getString(COLUMN_ATMOSPHERE))
+                .volcanism(r.getString(COLUMN_VOLCANISM))
+                .massEM(r.getBigDecimal(COLUMN_MASS_EM))
+                .radius(r.getBigDecimal(COLUMN_RADIUS))
+                .surfaceGravity(r.getBigDecimal(COLUMN_SURFACE_GRAVITY))
+                .surfaceTemperature(r.getBigDecimal(COLUMN_SURFACE_TEMPERATURE))
+                .surfacePressure(r.getBigDecimal(COLUMN_SURFACE_PRESSURE))
+                .landable(r.getBoolean(COLUMN_LANDABLE))
+                .semiMajorAxis(r.getBigDecimal(COLUMN_SEMI_MAJOR_AXIS))
+                .eccentricity(r.getBigDecimal(COLUMN_ECCENTRICITY))
+                .orbitalInclination(r.getBigDecimal(COLUMN_ORBITAL_INCLINATION))
+                .periapsis(r.getBigDecimal(COLUMN_PERIAPSIS))
+                .orbitalPeriod(r.getBigDecimal(COLUMN_ORBITAL_PERIOD))
+                .rotationPeriod(r.getBigDecimal(COLUMN_ROTATION_PERIOD))
+                .build();
+        /* @formatter:on */
     }
 
 }

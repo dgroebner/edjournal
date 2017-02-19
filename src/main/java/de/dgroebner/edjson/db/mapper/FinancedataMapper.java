@@ -26,9 +26,17 @@ public class FinancedataMapper extends AbstractMapper<DBFinancedata> {
 
     @Override
     public DBFinancedata map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBFinancedata(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getTimestamp(COLUMN_VALUTADATUM)
-                .toLocalDateTime(), r.getInt(COLUMN_AMOUNT), r.getString(COLUMN_CATEGORY), r.getString(COLUMN_REMARK),
-                r.getInt(COLUMN_FACTION_ID));
+        /* @formatter:off */
+        return DBFinancedata.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .valutadatum(r.getTimestamp(COLUMN_VALUTADATUM).toLocalDateTime())
+                .amount(r.getInt(COLUMN_AMOUNT))
+                .category(r.getString(COLUMN_CATEGORY))
+                .remark(r.getString(COLUMN_REMARK))
+                .factionId(r.getInt(COLUMN_FACTION_ID))
+                .build();
+        /* @formatter:on */
     }
 
 }

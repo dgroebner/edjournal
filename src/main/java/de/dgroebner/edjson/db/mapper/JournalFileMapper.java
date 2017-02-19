@@ -20,8 +20,13 @@ public class JournalFileMapper extends AbstractMapper<DBJournalFile> {
 
     @Override
     public DBJournalFile map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBJournalFile(r.getInt(COLUMN_ID), r.getString(COLUMN_FILENAME), r.getTimestamp(COLUMN_READDATE)
-                .toLocalDateTime());
+        /* @formatter:off */
+        return DBJournalFile.builder()
+                .id(r.getInt(COLUMN_ID))
+                .filename(r.getString(COLUMN_FILENAME))
+                .readDate(r.getTimestamp(COLUMN_READDATE).toLocalDateTime())
+                .build();
+        /* @formatter:on */
     }
 
 }

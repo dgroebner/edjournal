@@ -30,10 +30,20 @@ public class StarsystemMapper extends AbstractMapper<DBStarsystem> {
 
     @Override
     public DBStarsystem map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBStarsystem(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getString(COLUMN_NAME),
-                r.getString(COLUMN_INARA_URL), r.getInt(COLUMN_FACTION_ID), r.getString(COLUMN_SECURITY),
-                r.getString(COLUMN_ALLGIANCE), r.getString(COLUMN_GOVERNMENT), r.getString(COLUMN_ECONOMY),
-                r.getString(COLUMN_STARPOS));
+        /* @formatter:off */
+        return DBStarsystem.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .name(r.getString(COLUMN_NAME))
+                .inaraUrl(r.getString(COLUMN_INARA_URL))
+                .factionId(r.getInt(COLUMN_FACTION_ID))
+                .security(r.getString(COLUMN_SECURITY))
+                .allegiance(r.getString(COLUMN_ALLGIANCE))
+                .government(r.getString(COLUMN_GOVERNMENT))
+                .economy(r.getString(COLUMN_ECONOMY))
+                .starpos(r.getString(COLUMN_STARPOS))
+                .build();
+        /* @formatter:on */
     }
 
 }

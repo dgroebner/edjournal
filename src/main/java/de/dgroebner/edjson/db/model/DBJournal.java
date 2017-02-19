@@ -2,76 +2,41 @@ package de.dgroebner.edjson.db.model;
 
 import java.time.LocalDateTime;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+
 /**
  * Modellklasse für die Datenbanktabelle 'journal'
  * 
  * @author dgroebner
  */
-public class DBJournal extends AbstractModel {
+@Data
+@Builder
+public class DBJournal {
 
+    @Setter
+    @Getter
+    private int id;
+
+    @Setter
+    @Getter
     private int journalfileId;
 
+    @Setter
+    @Getter
+    @NonNull
     private LocalDateTime timestamp;
 
+    @Setter
+    @Getter
+    @NonNull
     private String event;
 
+    @Setter
+    @Getter
+    @NonNull
     private String message;
-
-    /**
-     * Constructor.
-     */
-    public DBJournal() {
-        // Default Constructor
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param id int
-     * @param journalfileId int
-     * @param timestamp {@link LocalDateTime}
-     * @param event {@link String}
-     * @param message {@link String}
-     */
-    public DBJournal(final int id, final int journalfileId, final LocalDateTime timestamp, final String event,
-            final String message) {
-        super(id);
-        this.journalfileId = journalfileId;
-        this.timestamp = timestamp;
-        this.event = event;
-        this.message = message;
-    }
-
-    public final int getJournalfileId() {
-        return journalfileId;
-    }
-
-    public final void setJournalfileId(int journalfileId) {
-        this.journalfileId = journalfileId;
-    }
-
-    public final LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public final void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public final String getEvent() {
-        return event;
-    }
-
-    public final void setEvent(String event) {
-        this.event = event;
-    }
-
-    public final String getMessage() {
-        return message;
-    }
-
-    public final void setMessage(String message) {
-        this.message = message;
-    }
-
 }

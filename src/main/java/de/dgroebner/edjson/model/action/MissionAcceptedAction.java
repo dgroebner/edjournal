@@ -31,19 +31,23 @@ public class MissionAcceptedAction extends AbstractAction<MissionAccepted> {
     public void doActionOn(final DBI dbi, final int journalId, final MissionAccepted model) {
         final int factionId = new Faction(dbi).writeOrGetFraction(journalId, model.getValueAsString(FACTION)).getId();
 
-        final DBMission mission = new DBMission();
-        mission.setMissionId(model.getValueAsInt(MISSION_ID));
-        mission.setFactionId(factionId);
-        mission.setName(model.getValueAsString(NAME));
-        mission.setCommodity(model.getValueAsString(COMMODITY_LOCALISED));
-        mission.setCommodityCount(model.getValueAsInt(COUNT));
-        mission.setPassengerType(model.getValueAsString(PASSENGER_TYPE));
-        mission.setPassengerCount(model.getValueAsInt(PASSENGER_COUNT));
-        mission.setPassengerVip(model.getValueAsBoolean(PASSENGER_VIPS));
-        mission.setPassengerWanted(model.getValueAsBoolean(PASSENGER_WANTED));
-        mission.setDestination(model.getValueAsString(DESTINATION_SYSTEM));
-        mission.setDestinationPort(model.getValueAsString(DESTINATION_STATION));
-        mission.setExpiry(model.getValueAsLocalDateTime(EXPIRY));
+        /* @formatter:off */
+        final DBMission mission = DBMission.builder()
+                .missionId(model.getValueAsInt(MISSION_ID))
+                .factionId(factionId)
+                .name(model.getValueAsString(NAME))
+                .commodity(model.getValueAsString(COMMODITY_LOCALISED))
+                .commodityCount(model.getValueAsInt(COUNT))
+                .passengerType(model.getValueAsString(PASSENGER_TYPE))
+                .passengerCount(model.getValueAsInt(PASSENGER_COUNT))
+                .passengerVip(model.getValueAsBoolean(PASSENGER_VIPS))
+                .passengerWanted(model.getValueAsBoolean(PASSENGER_WANTED))
+                .destination(model.getValueAsString(DESTINATION_SYSTEM))
+                .destinationPort(model.getValueAsString(DESTINATION_STATION))
+                .expiry(model.getValueAsLocalDateTime(EXPIRY))
+                .build();
+        /* @formatter:on */
+
         new Mission(dbi).saveNew(journalId, mission);
     }
 

@@ -40,11 +40,22 @@ public class VMissionLogMapper extends AbstractMapper<VMissionLog> {
 
     @Override
     public VMissionLog map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new VMissionLog(r.getString(COLUMN_FACTIONNAME), r.getString(COLUMN_MISSIONNAME),
-                r.getString(COLUMN_COMMODITY), r.getInt(COLUMN_COMMODITY_COUNT), r.getString(COLUMN_PASSENGER_TYPE),
-                r.getInt(COLUMN_PASSENGER_COUNT), r.getBoolean(COLUMN_PASSENGER_VIP),
-                r.getBoolean(COLUMN_PASSENGER_WANTED), r.getString(COLUMN_DESTINATION),
-                r.getString(COLUMN_DESTINATION_PORT), r.getString(COLUMN_STATUS), r.getInt(COLUMN_REWARD));
+        /* @formatter:off */
+        return VMissionLog.builder()
+                .factionname(r.getString(COLUMN_FACTIONNAME))
+                .missionname(r.getString(COLUMN_MISSIONNAME))
+                .commodity(r.getString(COLUMN_COMMODITY))
+                .commodityCount(r.getInt(COLUMN_COMMODITY_COUNT))
+                .passengerType(r.getString(COLUMN_PASSENGER_TYPE))
+                .passengerCount(r.getInt(COLUMN_PASSENGER_COUNT))
+                .passengerVip(r.getBoolean(COLUMN_PASSENGER_VIP))
+                .passengerWanted(r.getBoolean(COLUMN_PASSENGER_WANTED))
+                .destination(r.getString(COLUMN_DESTINATION))
+                .destinationPort(r.getString(COLUMN_DESTINATION_PORT))
+                .status(r.getString(COLUMN_STATUS))
+                .reward(r.getInt(COLUMN_REWARD))
+                .build();
+        /* @formatter:on */
     }
 
 }

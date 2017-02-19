@@ -36,14 +36,18 @@ public class DockedAction extends AbstractAction<Docked> {
 
         final DBStarsystem savedStarSystem = new Starsystem(dbi).getByName(model.getValueAsString(STAR_SYSTEM));
         
-        final DBStarport starPort = new DBStarport();
-        starPort.setFactionId(faction.getId());
-        starPort.setStarsystemId(savedStarSystem.getId());
-        starPort.setName(model.getValueAsString(STATION_NAME));
-        starPort.setType(model.getValueAsString(STATION_TYPE));
-        starPort.setEconomy(model.getValueAsString(STATION_ECONOMY_LOCALISED));
-        starPort.setGovernment(model.getValueAsString(STATION_GOVERNMENT_LOCALISED));
-        starPort.setAllegiance(model.getValueAsString(STATION_ALLEGIANCE));
+        /* @formatter:off */
+        final DBStarport starPort = DBStarport.builder()
+                .factionId(faction.getId())
+                .starsystemId(savedStarSystem.getId())
+                .name(model.getValueAsString(STATION_NAME))
+                .type(model.getValueAsString(STATION_TYPE))
+                .economy(model.getValueAsString(STATION_ECONOMY_LOCALISED))
+                .government(model.getValueAsString(STATION_GOVERNMENT_LOCALISED))
+                .allegiance(model.getValueAsString(STATION_ALLEGIANCE))
+                .build();
+        /* @formatter:on */
+
         new Starport(dbi).writeOrGetStarport(journalId, starPort);
     }
 

@@ -30,10 +30,20 @@ public class StarportMapper extends AbstractMapper<DBStarport> {
 
     @Override
     public DBStarport map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBStarport(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getInt(COLUMN_STARSYSTEMID),
-                r.getString(COLUMN_NAME), r.getString(COLUMN_TYPE), r.getString(COLUMN_INARA_URL),
-                r.getInt(COLUMN_FACTION_ID), r.getString(COLUMN_ALLGIANCE), r.getString(COLUMN_GOVERNMENT),
-                r.getString(COLUMN_ECONOMY));
+        /* @formatter:off */
+        return DBStarport.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .starsystemId(r.getInt(COLUMN_STARSYSTEMID))
+                .name(r.getString(COLUMN_NAME))
+                .type(r.getString(COLUMN_TYPE))
+                .inaraUrl(r.getString(COLUMN_INARA_URL))
+                .factionId(r.getInt(COLUMN_FACTION_ID))
+                .allegiance(r.getString(COLUMN_ALLGIANCE))
+                .government(r.getString(COLUMN_GOVERNMENT))
+                .economy(r.getString(COLUMN_ECONOMY))
+                .build();
+        /* @formatter:on */
     }
 
 }

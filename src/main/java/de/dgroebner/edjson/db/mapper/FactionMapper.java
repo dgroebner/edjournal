@@ -22,8 +22,16 @@ public class FactionMapper extends AbstractMapper<DBFaction> {
 
     @Override
     public DBFaction map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBFaction(r.getInt(COLUMN_ID), r.getInt(AbstractMapper.COLUMN_JOURNAL_ID), r.getString(COLUMN_NAME),
-                r.getString(COLUMN_STATE), r.getString(COLUMN_ALLEGIANCE), r.getString(COLUMN_INARA_URL));
+        /* @formatter:off */
+        return DBFaction.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(AbstractMapper.COLUMN_JOURNAL_ID))
+                .name(r.getString(COLUMN_NAME))
+                .state(r.getString(COLUMN_STATE))
+                .allegiance(r.getString(COLUMN_ALLEGIANCE))
+                .inaraUrl(r.getString(COLUMN_INARA_URL))
+                .build();
+        /* @formatter:on */
     }
 
 }

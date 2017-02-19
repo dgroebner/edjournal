@@ -34,10 +34,19 @@ public class VNavlogMapper extends AbstractMapper<VNavlog> {
 
     @Override
     public VNavlog map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new VNavlog(r.getString(COLUMN_SHIPNAME), r.getString(COLUMN_SHIPTYPE), r.getString(COLUMN_SHIP_URL), r
-                .getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime(), r.getString(COLUMN_SYSTEMNAME),
-                r.getString(COLUMN_SYSTEM_URL), r.getBigDecimal(COLUMN_DISTANCE), r.getBigDecimal(COLUMN_FUEL_USED),
-                r.getBigDecimal(COLUMN_DISTANCETOLUKU));
+        /* @formatter:off */
+        return VNavlog.builder()
+                .shipname(r.getString(COLUMN_SHIPNAME))
+                .shiptype(r.getString(COLUMN_SHIPTYPE))
+                .shipUrl(r.getString(COLUMN_SHIP_URL))
+                .timestamp(r.getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime())
+                .systemname(r.getString(COLUMN_SYSTEMNAME))
+                .systemUrl(r.getString(COLUMN_SYSTEM_URL))
+                .distance(r.getBigDecimal(COLUMN_DISTANCE))
+                .fuelused( r.getBigDecimal(COLUMN_FUEL_USED))
+                .distanceToluku(r.getBigDecimal(COLUMN_DISTANCETOLUKU))
+                .build();
+        /* @formatter:on */
     }
 
 }

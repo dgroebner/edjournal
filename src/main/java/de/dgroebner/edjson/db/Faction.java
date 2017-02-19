@@ -16,6 +16,8 @@ public class Faction extends AbstractDBTable {
 
     public static final String UNDEFINED = "<unbestimmt>";
 
+    public static final DBFaction UNDEFINED_FACTION = DBFaction.builder().name(UNDEFINED).build();
+
     /**
      * Constructor.
      *
@@ -92,12 +94,7 @@ public class Faction extends AbstractDBTable {
      */
     public DBFaction getCurrentLocalFaction() {
         final int currentFaction = new Properties(getDbi()).getIntValueForEntry(ENTRIES.CURRENT_LOCAL_FACTION);
-        if (currentFaction == Integer.MIN_VALUE) {
-            final DBFaction undefined = new DBFaction();
-            undefined.setName(UNDEFINED);
-            return undefined;
-        }
-        return getById(currentFaction);
+        return currentFaction == Integer.MIN_VALUE ? UNDEFINED_FACTION : getById(currentFaction);
     }
 
 }

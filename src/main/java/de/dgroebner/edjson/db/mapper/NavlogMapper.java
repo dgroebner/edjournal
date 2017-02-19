@@ -26,9 +26,17 @@ public class NavlogMapper extends AbstractMapper<DBNavlog> {
 
     @Override
     public DBNavlog map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBNavlog(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getInt(COLUMN_SHIP_ID), r.getTimestamp(
-                COLUMN_TIMESTAMP).toLocalDateTime(), r.getInt(COLUMN_TOSYSTEM_ID), r.getBigDecimal(COLUMN_DISTANCE),
-                r.getBigDecimal(COLUMN_FUEL_USED));
+        /* @formatter:off */
+        return DBNavlog.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .shipId(r.getInt(COLUMN_SHIP_ID))
+                .timestamp(r.getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime())
+                .tosystemId(r.getInt(COLUMN_TOSYSTEM_ID))
+                .distance(r.getBigDecimal(COLUMN_DISTANCE))
+                .fuelused(r.getBigDecimal(COLUMN_FUEL_USED))
+                .build();
+        /* @formatter:on */
     }
 
 }

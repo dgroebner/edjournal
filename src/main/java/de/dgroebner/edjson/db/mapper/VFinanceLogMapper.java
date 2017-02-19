@@ -28,9 +28,16 @@ public class VFinanceLogMapper extends AbstractMapper<VFinanceLog> {
 
     @Override
     public VFinanceLog map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new VFinanceLog(r.getTimestamp(COLUMN_VALUTADATUM).toLocalDateTime(), r.getInt(COLUMN_AMOUNT),
-                r.getString(COLUMN_CATEGORY), r.getString(COLUMN_REMARK), r.getString(COLUMN_FACTIONNAME),
-                r.getString(COLUMN_FACTIONURL));
+        /* @formatter:off */
+        return VFinanceLog.builder()
+                .valutadatum(r.getTimestamp(COLUMN_VALUTADATUM).toLocalDateTime())
+                .amount(r.getInt(COLUMN_AMOUNT))
+                .category(r.getString(COLUMN_CATEGORY))
+                .remark(r.getString(COLUMN_REMARK))
+                .factionName(r.getString(COLUMN_FACTIONNAME))
+                .factionUrl(r.getString(COLUMN_FACTIONURL))
+                .build();
+        /* @formatter:on */
     }
 
 }

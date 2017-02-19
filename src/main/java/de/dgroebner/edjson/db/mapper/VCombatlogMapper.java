@@ -30,9 +30,17 @@ public class VCombatlogMapper extends AbstractMapper<VCombatlog> {
 
     @Override
     public VCombatlog map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new VCombatlog(r.getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime(), r.getString(COLUMN_ACTION),
-                r.getString(COLUMN_ENEMY), r.getString(COLUMN_SHIPNAME), r.getString(COLUMN_SHIP_URL),
-                r.getString(COLUMN_FACTIONNAME), r.getString(COLUMN_FACTION_URL));
+        /* @formatter:off */
+        return VCombatlog.builder()
+                .timestamp(r.getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime())
+                .action(r.getString(COLUMN_ACTION))
+                .enemy(r.getString(COLUMN_ENEMY))
+                .shipName(r.getString(COLUMN_SHIPNAME))
+                .shipUrl(r.getString(COLUMN_SHIP_URL))
+                .factionName(r.getString(COLUMN_FACTIONNAME))
+                .factionUrl(r.getString(COLUMN_FACTION_URL))
+                .build();
+        /* @formatter:on */
     }
 
 }

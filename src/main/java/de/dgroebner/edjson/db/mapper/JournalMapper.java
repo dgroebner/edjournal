@@ -24,8 +24,15 @@ public class JournalMapper extends AbstractMapper<DBJournal> {
 
     @Override
     public DBJournal map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBJournal(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNALFILE_ID), r.getTimestamp(COLUMN_TIMESTAMP)
-                .toLocalDateTime(), r.getString(COLUMN_EVENT), r.getString(COLUMN_MESSAGE));
+        /* @formatter:off */
+        return DBJournal.builder()
+                .id(r.getInt(COLUMN_ID))
+                .event(r.getString(COLUMN_EVENT))
+                .timestamp(r.getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime())
+                .journalfileId(r.getInt(COLUMN_JOURNALFILE_ID))
+                .message(r.getString(COLUMN_MESSAGE))
+                .build();
+        /* @formatter:on */
     }
 
 }

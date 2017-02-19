@@ -40,11 +40,22 @@ public class VStarportLogMapper extends AbstractMapper<VStarportLog> {
 
     @Override
     public VStarportLog map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new VStarportLog(r.getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime(), r.getString(COLUMN_PORTNAME),
-                r.getString(COLUMN_PORT_URL), r.getString(COLUMN_SYSTEMNAME), r.getString(COLUMN_SYSTEM_URL),
-                r.getString(COLUMN_FACTIONNAME), r.getString(COLUMN_FACTION_URL), r.getString(COLUMN_TYPE),
-                r.getString(COLUMN_ALLGIANCE), r.getString(COLUMN_GOVERNMENT), r.getString(COLUMN_ECONOMY),
-                r.getBigDecimal(COLUMN_DISTANCETOLUKU));
+        /* @formatter:off */
+        return VStarportLog.builder()
+                .timestamp(r.getTimestamp(COLUMN_TIMESTAMP).toLocalDateTime())
+                .portname(r.getString(COLUMN_PORTNAME))
+                .portUrl(r.getString(COLUMN_PORT_URL))
+                .systemname(r.getString(COLUMN_SYSTEMNAME))
+                .systemUrl(r.getString(COLUMN_SYSTEM_URL))
+                .factionName(r.getString(COLUMN_FACTIONNAME))
+                .factionUrl(r.getString(COLUMN_FACTION_URL))
+                .type(r.getString(COLUMN_TYPE))
+                .allegiance(r.getString(COLUMN_ALLGIANCE))
+                .government(r.getString(COLUMN_GOVERNMENT))
+                .economy(r.getString(COLUMN_ECONOMY))
+                .distanceToluku(r.getBigDecimal(COLUMN_DISTANCETOLUKU))
+                .build();
+        /* @formatter:on */
     }
 
 }

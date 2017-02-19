@@ -34,10 +34,19 @@ public class VMaterialSummaryMapper extends AbstractMapper<VMaterialSummary> {
 
     @Override
     public VMaterialSummary map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new VMaterialSummary(r.getString(COLUMN_MATERIAL), r.getBigDecimal(COLUMN_AMOUNT),
-                r.getString(COLUMN_PLANET), r.getString(COLUMN_PLANETTYPE), r.getBigDecimal(COLUMN_GRAVITY),
-                r.getString(COLUMN_MATERIAL_URL), r.getString(COLUMN_STARSYSTEM_URL),
-                r.getBigDecimal(COLUMN_DISTANCE_IN_SYSTEM), r.getBigDecimal(COLUMN_DISTANCETOLUKU));
+        /* @formatter:off */
+        return VMaterialSummary.builder()
+                .material(r.getString(COLUMN_MATERIAL))
+                .amount(r.getBigDecimal(COLUMN_AMOUNT))
+                .planet(r.getString(COLUMN_PLANET))
+                .planetType(r.getString(COLUMN_PLANETTYPE))
+                .gravity(r.getBigDecimal(COLUMN_GRAVITY))
+                .materialUrl(r.getString(COLUMN_MATERIAL_URL))
+                .starsystemUrl(r.getString(COLUMN_STARSYSTEM_URL))
+                .distanceInSystem(r.getBigDecimal(COLUMN_DISTANCE_IN_SYSTEM))
+                .distanceToluku(r.getBigDecimal(COLUMN_DISTANCETOLUKU))
+                .build();
+        /* @formatter:on */
     }
 
 }

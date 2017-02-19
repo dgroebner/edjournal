@@ -20,7 +20,13 @@ public class PropertiesMapper extends AbstractMapper<DBProperties> {
 
     @Override
     public DBProperties map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBProperties(r.getInt(COLUMN_ID), r.getString(COLUMN_ENTRY), r.getString(COLUMN_VALUE));
+        /* @formatter:off */
+        return DBProperties.builder()
+                .id(r.getInt(COLUMN_ID))
+                .entry(r.getString(COLUMN_ENTRY))
+                .value(r.getString(COLUMN_VALUE))
+                .build();
+        /* @formatter:on */
     }
 
 }

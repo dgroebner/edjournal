@@ -46,14 +46,27 @@ public class StarMapper extends AbstractMapper<DBStar> {
 
     @Override
     public DBStar map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new DBStar(r.getInt(COLUMN_ID), r.getInt(COLUMN_JOURNAL_ID), r.getInt(COLUMN_STARSYSTEM_ID),
-                r.getString(COLUMN_NAME), r.getString(COLUMN_TYPE), r.getBigDecimal(COLUMN_DISTANCE_FROM_ARRIVAL_LS),
-                r.getBigDecimal(COLUMN_STELLAR_MASS), r.getBigDecimal(COLUMN_RADIUS),
-                r.getBigDecimal(COLUMN_ABSOLUTE_MAGNITUDE), r.getInt(COLUMN_AGE_MY),
-                r.getBigDecimal(COLUMN_SURFACE_TEMPERATURE), r.getBigDecimal(COLUMN_SEMI_MAJOR_AXIS),
-                r.getBigDecimal(COLUMN_ECCENTRICITY), r.getBigDecimal(COLUMN_ORBITAL_INCLINATION),
-                r.getBigDecimal(COLUMN_PERIAPSIS), r.getBigDecimal(COLUMN_ORBITAL_PERIOD),
-                r.getBigDecimal(COLUMN_ROTATION_PERIOD));
+        /* @formatter:off */
+        return DBStar.builder()
+                .id(r.getInt(COLUMN_ID))
+                .journalId(r.getInt(COLUMN_JOURNAL_ID))
+                .starsystemId(r.getInt(COLUMN_STARSYSTEM_ID))
+                .name(r.getString(COLUMN_NAME))
+                .type(r.getString(COLUMN_TYPE))
+                .distanceFromArrivalLS(r.getBigDecimal(COLUMN_DISTANCE_FROM_ARRIVAL_LS))
+                .stellarMass(r.getBigDecimal(COLUMN_STELLAR_MASS))
+                .radius(r.getBigDecimal(COLUMN_RADIUS))
+                .absoluteMagnitude(r.getBigDecimal(COLUMN_ABSOLUTE_MAGNITUDE))
+                .ageMY(r.getInt(COLUMN_AGE_MY))
+                .surfaceTemperature(r.getBigDecimal(COLUMN_SURFACE_TEMPERATURE))
+                .semiMajorAxis(r.getBigDecimal(COLUMN_SEMI_MAJOR_AXIS))
+                .eccentricity(r.getBigDecimal(COLUMN_ECCENTRICITY))
+                .orbitalInclination(r.getBigDecimal(COLUMN_ORBITAL_INCLINATION))
+                .periapsis(r.getBigDecimal(COLUMN_PERIAPSIS))
+                .orbitalPeriod(r.getBigDecimal(COLUMN_ORBITAL_PERIOD))
+                .rotationPeriod(r.getBigDecimal(COLUMN_ROTATION_PERIOD))
+                .build();
+        /* @formatter:on */
     }
 
 }

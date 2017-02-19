@@ -32,9 +32,17 @@ public class VRingMapper extends AbstractMapper<VRings> {
 
     @Override
     public VRings map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new VRings(r.getString(COLUMN_ART), r.getString(COLUMN_STARSYSTEMNAME), r.getString(COLUMN_RINGNAME),
-                r.getString(COLUMN_RINGTYPE), r.getString(COLUMN_STARSYSTEM_URL),
-                r.getBigDecimal(COLUMN_DISTANCE_IN_SYSTEM), r.getBigDecimal(COLUMN_DISTANCETOLUKU));
+        /* @formatter:off */
+        return VRings.builder()
+                .art(r.getString(COLUMN_ART))
+                .starsystemname(r.getString(COLUMN_STARSYSTEMNAME))
+                .ringname(r.getString(COLUMN_RINGNAME))
+                .ringtype(r.getString(COLUMN_RINGTYPE))
+                .starsystemUrl(r.getString(COLUMN_STARSYSTEM_URL))
+                .distanceInSystem(r.getBigDecimal(COLUMN_DISTANCE_IN_SYSTEM))
+                .distanceToluku(r.getBigDecimal(COLUMN_DISTANCETOLUKU))
+                .build();
+        /* @formatter:on */
     }
 
 }

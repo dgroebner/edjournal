@@ -64,27 +64,30 @@ public class ScanAction extends AbstractAction<Scan> {
      * @param model {@link Scan}
      */
     private void savePlanetData(final DBI dbi, final int journalId, final Scan model) {
-        final DBPlanet dbPlanet = new DBPlanet();
-        dbPlanet.setName(model.getValueAsString(BODY_NAME));
-        dbPlanet.setType(model.getValueAsString(PLANET_CLASS));
-        dbPlanet.setDistanceFromArrivalLS(model.getValueAsBigDecimal(DISTANCE_FROM_ARRIVAL_LS));
-        dbPlanet.setRadius(model.getValueAsBigDecimal(RADIUS));
-        dbPlanet.setSurfaceTemperature(model.getValueAsBigDecimal(SURFACE_TEMPERATURE));
-        dbPlanet.setSemiMajorAxis(model.getValueAsBigDecimal(SEMI_MAJOR_AXIS));
-        dbPlanet.setEccentricity(model.getValueAsBigDecimal(ECCENTRICITY));
-        dbPlanet.setOrbitalInclination(model.getValueAsBigDecimal(ORBITAL_INCLINATION));
-        dbPlanet.setPeriapsis(model.getValueAsBigDecimal(PERIAPSIS));
-        dbPlanet.setOrbitalPeriod(model.getValueAsBigDecimal(ORBITAL_PERIOD));
-        dbPlanet.setRotationPeriod(model.getValueAsBigDecimal(ROTATION_PERIOD));
-        dbPlanet.setTidalLock(model.getValueAsBoolean(TIDAL_LOCK));
-        dbPlanet.setTerraformState(model.getValueAsString(TERRAFORM_STATE));
-        dbPlanet.setAtmosphere(model.getValueAsString(ATMOSPHERE));
-        dbPlanet.setVolcanism(model.getValueAsString(VOLCANISM));
-        dbPlanet.setMassEM(model.getValueAsBigDecimal(MASS_EM));
-        dbPlanet.setSurfaceGravity(model.getValueAsBigDecimal(SURFACE_GRAVITY));
-        dbPlanet.setSurfaceTemperature(model.getValueAsBigDecimal(SURFACE_TEMPERATURE));
-        dbPlanet.setSurfacePressure(model.getValueAsBigDecimal(SURFACE_PRESSURE));
-        dbPlanet.setLandable(model.getValueAsBoolean(LANDABLE));
+        /* @formatter:off */
+        final DBPlanet dbPlanet = DBPlanet.builder()
+                .name(model.getValueAsString(BODY_NAME))
+                .type(model.getValueAsString(PLANET_CLASS))
+                .distanceFromArrivalLS(model.getValueAsBigDecimal(DISTANCE_FROM_ARRIVAL_LS))
+                .radius(model.getValueAsBigDecimal(RADIUS))
+                .surfaceTemperature(model.getValueAsBigDecimal(SURFACE_TEMPERATURE))
+                .eccentricity(model.getValueAsBigDecimal(ECCENTRICITY))
+                .orbitalInclination(model.getValueAsBigDecimal(ORBITAL_INCLINATION))
+                .periapsis(model.getValueAsBigDecimal(PERIAPSIS))
+                .orbitalPeriod(model.getValueAsBigDecimal(ORBITAL_PERIOD))
+                .rotationPeriod(model.getValueAsBigDecimal(ROTATION_PERIOD))
+                .tidalLock(model.getValueAsBoolean(TIDAL_LOCK))
+                .terraformState(model.getValueAsString(TERRAFORM_STATE))
+                .atmosphere(model.getValueAsString(ATMOSPHERE))
+                .volcanism(model.getValueAsString(VOLCANISM))
+                .massEM(model.getValueAsBigDecimal(MASS_EM))
+                .surfaceGravity(model.getValueAsBigDecimal(SURFACE_GRAVITY))
+                .surfaceTemperature(model.getValueAsBigDecimal(SURFACE_TEMPERATURE))
+                .surfacePressure(model.getValueAsBigDecimal(SURFACE_PRESSURE))
+                .landable(model.getValueAsBoolean(LANDABLE))
+                .build();
+        /* @formatter:on */
+
         final int id = new Planet(dbi).saveNew(journalId, dbPlanet);
         model.getRings().forEach(ring -> saveRingToPlanet(dbi, journalId, id, ring));
         model.getMaterials().getPresentMaterials()
@@ -115,21 +118,25 @@ public class ScanAction extends AbstractAction<Scan> {
      * @param model {@link Scan}
      */
     private void saveStarData(final DBI dbi, final int journalId, final Scan model) {
-        final DBStar dbStar = new DBStar();
-        dbStar.setName(model.getValueAsString(BODY_NAME));
-        dbStar.setType(model.getValueAsString(STAR_TYPE));
-        dbStar.setDistanceFromArrivalLS(model.getValueAsBigDecimal(DISTANCE_FROM_ARRIVAL_LS));
-        dbStar.setStellarMass(model.getValueAsBigDecimal(STELLAR_MASS));
-        dbStar.setRadius(model.getValueAsBigDecimal(RADIUS));
-        dbStar.setAbsoluteMagnitude(model.getValueAsBigDecimal(ABSOLUTE_MAGNITUDE));
-        dbStar.setAgeMY(model.getValueAsInt(AGE_MY));
-        dbStar.setSurfaceTemperature(model.getValueAsBigDecimal(SURFACE_TEMPERATURE));
-        dbStar.setSemiMajorAxis(model.getValueAsBigDecimal(SEMI_MAJOR_AXIS));
-        dbStar.setEccentricity(model.getValueAsBigDecimal(ECCENTRICITY));
-        dbStar.setOrbitalInclination(model.getValueAsBigDecimal(ORBITAL_INCLINATION));
-        dbStar.setPeriapsis(model.getValueAsBigDecimal(PERIAPSIS));
-        dbStar.setOrbitalPeriod(model.getValueAsBigDecimal(ORBITAL_PERIOD));
-        dbStar.setRotationPeriod(model.getValueAsBigDecimal(ROTATION_PERIOD));
+        /* @formatter:off */
+        final DBStar dbStar = DBStar.builder()
+                .name(model.getValueAsString(BODY_NAME))
+                .type(model.getValueAsString(STAR_TYPE))
+                .distanceFromArrivalLS(model.getValueAsBigDecimal(DISTANCE_FROM_ARRIVAL_LS))
+                .stellarMass(model.getValueAsBigDecimal(STELLAR_MASS))
+                .radius(model.getValueAsBigDecimal(RADIUS))
+                .absoluteMagnitude(model.getValueAsBigDecimal(ABSOLUTE_MAGNITUDE))
+                .ageMY(model.getValueAsInt(AGE_MY))
+                .surfaceTemperature(model.getValueAsBigDecimal(SURFACE_TEMPERATURE))
+                .semiMajorAxis(model.getValueAsBigDecimal(SEMI_MAJOR_AXIS))
+                .eccentricity(model.getValueAsBigDecimal(ECCENTRICITY))
+                .orbitalInclination(model.getValueAsBigDecimal(ORBITAL_INCLINATION))
+                .periapsis(model.getValueAsBigDecimal(PERIAPSIS))
+                .orbitalPeriod(model.getValueAsBigDecimal(ORBITAL_PERIOD))
+                .rotationPeriod(model.getValueAsBigDecimal(ROTATION_PERIOD))
+                .build();
+        /* @formatter:on */
+
         final int starId = new Star(dbi).saveNew(journalId, dbStar);
         model.getRings().forEach(ring -> saveRingToStar(dbi, journalId, starId, ring));
     }
@@ -143,9 +150,8 @@ public class ScanAction extends AbstractAction<Scan> {
      * @param ring int
      */
     private void saveRingToStar(final DBI dbi, final int journalId, final int starId, final Ring ring) {
-        final DBRing dbRing = new DBRing();
+        final DBRing dbRing = storeRingBasics(ring);
         dbRing.setStarId(starId);
-        storeRingBasics(ring, dbRing);
         new RingTable(dbi).save(journalId, dbRing);
     }
 
@@ -158,24 +164,27 @@ public class ScanAction extends AbstractAction<Scan> {
      * @param ring int
      */
     private void saveRingToPlanet(final DBI dbi, final int journalId, final int planetId, final Ring ring) {
-        final DBRing dbRing = new DBRing();
+        final DBRing dbRing = storeRingBasics(ring);
         dbRing.setPlanetId(planetId);
-        storeRingBasics(ring, dbRing);
         new RingTable(dbi).save(journalId, dbRing);
     }
 
     /**
-     * Speichert Standarddaten für den übergebenen Ring im DBRing Objekt
+     * Speichert Standarddaten für den übergebenen Ring im DBRing Objekt und gibt dieses zurück
      * 
      * @param ring {@link Ring}
-     * @param dbRing {@link DBRing}
+     * @return {@link DBRing}
      */
-    private static void storeRingBasics(final Ring ring, final DBRing dbRing) {
-        dbRing.setName(ring.getValueAsString(Ring.Fields.NAME));
-        dbRing.setType(ring.getValueAsString(Ring.Fields.RING_CLASS));
-        dbRing.setMassMt(ring.getValueAsBigDecimal(Ring.Fields.MASS_MT).toPlainString());
-        dbRing.setInnerRad(ring.getValueAsBigDecimal(Ring.Fields.INNER_RAD).toPlainString());
-        dbRing.setOuterRad(ring.getValueAsBigDecimal(Ring.Fields.OUTER_RAD).toPlainString());
+    private static DBRing storeRingBasics(final Ring ring) {
+        /* @formatter:off */
+        return DBRing.builder()
+                .name(ring.getValueAsString(Ring.Fields.NAME))
+                .type(ring.getValueAsString(Ring.Fields.RING_CLASS))
+                .massMt(ring.getValueAsBigDecimal(Ring.Fields.MASS_MT).toPlainString())
+                .innerRad(ring.getValueAsBigDecimal(Ring.Fields.INNER_RAD).toPlainString())
+                .outerRad(ring.getValueAsBigDecimal(Ring.Fields.OUTER_RAD).toPlainString())
+                .build();
+        /* @formatter:on */
     }
 
 }
